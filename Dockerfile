@@ -7,11 +7,14 @@ WORKDIR /app
 # Install Poetry
 RUN pip install poetry
 
+# Set Poetry to configure virtualenv inside the project
+RUN poetry config virtualenvs.create false
+
 # Copy the project metadata for Poetry
 COPY pyproject.toml poetry.lock ./
 
 # Install dependencies using Poetry (includes Neo4J driver)
-RUN poetry install --no-root
+RUN poetry install --no-root --no-interaction
 
 # Copy the rest of the application
 COPY . .

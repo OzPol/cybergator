@@ -1,8 +1,10 @@
 # Ignore environment files
 .env
+.env.docker
+neo4j_auth.txt
 
 # Ignore Python-related cache & virtual environments
-__pycache__/
+**/__pycache__/
 *.pyc
 *.pyo
 *.pyd
