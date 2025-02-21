@@ -1,0 +1,11 @@
+services:
+  app:
+    build: .
+    container_name: cybergator_app
+    volumes:
+      - ./app:/app/app  # Mount the app directory
+      - ./tests:/app/tests  # Mount the tests directory
+      - ./pyproject.toml:/app/pyproject.toml  # Mount pyproject.toml
+      - ./poetry.lock:/app/poetry.lock  # Mount poetry.lock
+    ports:
+      - "8000:8000"
