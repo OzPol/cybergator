@@ -21,28 +21,31 @@ Verify installations:
 ## Running the Application (Development)
 1. Clone the Repository
 
-`git clone https://github.com/your-org/cybergator.git`
-
-`cd cybergator`
+`git clone https://github.com/your-org/cybergator.git
+ cd cybergator`
 
 2. Create your .env file
 Your .env file should be placed in the root of the project (same level as the Dockerfile)
 
 2. Build the container
 
-`docker-compose build`
+`docker-compose build
+`
 
 3. Run the container
 
-`docker-compose up`
+`docker-compose up
+`
 
 4. Check the homepage in the browser
 
-`http://localhost:8000`
+`http://localhost:8000
+`
 
 5. When you are done, you can stop the container
 
-`docker-compose down`
+`docker-compose down
+`
 
 ### Important Notes
 - In general, you only need to rebuild the container when there are changes to dependencies.
@@ -51,17 +54,21 @@ Your .env file should be placed in the root of the project (same level as the Do
 ## How to add and install new depencies to the application
 1. Run the container in detached mode:
 
-`docker-compose up -d`
+`docker-compose up -d
+`
 
 2. Install the dependency/package
 
-`docker exec -it cybergator_app poetry add <your-package-name>`
+`docker exec -it cybergator_app poetry add <your-package-name>
+`
 
 3. Rebuild and run the container
 
-`docker-compose up --build`
+`docker-compose up --build
+`
 
 4. Optional - clean old images
 
-`docker image prune -f`
+`docker image prune -f
+`
 
