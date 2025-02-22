@@ -6,10 +6,11 @@ WORKDIR /app
 # this helps to keep the container lightweight
 RUN apt-get update && apt-get install -y \
   curl \
+  libpq-dev \
   postgresql-client \
+  gcc \
   && rm -rf /var/lib/apt/lists/*
 
-# poetry installation
 RUN pip install poetry
 
 RUN poetry config virtualenvs.create false
