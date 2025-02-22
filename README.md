@@ -13,6 +13,7 @@ CyberGator is a cyber resilience assessment framework designed for dynamic risk 
 
 Verify installations:
     `docker --version`
+    
     `poetry --version`
 
 --- 
