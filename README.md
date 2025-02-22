@@ -21,8 +21,8 @@ Verify installations:
 ## Running the Application (Development)
 1. Clone the Repository
 
-`git clone https://github.com/your-org/cybergator.git
- cd cybergator`
+    `git clone https://github.com/your-org/cybergator.git
+     cd cybergator`
 
 2. Create your .env file
 Your .env file should be placed in the root of the project (same level as the Dockerfile)
