@@ -1,5 +1,6 @@
-from app.databases.psql_db import get_sql_connection
+from app.databases.psql_db import get_sql_connection, release_connection
 from app.models.user_model import User
+
 
 def get_user_by_username(username: str) -> User | None:
     """Fetch a user from the database using their username and return a User object"""
@@ -17,7 +18,7 @@ def get_user_by_username(username: str) -> User | None:
 
     finally:
         cursor.close()
-        conn.close()
+        release_connection(conn)
 
 def create_user(user: User) -> User | dict:
     """Insert a new user into the database and return a User object"""
@@ -39,7 +40,7 @@ def create_user(user: User) -> User | dict:
 
     finally:
         cursor.close()
-        conn.close()
+        release_connection(conn)
 
 def delete_user_by_id(user_id: int) -> dict:
     """Delete a user from the database using their ID"""
@@ -62,4 +63,4 @@ def delete_user_by_id(user_id: int) -> dict:
 
     finally:
         cursor.close()
-        conn.close()
+        release_connection(conn)
