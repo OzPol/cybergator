@@ -1,5 +1,10 @@
 from dash import html, dcc, callback, Output, Input, State
+import dash_bootstrap_components as dbc
 from app.views.pages.auth_layouts import get_auth_layout
+from app.views.pages.sidebar import sidebar
+from app.views.pages.register import register_layout
+from app.views.pages.homepage import homepage_layout
+from app.views.pages.dahsboard import dashboard
 
 def render_page_content(pathname, session_user):
     """Dynamically updates the content area based on the session"""
@@ -8,18 +13,31 @@ def render_page_content(pathname, session_user):
             return dcc.Location(id="redirect-welcome", href="/welcome", refresh=True)
         return get_auth_layout()
     
+    elif pathname == "/register":
+        if session_user:  # If user is logged in, redirect to the welcome page
+            return dcc.Location(id="redirect-welcome", href="/welcome", refresh=True)
+        return register_layout()
     elif pathname == "/welcome":
-        if not session_user:  # If no session, redirect back to login
-            return dcc.Location(id="redirect-auth", href="/auth", refresh=True)
-        return html.H1(f"Welcome {session_user}! You are logged in.")
+        # if not session_user:  # If no session, redirect back to login
+        #     return dcc.Location(id="redirect-auth", href="/auth", refresh=True)
+        # return html.H1(f"Welcome {session_user}! You are logged in.")
+        return homepage_layout()
+    elif pathname == "/dashboard":
+        if not session_user:
+            return dbc.Container([
+                dbc.Row(dbc.Col(html.H1("Access Denied", className="text-center mt-4"))),
+                dbc.Row(dbc.Col(html.P("You must be logged in to view this page.", className="text-center"))),
+                dcc.Link('Go to Login Page', href='/auth', className="btn btn-link d-block text-center"),
+            ], fluid=True)
+        return dashboard()
     
-    return html.H1("404: Page not found")
 
 def get_main_layout():
     return html.Div([
         dcc.Location(id="url", refresh=False),
         dcc.Store(id="session-user", storage_type="session"), 
-        html.Div(id="page-content")
+        html.Div(id="page-content"),
+        sidebar()
     ])
 
 @callback(Output("page-content", "children"), [Input("url", "pathname"), State("session-user", "data")])
