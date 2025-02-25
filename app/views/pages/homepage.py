@@ -9,7 +9,7 @@ def homepage_layout():
     
     # Add the image
     dbc.Row(dbc.Col(
-        html.Img(src="/assets/Mypicture.jpg", style={"width": "100%", "maxWidth": "300px", "display": "block", "marginLeft": "auto", "marginRight": "auto"}),
+        html.Img(src="assets/Mypicture.jpg", style={"width": "100%", "maxWidth": "300px", "display": "block", "marginLeft": "auto", "marginRight": "auto"}),
         className="text-center"  # Center the image
     )),
     

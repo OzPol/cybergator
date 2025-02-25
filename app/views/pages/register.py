@@ -16,7 +16,7 @@ def register_layout():
                         dbc.Label("Password:", className="font-weight-bold"),
                         dbc.Input(type="password", id="register-password", placeholder="Enter a password", className="mb-3"),
                     ]),
-                    dbc.Button("Register", id="register-button", color="success", className="w-100 mb-3"),
+                    dbc.Button("Register", id="signup-btn", color="success", className="w-100 mb-3"),
                     html.Div(id="register-message", className="text-center"),  # To display registration success/error messages
                     dcc.Link('Go back to Homepage', href='/welcome', className="btn btn-link d-block text-center"),
                 ]),
