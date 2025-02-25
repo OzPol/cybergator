@@ -1,53 +1,39 @@
-import dash
-from dash import html
-from app.databases.psql_db import get_sql_connection
-from app.databases.neo4j_db import run_query
+from os import getenv
+from dash import Dash
+from flask import Flask
+from flask_cors import CORS
+from dotenv import load_dotenv
+import atexit
 
-app = dash.Dash(__name__)
+
+from app.databases.psql_db import close_pool
+from app.databases.neo4j_db import close_neo4j_connection
+
+from app.controllers.auth_controller import auth_bp
+from app.views.dash_setup import get_main_layout
+import app.views.callbacks.auth_callbacks
+
+load_dotenv()
+
+# Flask configs
+flask_app = Flask(__name__)
+flask_app.config["SECRET_KEY"] = getenv("SECRET_KEY")
+flask_app.config["SESSION_TYPE"] = getenv("SESSION_TYPE")
+flask_app.config["SESSION_PERMANENT"] = getenv("SESSION_PERMANENT")
+flask_app.config["SESSION_USE_SIGNER"] = getenv("SESSION_USE_SIGNER")
+
+CORS(flask_app, resources={r"/api/*": {"origins": "*"}})
+
+# API route registration
+flask_app.register_blueprint(auth_bp, url_prefix="/api/auth")
+
+# Dash configs
+dash_app = Dash(__name__, server=flask_app, url_base_pathname="/", suppress_callback_exceptions=True)
+dash_app.layout = get_main_layout()
+
+atexit.register(close_pool)
+atexit.register(close_neo4j_connection)
     
-# This is test code for testing supabase connection
-# Should move away once we start creatign actual functionality...
-conn = get_sql_connection()
-
-psql_status = "Error: Unable to connect to Supabase."
-if conn:
-    try:
-        cursor = conn.cursor()
-        cursor.execute("SELECT NOW();")
-        result = cursor.fetchone()
-        print("Supabase Current Time:", result[0])  
-
-        psql_status = f"Supabase Current Time: {result[0]}"
-
-    except Exception as e:
-        print("Supabase query error:", e)
-        psql_status = "Error: Unable to fetch time from Supabase."
-
-    finally:
-        cursor.close()
-        conn.close()
-
-# Test Neo4j Connection 
-neo4j_status = "Error: Unable to connect to Neo4j."
-try:
-    result = run_query("MATCH (n) RETURN count(n) AS node_count")
-    node_count = result[0]['node_count'] if result else 0
-    print(f"Neo4j Node Count: {node_count}")
-    
-    neo4j_status = f"Neo4j Node Count: {node_count}"
-
-except Exception as e:
-    print("Neo4j connection error:", e)
-    neo4j_status = "Error: Unable to fetch data from Neo4j."
-
-# Define Test Dash Layout
-app.layout = html.Div([
-    html.H1("Database Connection Test"),
-    html.P(psql_status),
-    html.P(neo4j_status)
-])
-
-# --- Run Dash App ---
+# Run Flask & Dash
 if __name__ == "__main__":
-    app.run_server(debug=True, host="0.0.0.0", port=8000)
-
+    flask_app.run(debug=True, host="0.0.0.0", port=8000)
