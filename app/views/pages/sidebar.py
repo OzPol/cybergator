@@ -9,8 +9,8 @@ def sidebar():
             dbc.Nav(
                 [
                     dbc.NavLink("Home", href="/welcome", active="exact", style={"color": "white"}),
-                    dbc.NavLink("Login", href="/auth", active="exact", style={"color": "white"}),
-                    dbc.NavLink("Register", href="/register", active="exact", style={"color": "white"}),
+                    dbc.NavLink("Login/Register", href="/auth", active="exact", style={"color": "white"}),
+   #                 dbc.NavLink("Register", href="/register", active="exact", style={"color": "white"}),
                     dbc.NavLink("Dashboard", href="/dashboard", active="exact", style={"color": "white"}),
                 ],
                 vertical=True,
