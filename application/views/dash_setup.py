@@ -40,7 +40,7 @@ def get_main_layout():
         sidebar(),
         banner(),
         html.Div(id="page-content",
-                 style={"marginLeft": "15%", "marginTop": "68px"})
+                 style={"marginLeft": "15%", "marginTop": "80px"})
     ])
 
 @callback(Output("page-content", "children"), [Input("url", "pathname"), State("session-user", "data")])

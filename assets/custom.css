@@ -31,6 +31,29 @@ body {
     background: linear-gradient(180deg, #0000FF, #0040FF);
 }
 
+/* Card container styling */
+.team-card-img {
+    width: 100%;
+    height: 200px; /* Fixed height - adjust as needed */
+    object-fit: cover; /* This maintains aspect ratio while filling container */
+    object-position: center 22%
+}
+
+/* Add some space between card sections */
+.card-title {
+    margin-top: 0.5rem;
+}
+
+/* Make sure cards in the same row have equal height */
+.card {
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
 .banner {
     position: fixed;
     top: 0;
@@ -55,14 +78,6 @@ body {
 .team-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-
-.team-img-placeholder {
-    background-color: #eee;
-    width: 100%;
-    height: 150px;
-    border-radius: 4px;
-    margin-bottom: 15px;
 }
 
 .section-title {

@@ -2,7 +2,7 @@ from dash import html
 import dash_bootstrap_components as dbc
 
 def homepage_layout():
-    return html.Div([
+    return html.Div([  
         dbc.Container([  # Wrapped everything in a centered container
             # Introduction Section
             dbc.Row([  
@@ -21,38 +21,63 @@ def homepage_layout():
 
                     # First Row: 3 Team Cards
                     dbc.Row([  
-                        dbc.Col(html.Div([  
-                            html.Div(className="team-img-placeholder"),
-                            html.H4("Name - Role"),
-                            html.P("Body text for whatever you'd like to say.")
-                        ], className="team-card"), width=12, lg=4, className="mb-4"),
+                        dbc.Col(
+                            dbc.Card([
+                                dbc.CardImg(src="assets/Mypicture.jpg", top=True, className="team-card-img"),
+                                dbc.CardBody([
+                                    html.H4("Name - Role", className="card-title"),
+                                    html.P("Body text for whatever you'd like to say.", className="card-text")
+                                ])
+                            ], className="h-100"),
+                            width=12, lg=4, className="mb-4"
+                        ),
 
-                        dbc.Col(html.Div([  
-                            html.Div(className="team-img-placeholder"),
-                            html.H4("Introduce the Members of Our Team"),
-                            html.P("Body text for whatever you'd like to say.")
-                        ], className="team-card"), width=12, lg=4, className="mb-4"),
+                        dbc.Col(
+                            dbc.Card([
+                                dbc.CardImg(src="assets/Mypicture.jpg", top=True, className="team-card-img"),
+                                dbc.CardBody([
+                                    html.H4("Introduce the Members of Our Team", className="card-title"),
+                                    html.P("Body text for whatever you'd like to say.", className="card-text")
+                                ])
+                            ], className="h-100"),
+                            width=12, lg=4, className="mb-4"
+                        ),
 
-                        dbc.Col(html.Div([  
-                            html.Div(className="team-img-placeholder"),
-                            html.H4("Title"),
-                            html.P("Body text for whatever you'd like to say.")
-                        ], className="team-card"), width=12, lg=4, className="mb-4"),
+                        dbc.Col(
+                            dbc.Card([
+                                dbc.CardImg(src="assets/Mypicture.jpg", top=True, className="team-card-img"),
+                                dbc.CardBody([
+                                    html.H4("Title", className="card-title"),
+                                    html.P("Body text for whatever you'd like to say.", className="card-text")
+                                ])
+                            ], className="h-100"),
+                            width=12, lg=4, className="mb-4"
+                        ),
                     ], className="justify-content-center"),  # Centers the cards in the row
 
                     # Second Row: 2 Team Cards
                     dbc.Row([  
-                        dbc.Col(html.Div([  
-                            html.Div(className="team-img-placeholder"),
-                            html.H4("Title"),
-                            html.P("Body text for whatever you'd like to say.")
-                        ], className="team-card"), width=12, lg=4, className="mb-4"),
+                        dbc.Col(
+                            dbc.Card([
+                                dbc.CardImg(src="assets/Mypicture.jpg", top=True, className="team-card-img"),
+                                dbc.CardBody([
+                                    html.H4("Title", className="card-title"),
+                                    html.P("Body text for whatever you'd like to say.", className="card-text")
+                                ])
+                            ], className="h-100"),
+                            width=12, lg=4, className="mb-4"
+                        ),
 
-                        dbc.Col(html.Div([  
-                            html.Div(className="team-img-placeholder"),
-                            html.H4("Title"),
-                            html.P("Body text for whatever you'd like to say.")
-                        ], className="team-card"), width=12, lg=4, className="mb-4"),
+                        dbc.Col(
+                            dbc.Card([
+                                dbc.CardImg(src="assets/Mypicture.jpg", top=True, className="team-card-img"),
+                                dbc.CardBody([
+                                    html.H4("Title", className="card-title"),
+                                    html.P("Body text for whatever you'd like to say.", className="card-text")
+                                ])
+                            ], className="h-100"),
+                            width=12, lg=4, className="mb-4"
+                        ),
                     ], className="justify-content-center"),  
                 ], width=12)
             ], className="mb-5"),  
