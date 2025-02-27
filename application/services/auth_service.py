@@ -1,6 +1,6 @@
 import bcrypt
-from app.models.user_model import User
-from app.repositories.user_repo import (
+from application.models.user_model import User
+from application.repositories.user_repo import (
     get_user_by_username,
     create_user,
     delete_user_by_id,

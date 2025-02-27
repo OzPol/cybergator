@@ -6,13 +6,12 @@ from dotenv import load_dotenv
 import atexit
 import dash_bootstrap_components as dbc
 
+from application.views.dash_setup import get_main_layout
+from application.databases.psql_db import close_pool
+from application.databases.neo4j_db import close_neo4j_connection
 
-from app.databases.psql_db import close_pool
-from app.databases.neo4j_db import close_neo4j_connection
-
-from app.controllers.auth_controller import auth_bp
-from app.views.dash_setup import get_main_layout
-import app.views.callbacks.auth_callbacks
+from application.controllers.auth_controller import auth_bp
+import application.views.callbacks.auth_callbacks
 
 load_dotenv()
 
