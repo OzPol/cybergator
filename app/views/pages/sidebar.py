@@ -19,7 +19,7 @@ def sidebar():
             ),
 
             html.Div(
-                dbc.Button("Logout", id="logout-button", color="danger", style={"width": "100%", "display": "none"}),
+                dbc.Button("Logout", id="logout-button", n_clicks=0, color="danger", style={"width": "100%"}),
                 style={"marginTop": "auto", "padding": "20px"},
             ),
         ],

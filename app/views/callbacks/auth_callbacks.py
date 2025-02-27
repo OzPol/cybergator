@@ -45,9 +45,10 @@ def handle_auth(login_clicks, signup_clicks, username, password):
     print("API Response:", response_data)
 
     if response.status_code == 200 and ctx.triggered_id == "login-btn":
-        return "Success! Redirecting...", username, "/welcome"
+        return "Success! Redirecting...", username, "/dashboard"
         
     if response.status_code == 201 and ctx.triggered_id == "signup-btn":
         return "Account created! You can now log in.", no_update, no_update
     
     return response.json().get("error", "An error occurred"), no_update, no_update
+

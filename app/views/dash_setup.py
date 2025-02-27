@@ -29,7 +29,7 @@ def render_page_content(pathname, session_user):
                 dbc.Row(dbc.Col(html.P("You must be logged in to view this page.", className="text-center"))),
                 dcc.Link('Go to Login Page', href='/auth', className="btn btn-link d-block text-center"),
             ], fluid=True)
-        return dashboard()
+        return dashboard(session_user)
     
 
 def get_main_layout():
