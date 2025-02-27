@@ -1,7 +1,7 @@
 from dash import Input, Output, State, callback, dcc, no_update, callback_context
 import requests
-from app.services import auth_service
-from app.views.pages. auth_layouts import get_auth_layout
+from application.services import auth_service
+from application.views.pages. auth_layouts import get_auth_layout
 #from app.views.pages.register import register_layout
 
 

@@ -1,5 +1,5 @@
-from app.databases.psql_db import get_sql_connection, release_connection
-from app.models.user_model import User
+from application.databases.psql_db import get_sql_connection, release_connection
+from application.models.user_model import User
 
 
 def get_user_by_username(username: str) -> User | None:
