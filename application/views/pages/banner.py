@@ -13,5 +13,12 @@ def banner(page_title="CyberGators"):
                 width=10,
                 style={"textAlign": "center", "flexGrow": 1}  # Keep title centered
             ),
+
+            # Right Column for Logout Button
+            dbc.Col(
+                dbc.Button("Logout", id="logout-button", className="logout-btn", color="primary"),
+                width=1, 
+                style={"textAlign": "center", "paddingRight": "0px", "position": "absolute", "right": "0px", "top": "25px"}
+            )
         ], align="center", justify="between", className="banner-row"),
     ], className="banner")
