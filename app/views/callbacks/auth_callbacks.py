@@ -1,7 +1,7 @@
 from dash import Input, Output, State, callback, dcc, no_update, callback_context
 import requests
 from app.services import auth_service
-from app.views.pages. auth_layouts import get_auth_layout
+from app.views.pages.auth_layouts import get_auth_layout
 #from app.views.pages.register import register_layout
 
 
@@ -38,10 +38,9 @@ def handle_auth(login_clicks, signup_clicks, username, password):
     # Make API request
     try:
         response = requests.post(url, json={"username": username, "password": password})
-        response_data = response.json()  
+        response_data = response.json()
     except requests.exceptions.RequestException as e:
-        print("this is where it fails")
-        return f"Request failed: {str(e)}", no_update, no_update  # Handle network errors
+        return f"Request failed: {str(e)}, auth_callbacks.py", no_update, no_update  # Handle network errors
     
     print("API Response:", response_data)
 

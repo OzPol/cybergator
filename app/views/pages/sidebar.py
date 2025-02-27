@@ -28,7 +28,7 @@ def sidebar():
             "top": 0,
             "left": 0,
             "bottom": 0,
-            "width": "25%",
+            "width": "20%",
             "padding": "20px",
             "backgroundColor": "blue",
             "display": "flex",
