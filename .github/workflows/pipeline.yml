@@ -33,33 +33,7 @@ jobs:
         docker-compose up -d --build
         sleep 10  # Give services time to start
 
-    - name: Debug Supabase URL Inside Docker
-      run: docker exec cybergator_app poetry run python -c "import os; print('SUPABASE_DB_URL:', os.getenv('SUPABASE_DB_URL'))"
-
-
-
-    - name: Test Supabase Connection
-      run: |
-        echo "🔍 Testing Supabase Connection..."
-        docker exec cybergator_app poetry run python -c "
-        import psycopg2
-        import os
-        try:
-            conn = psycopg2.connect(
-                dsn=os.getenv('SUPABASE_DB_URL'),
-                connect_timeout=5  # Timeout after 5 sec
-            )
-            print('✅ Successfully connected to Supabase!')
-            conn.close()
-        except Exception as e:
-            print(f'❌ Failed to connect: {e}')
-            exit(1)
-        "
-
-    - name: Run Unit Tests
-      run: docker exec cybergator_app poetry run python -m unittest discover -s tests -p "*.py"
-
-    - name: Show Coverage Report
+    - name: Run Unit Tests & Show Coverage Report
       run: |
         docker exec cybergator_app poetry run coverage run -m unittest discover -s tests -p "*.py"
         docker exec cybergator_app poetry run coverage report -m
