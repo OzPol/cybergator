@@ -36,8 +36,8 @@ jobs:
         docker-compose up -d --build
         sleep 10  # Give services time to start
 
-    - name: Run Tests with Coverage
-      run: docker exec cybergator_app poetry run coverage run -m unittest discover -s tests
+    - name: Run Unit Tests
+      run: docker exec cybergator_app poetry run unittest discover -s tests
 
     - name: Show Coverage Report
       run: docker exec cybergator_app poetry run coverage report -m
