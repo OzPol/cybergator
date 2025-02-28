@@ -1,9 +1,6 @@
 name: pipeline
 
 on:
-  push:
-    branches:
-      - '**' # trigger on push on all branches
   pull_request:
     branches:
       - main
@@ -18,7 +15,7 @@ jobs:
 
     - name: Set Environment Variables
       run: |
-        echo "SUPABASE_URL=${{ secrets.SUPABASE_URL }}" >> $GITHUB_ENV
+        echo "SUPABASE_DB_URL=${{ secrets.SUPABASE_URL }}" >> $GITHUB_ENV
         echo "NEO4J_URI=${{ secrets.NEO4J_URI }}" >> $GITHUB_ENV
         echo "NEO4J_USER=${{ secrets.NEO4J_USER }}" >> $GITHUB_ENV
         echo "NEO4J_PASSWORD=${{ secrets.NEO4J_PASSWORD }}" >> $GITHUB_ENV
@@ -40,7 +37,9 @@ jobs:
       run: docker exec cybergator_app poetry run python -m unittest discover -s tests -p "*.py"
 
     - name: Show Coverage Report
-      run: docker exec cybergator_app poetry run coverage report -m
+      run: |
+        docker exec cybergator_app poetry run coverage run -m unittest discover -s tests -p "*.py"
+        docker exec cybergator_app poetry run coverage report -m
 
     - name: Stop and Remove Containers
       if: always()
