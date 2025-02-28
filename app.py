@@ -4,6 +4,7 @@ from flask import Flask
 from flask_cors import CORS
 from dotenv import load_dotenv
 import atexit
+import dash_bootstrap_components as dbc
 
 
 from app.databases.psql_db import close_pool
@@ -28,7 +29,7 @@ CORS(flask_app, resources={r"/api/*": {"origins": "*"}})
 flask_app.register_blueprint(auth_bp, url_prefix="/api/auth")
 
 # Dash configs
-dash_app = Dash(__name__, server=flask_app, url_base_pathname="/", suppress_callback_exceptions=True)
+dash_app = Dash(__name__, server=flask_app, url_base_pathname="/", suppress_callback_exceptions=True, external_stylesheets=[dbc.themes.BOOTSTRAP])
 dash_app.layout = get_main_layout()
 
 atexit.register(close_pool)
