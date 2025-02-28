@@ -16,14 +16,6 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Cache Docker layers
-      uses: actions/cache@v3
-      with:
-        path: /tmp/.buildx-cache
-        key: docker-${{ runner.os }}-${{ github.sha }}
-        restore-keys: |
-          docker-${{ runner.os }}-
-
     - name: Set Environment Variables
       run: |
         echo "SUPABASE_DB_URL=${{ secrets.SUPABASE_URL }}" >> $GITHUB_ENV
@@ -31,8 +23,6 @@ jobs:
         echo "NEO4J_USER=${{ secrets.NEO4J_USER }}" >> $GITHUB_ENV
         echo "NEO4J_PASSWORD=${{ secrets.NEO4J_PASSWORD }}" >> $GITHUB_ENV
 
-    - name: Disable Poetry Virtual Envs
-      run: echo "POETRY_VIRTUALENVS_CREATE=false" >> $GITHUB_ENV
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
@@ -45,7 +35,7 @@ jobs:
     - name: Build and Start Docker Services
       run: |
         docker-compose up -d --build 
-        docker ps -a  # Debug:Show running containers
+        docker ps -a  # Debug: Show running containers
         sleep 10  # Give services time to start
 
     - name: Run Unit Tests & Show Coverage Report
