@@ -24,6 +24,14 @@ jobs:
         restore-keys: |
           poetry-${{ runner.os }}-
 
+    - name: Cache Docker layers
+      uses: actions/cache@v3
+      with:
+        path: /tmp/.buildx-cache
+        key: ${{ runner.os }}-buildx-${{ github.sha }}
+        restore-keys: |
+          ${{ runner.os }}-buildx-
+
     - name: Set Environment Variables
       run: |
         echo "SUPABASE_DB_URL=${{ secrets.SUPABASE_URL }}" >> $GITHUB_ENV
