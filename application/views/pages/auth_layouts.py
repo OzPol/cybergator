@@ -18,8 +18,8 @@ def get_auth_layout():
                         dbc.Label("Password:", className="font-weight-bold"),
                         dbc.Input(type="password", id="password", placeholder="Enter your password", className="mb-3"),
                     ]),
-                    dbc.Button("Login", id="login-btn", color="primary", className="w-100 mb-3"),
-                    dbc.Button("Register", id="signup-btn", color="success", className="w-100 mb-3"),
+                    dbc.Button("Login", id="login-btn", n_clicks=0, color="primary", className="w-100 mb-3"),
+                    dbc.Button("Register", id="signup-btn", n_clicks=0, color="success", className="w-100 mb-3"),
                     html.Div(id="auth-output", className="text-center"),  # To display login success/error messages
                     dcc.Link('Go back to Homepage', href='/welcome', className="btn btn-link d-block text-center"),
                 ]),

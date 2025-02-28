@@ -30,19 +30,29 @@ def render_page_content(pathname, session_user):
                 dbc.Row(dbc.Col(html.P("You must be logged in to view this page.", className="text-center"))),
                 dcc.Link('Go to Login Page', href='/auth', className="btn btn-link d-block text-center"),
             ], fluid=True)
-        return dashboard()
+        return dashboard(session_user)
     
 
 def get_main_layout():
     return html.Div([
         dcc.Location(id="url", refresh=False),
         dcc.Store(id="session-user", storage_type="session"), 
-        sidebar(),
-        banner(),
+        #sidebar(),
+        html.Div(id="sidebar-container"), 
+        html.Div(id="banner-container"), 
         html.Div(id="page-content",
-                 style={"marginLeft": "15%", "marginTop": "80px"})
+                 style={"marginLeft": "15%", "marginTop": "80px", "padding": "20px",})
     ])
 
 @callback(Output("page-content", "children"), [Input("url", "pathname"), State("session-user", "data")])
 def update_page(pathname, session_user):
     return render_page_content(pathname, session_user)
+
+
+@callback(Output("banner-container", "children"), [Input("session-user", "data")], prevent_initial_call=True)
+def update_banner(session_user):
+    return banner(session_user=session_user)
+
+@callback(Output("sidebar-container", "children"), [Input("session-user", "data")], prevent_initial_call=True)
+def update_sidebar(session_user):
+    return sidebar(session_user=session_user)

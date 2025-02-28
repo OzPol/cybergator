@@ -2,6 +2,8 @@ services:
   app:
     build: .
     container_name: cybergator_app
+    environment:
+      - PYTHONPATH=/app
     volumes:
       - ./app:/app/app  # Mount the app directory
       - ./tests:/app/tests  # Mount the tests directory

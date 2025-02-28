@@ -2,105 +2,105 @@
 
 /* Adjust the main content container to match the sidebar */
 body {
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
 }
 
 /* Team card styling */
 .team-card {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 20px;
-    height: 100%;
-    background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  height: 100%;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 /* SIDEBAR STYLES */
 .sidebar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    width: 15%;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    background: linear-gradient(180deg, #0000FF, #0040FF);
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 15%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, #0000ff, #0040ff);
 }
 
 /* Card container styling */
 .team-card-img {
-    width: 100%;
-    height: 200px; /* Fixed height - adjust as needed */
-    object-fit: cover; /* This maintains aspect ratio while filling container */
-    object-position: center 22%
+  width: 100%;
+  height: 200px; /* Fixed height - adjust as needed */
+  object-fit: cover; /* This maintains aspect ratio while filling container */
+  object-position: center 22%;
 }
 
 /* Add some space between card sections */
 .card-title {
-    margin-top: 0.5rem;
+  margin-top: 0.5rem;
 }
 
 /* Make sure cards in the same row have equal height */
 .card {
-    transition: transform 0.2s;
+  transition: transform 0.2s;
 }
 
 .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .banner {
-    position: fixed;
-    top: 0;
-    left: 15%; 
-    width: 85%;
-    background: linear-gradient(90deg, #D95F0E, #F07B10); 
-    padding: 10px;
-    z-index: 1000;
-    display: flex;
-    align-items: center; 
-    justify-content: center; 
+  position: fixed;
+  top: 0;
+  left: 15%;
+  width: 85%;
+  background: linear-gradient(90deg, #d95f0e, #f07b10);
+  padding: 10px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .banner-title {
-    text-align: center;
-    font-size: 50px;
-    font-weight: bold;
-    color: white;
-    margin: 0 auto; 
+  text-align: center;
+  font-size: 50px;
+  font-weight: bold;
+  color: white;
+  margin: 0 auto;
 }
 
 .team-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 .section-title {
-    font-weight: bold;
-    font-size: 1.5rem;
+  font-weight: bold;
+  font-size: 1.5rem;
 }
 
 .section-subtitle {
-    color: #666;
-    font-size: 1rem;
+  color: #666;
+  font-size: 1rem;
 }
 
 /* Ensure content aligns with sidebar edge */
 @media (min-width: 992px) {
-    .row {
-        margin-right: 0;
-        margin-left: 0;
-    }
+  .row {
+    margin-right: 0;
+    margin-left: 0;
+  }
 }
 
 /* For smaller screens */
 @media (max-width: 991px) {
-    .team-card {
-        margin-bottom: 20px;
-    }
+  .team-card {
+    margin-bottom: 20px;
+  }
 }

@@ -11,11 +11,12 @@ API_BASE_URL = "http://localhost:8000/api/auth"
     [
         Output("auth-output", "children"),
         Output("session-user", "data"),  
-        Output("redirect", "href"),  
+        Output("redirect", "href"),
     ],
     [
         Input("login-btn", "n_clicks"),
         Input("signup-btn", "n_clicks"),
+        
     ],
     [
         State("username", "value"),
@@ -38,17 +39,41 @@ def handle_auth(login_clicks, signup_clicks, username, password):
     # Make API request
     try:
         response = requests.post(url, json={"username": username, "password": password})
-        response_data = response.json()  
+        response_data = response.json()
     except requests.exceptions.RequestException as e:
-        print("this is where it fails")
-        return f"Request failed: {str(e)}", no_update, no_update  # Handle network errors
+        return f"Request failed: {str(e)}, auth_callbacks.py", no_update, no_update  # Handle network errors
     
     print("API Response:", response_data)
 
     if response.status_code == 200 and ctx.triggered_id == "login-btn":
-        return "Success! Redirecting...", username, "/welcome"
+        return "Success! Redirecting...", username, "/dashboard"
         
     if response.status_code == 201 and ctx.triggered_id == "signup-btn":
         return "Account created! You can now log in.", no_update, no_update
     
     return response.json().get("error", "An error occurred"), no_update, no_update
+
+@callback(
+    Output("session-user", "data", allow_duplicate=True),
+    Input("logout-btn", "n_clicks"),
+    prevent_initial_call=True
+)
+def client_logout(n_clicks):
+    if n_clicks:
+        # Make API call
+        try:
+            requests.post(f"{API_BASE_URL}/logout")
+        except:
+            pass  # Continue with client-side logout even if API fails
+        return None
+    return no_update
+
+@callback(
+    Output("url", "pathname"),
+    Input("session-user", "data"),
+    prevent_initial_call=True
+)
+def redirect_after_logout(session_user):
+    if session_user is None:
+        return "/welcome"
+    return no_update
