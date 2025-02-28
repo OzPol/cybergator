@@ -4,6 +4,10 @@ services:
     container_name: cybergator_app
     environment:
       - PYTHONPATH=/app
+      - SUPABASE_DB_URL=${SUPABASE_DB_URL} 
+      - NEO4J_URI=${NEO4J_URI} 
+      - NEO4J_USER=${NEO4J_USER} 
+      - NEO4J_PASSWORD=${NEO4J_PASSWORD} 
     volumes:
       - ./app:/app/app  # Mount the app directory
       - ./tests:/app/tests  # Mount the tests directory
