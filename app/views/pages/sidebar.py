@@ -18,10 +18,10 @@ def sidebar():
                 style={"marginTop": "20px"},
             ),
 
-            html.Div(
-                dbc.Button("Logout", id="logout-button", n_clicks=0, color="danger", style={"width": "100%"}),
-                style={"marginTop": "auto", "padding": "20px"},
-            ),
+            # html.Div(
+            #     dbc.Button("Logout", id="logout-button", n_clicks=0, color="danger", style={"width": "100%"}),
+            #     style={"marginTop": "auto", "padding": "20px"},
+            # ),
         ],
         style={
             "position": "fixed",

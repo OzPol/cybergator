@@ -11,7 +11,7 @@ API_BASE_URL = "http://localhost:8000/api/auth"
     [
         Output("auth-output", "children"),
         Output("session-user", "data"),  
-        Output("redirect", "href"),  
+        Output("redirect", "href"),
     ],
     [
         Input("login-btn", "n_clicks"),

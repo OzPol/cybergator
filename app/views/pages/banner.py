@@ -1,0 +1,24 @@
+from dash import html
+import dash_bootstrap_components as dbc
+
+def banner(page_title="CyberGators"):
+    return html.Div([
+        dbc.Row([
+            # Left spacer to balance centering
+            dbc.Col(width=1),  # Ensures the title is centered
+
+            # Centered Page Title
+            dbc.Col(
+                html.H1(page_title, className="banner-title"),
+                width=10,
+                style={"textAlign": "center", "flexGrow": 1}  # Keep title centered
+            ),
+
+            # Right Column for Logout Button
+            dbc.Col(
+                dbc.Button("Logout", id="logout-btn", className="logout-button", color="primary"),
+                width=1, 
+                style={"textAlign": "center", "paddingRight": "0px", "position": "absolute", "right": "0px", "top": "25px"}
+            )
+        ], align="center", justify="between", className="banner-row"),
+    ], className="banner")

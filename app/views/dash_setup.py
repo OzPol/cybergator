@@ -2,9 +2,9 @@ from dash import html, dcc, callback, Output, Input, State
 import dash_bootstrap_components as dbc
 from app.views.pages.auth_layouts import get_auth_layout
 from app.views.pages.sidebar import sidebar
-#from app.views.pages.register import register_layout
 from app.views.pages.homepage import homepage_layout
 from app.views.pages.dahsboard import dashboard
+from app.views.pages.banner import banner
 
 def render_page_content(pathname, session_user):
     """Dynamically updates the content area based on the session"""
@@ -36,8 +36,10 @@ def get_main_layout():
     return html.Div([
         dcc.Location(id="url", refresh=False),
         dcc.Store(id="session-user", storage_type="session"), 
-        html.Div(id="page-content"),
-        sidebar()
+        sidebar(),
+        banner(), 
+        html.Div(id="page-content",
+                 style={"marginLeft": "15%", "marginTop": "80px", "padding": "20px",})
     ])
 
 @callback(Output("page-content", "children"), [Input("url", "pathname"), State("session-user", "data")])
