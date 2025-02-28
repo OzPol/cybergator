@@ -33,6 +33,10 @@ jobs:
         docker-compose up -d --build
         sleep 10  # Give services time to start
 
+    - name: Check Supabase URL Inside Docker
+      run: docker exec cybergator_app printenv | grep SUPABASE_DB_URL
+
+
     - name: Test Supabase Connection
       run: |
         echo "🔍 Testing Supabase Connection..."
