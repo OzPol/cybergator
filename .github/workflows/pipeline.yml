@@ -20,6 +20,21 @@ jobs:
         echo "NEO4J_USER=${{ secrets.NEO4J_USER }}" >> $GITHUB_ENV
         echo "NEO4J_PASSWORD=${{ secrets.NEO4J_PASSWORD }}" >> $GITHUB_ENV
 
+    - name: Debug Environment Variables
+      run: |
+        echo "SUPABASE_DB_URL=${{ secrets.SUPABASE_URL }}" >> $GITHUB_ENV
+        echo "NEO4J_URI=${{ secrets.NEO4J_URI }}" >> $GITHUB_ENV
+        echo "NEO4J_USER=${{ secrets.NEO4J_USER }}" >> $GITHUB_ENV
+        echo "NEO4J_PASSWORD=${{ secrets.NEO4J_PASSWORD }}" >> $GITHUB_ENV
+
+    - name: Verify Secret Value (Safely)
+      run: |
+        if [ "${SUPABASE_DB_URL}" = "postgresql://postgres.lsohnehsrojydkoilldg:nyrtpPgLDHpRpc2u@aws-0-us-east-1.pooler.supabase.com:5432/postgres" ]; then
+          echo "✅ Secret matches expected value!"
+        else
+          echo "❌ Secret does NOT match the expected value!"
+        fi
+
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
 
