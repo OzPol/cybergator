@@ -37,7 +37,7 @@ jobs:
         sleep 10  # Give services time to start
 
     - name: Run Unit Tests
-      run: docker exec cybergator_app poetry run unittest discover -s tests
+      run: docker exec cybergator_app poetry run python -m unittest discover -s tests
 
     - name: Show Coverage Report
       run: docker exec cybergator_app poetry run coverage report -m
