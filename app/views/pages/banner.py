@@ -16,7 +16,7 @@ def banner(page_title="CyberGators", session_user=None):
 
             # Right Column for Logout Button
             dbc.Col(
-                dbc.Button("Logout", id="logout-btn", n_clicks = 0, className="logout-button", color="primary"),
+                dbc.Button("Logout", id="logout-btn", n_clicks=0, className="logout-button", color="primary"),
                 width=1, 
                 style={"textAlign": "center", "paddingRight": "0px", "position": "absolute", "right": "0px", "top": "25px"}
             ) if session_user else None

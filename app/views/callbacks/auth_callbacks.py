@@ -53,3 +53,27 @@ def handle_auth(login_clicks, signup_clicks, username, password):
     
     return response.json().get("error", "An error occurred"), no_update, no_update
 
+@callback(
+    Output("session-user", "data", allow_duplicate=True),
+    Input("logout-btn", "n_clicks"),
+    prevent_initial_call=True
+)
+def client_logout(n_clicks):
+    if n_clicks:
+        # Make API call
+        try:
+            requests.post(f"{API_BASE_URL}/logout")
+        except:
+            pass  # Continue with client-side logout even if API fails
+        return None
+    return no_update
+
+@callback(
+    Output("url", "pathname"),
+    Input("session-user", "data"),
+    prevent_initial_call=True
+)
+def redirect_after_logout(session_user):
+    if session_user is None:
+        return "/welcome"
+    return no_update
