@@ -16,21 +16,13 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Cache Poetry virtual environment
-      uses: actions/cache@v3
-      with:
-        path: ~/.cache/pypoetry/virtualenvs
-        key: poetry-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
-        restore-keys: |
-          poetry-${{ runner.os }}-
-
     - name: Cache Docker layers
       uses: actions/cache@v3
       with:
         path: /tmp/.buildx-cache
-        key: ${{ runner.os }}-buildx-${{ github.sha }}
+        key: docker-${{ runner.os }}-${{ github.sha }}
         restore-keys: |
-          ${{ runner.os }}-buildx-
+          docker-${{ runner.os }}-
 
     - name: Set Environment Variables
       run: |
@@ -53,7 +45,7 @@ jobs:
     - name: Build and Start Docker Services
       run: |
         docker-compose up -d --build 
-        docker ps -a  # Show running containers
+        docker ps -a  # Debug: Show running containers
         sleep 10  # Give services time to start
 
     - name: Run Unit Tests & Show Coverage Report
