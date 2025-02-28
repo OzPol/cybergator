@@ -37,7 +37,7 @@ def get_main_layout():
         dcc.Location(id="url", refresh=False),
         dcc.Store(id="session-user", storage_type="session"), 
         sidebar(),
-        banner(), 
+        html.Div(id="banner-container"), 
         html.Div(id="page-content",
                  style={"marginLeft": "15%", "marginTop": "80px", "padding": "20px",})
     ])
@@ -45,3 +45,8 @@ def get_main_layout():
 @callback(Output("page-content", "children"), [Input("url", "pathname"), State("session-user", "data")])
 def update_page(pathname, session_user):
     return render_page_content(pathname, session_user)
+
+
+@callback(Output("banner-container", "children"), [Input("session-user", "data")], prevent_initial_call=True)
+def update_banner(session_user):
+    return banner(session_user=session_user)

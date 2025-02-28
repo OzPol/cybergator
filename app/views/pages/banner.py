@@ -1,7 +1,7 @@
 from dash import html
 import dash_bootstrap_components as dbc
 
-def banner(page_title="CyberGators"):
+def banner(page_title="CyberGators", session_user=None):
     return html.Div([
         dbc.Row([
             # Left spacer to balance centering
@@ -19,6 +19,6 @@ def banner(page_title="CyberGators"):
                 dbc.Button("Logout", id="logout-btn", className="logout-button", color="primary"),
                 width=1, 
                 style={"textAlign": "center", "paddingRight": "0px", "position": "absolute", "right": "0px", "top": "25px"}
-            )
+            ) if session_user else None
         ], align="center", justify="between", className="banner-row"),
     ], className="banner")
