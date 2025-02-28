@@ -31,6 +31,11 @@ jobs:
         docker-compose up -d --build
         sleep 10  # Give services time to start
 
+    - name: Install Docker Compose 
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y docker-compose
+
     - name: Run Tests with Coverage
       run: docker exec cybergator_app poetry run coverage run -m unittest discover -s tests
 
