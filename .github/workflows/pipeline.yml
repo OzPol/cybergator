@@ -38,8 +38,7 @@ jobs:
 
     - name: Build and Start Docker Services
       run: |
-        docker-compose pull || true # Pull existing images if available
-        docker-compose up -d --build --no-cache
+        docker-compose up -d --build --pull always
         sleep 10  # Give services time to start
 
     - name: Run Unit Tests & Show Coverage Report
