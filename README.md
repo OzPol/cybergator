@@ -91,3 +91,14 @@ docker-compose up --build
 ```
 docker image prune -f
 ```
+
+## How to run unit tests manually
+1. Run the container in detached mode:
+
+```
+docker-compose up -d
+```
+2. Run the following command:
+```
+docker exec -it cybergator_app poetry run python -m unittest discover -s tests -p "*.py"
+```
