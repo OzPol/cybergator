@@ -3,8 +3,10 @@ import dash_bootstrap_components as dbc
 from app.views.pages.auth_layouts import get_auth_layout
 from app.views.pages.sidebar import sidebar
 from app.views.pages.homepage import homepage_layout
+from app.views.pages.sue_graph_layout import sue_graph_layout
 from app.views.pages.dahsboard import dashboard
 from app.views.pages.banner import banner
+from app.views.callbacks.sue_graph_callbacks import fetch_data
 
 def render_page_content(pathname, session_user):
     """Dynamically updates the content area based on the session"""
@@ -30,6 +32,9 @@ def render_page_content(pathname, session_user):
                 dcc.Link('Go to Login Page', href='/auth', className="btn btn-link d-block text-center"),
             ], fluid=True)
         return dashboard(session_user)
+    elif pathname == "/sue-graph":
+        print(fetch_data(None, "/sue-graph"))
+        return sue_graph_layout()
     
 
 def get_main_layout():
