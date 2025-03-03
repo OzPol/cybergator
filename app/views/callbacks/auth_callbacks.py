@@ -10,13 +10,12 @@ API_BASE_URL = "http://localhost:8000/api/auth"
 @callback(
     [
         Output("auth-output", "children"),
-        Output("session-user", "data"),  
+        Output("session-user", "data"),
         Output("redirect", "href"),
     ],
     [
         Input("login-btn", "n_clicks"),
         Input("signup-btn", "n_clicks"),
-        
     ],
     [
         State("username", "value"),
