@@ -5,9 +5,12 @@ def sidebar(session_user=None):
     # Basic menu items
     nav_items = [
         dbc.NavLink("Home", href="/welcome", active="exact", style={"color": "white"}),
-        dbc.NavLink("Login/Register", href="/auth", active="exact", style={"color": "white"}),
         dbc.NavLink("Dashboard", href="/dashboard", active="exact", style={"color": "white"}),
     ]
+
+    # Only add the Login/Register button if the user is not logged in
+    if not session_user:
+        nav_items.append(dbc.NavLink("Login/Register", href="/auth", active="exact", style={"color": "white"}))
     
     # If session_user exists, add the extra links
     if session_user:
