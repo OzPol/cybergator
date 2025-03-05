@@ -66,7 +66,7 @@ docker-compose down
 - In general, you only need to rebuild the container when there are changes to dependencies.
 - It's recommended to install dependencies INSIDE the container to avoid issues. Your local `poetry.lock` and `pyproject.toml` files will be automatically updated :) You can find detailed instructions for this in the next section.
 
-## How to add and install new depencies to the application
+## How to add and install new dependencies to the application
 
 1. Run the container in detached mode:
 

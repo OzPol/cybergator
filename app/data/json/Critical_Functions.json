@@ -1,0 +1,106 @@
+{
+    "System_Critical_Functions": [
+        {
+            "Function_Number": "F01",
+            "Work_Area": "Engineering_Production",
+            "Criticality": "High",
+            "Criticality_Value": 3
+        },
+        {
+            "Function_Number": "F02",
+            "Work_Area": "Engineering_Production",
+            "Criticality": "High",
+            "Criticality_Value": 3
+        },
+        {
+            "Function_Number": "F03",
+            "Work_Area": "Engineering_Production",
+            "Criticality": "High",
+            "Criticality_Value": 3
+        },
+        {
+            "Function_Number": "F04",
+            "Work_Area": "Test_Engineering",
+            "Criticality": "High",
+            "Criticality_Value": 3
+        },
+        {
+            "Function_Number": "F05",
+            "Work_Area": "IT_Cybersecurity",
+            "Criticality": "High",
+            "Criticality_Value": 3
+        },
+        {
+            "Function_Number": "F06",
+            "Work_Area": "IT_Cybersecurity",
+            "Criticality": "High",
+            "Criticality_Value": 3
+        },
+        {
+            "Function_Number": "F07",
+            "Work_Area": "Engineering_Production",
+            "Criticality": "Medium",
+            "Criticality_Value": 2
+        },
+        {
+            "Function_Number": "F08",
+            "Work_Area": "Test_Engineering",
+            "Criticality": "Medium",
+            "Criticality_Value": 2
+        },
+        {
+            "Function_Number": "F09",
+            "Work_Area": "Test_Engineering",
+            "Criticality": "Medium",
+            "Criticality_Value": 2
+        },
+        {
+            "Function_Number": "F10",
+            "Work_Area": "Company_Management",
+            "Criticality": "Medium",
+            "Criticality_Value": 2
+        },
+        {
+            "Function_Number": "F11",
+            "Work_Area": "Engineering_Production",
+            "Criticality": "Low",
+            "Criticality_Value": 1
+        },
+        {
+            "Function_Number": "F12",
+            "Work_Area": "Test_Engineering",
+            "Criticality": "Low",
+            "Criticality_Value": 1
+        },
+        {
+            "Function_Number": "F13",
+            "Work_Area": "Company_Management",
+            "Criticality": "Low",
+            "Criticality_Value": 1
+        },
+        {
+            "Function_Number": "F14",
+            "Work_Area": "Company_Management",
+            "Criticality": "Low",
+            "Criticality_Value": 1
+        },
+        {
+            "Function_Number": "F15",
+            "Work_Area": "Company_Management",
+            "Criticality": "Low",
+            "Criticality_Value": 1
+        },
+        {
+            "Function_Number": "F16",
+            "Work_Area": "IT_Cybersecurity",
+            "Criticality": "High",
+            "Criticality_Value": 3
+        },
+        {
+            "Function_Number": "F18",
+            "Work_Area": "IT_Cybersecurity",
+            "Criticality": "High",
+            "Criticality_Value": 3
+        }
+    ]
+}
