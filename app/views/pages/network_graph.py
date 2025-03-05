@@ -23,7 +23,7 @@ def graph_layout():
             children=[
                 cyto.Cytoscape(
                     id="system-graph",
-                    layout={"name": "cose"},  # auto-layout: "cose" or "breadthfirst" 
+                    layout={"name": "breadthfirst"},  # auto-layout: "cose" or "breadthfirst" 
                     style={"width": "100%", "height": "800px"}, #, "border": "1px solid black"},  # Debug border
                     elements=[],  # Initially empty, updated by callback
                 )
