@@ -23,7 +23,7 @@ def homepage_layout():
                     dbc.Row([  
                         dbc.Col(
                             dbc.Card([
-                                dbc.CardImg(src="assets/Mypicture.jpg", top=True, className="team-card-img"),
+                                dbc.CardImg(src="assets/Ozlem_Polat.jpg", top=True, className="team-card-img"),
                                 dbc.CardBody([
                                     html.H4("Name - Role", className="card-title"),
                                     html.P("Body text for whatever you'd like to say.", className="card-text")
@@ -34,7 +34,7 @@ def homepage_layout():
 
                         dbc.Col(
                             dbc.Card([
-                                dbc.CardImg(src="assets/Mypicture.jpg", top=True, className="team-card-img"),
+                                dbc.CardImg(src="assets/Samson_Carter.jpg", top=True, className="team-card-img"),
                                 dbc.CardBody([
                                     html.H4("Introduce the Members of Our Team", className="card-title"),
                                     html.P("Body text for whatever you'd like to say.", className="card-text")
@@ -45,7 +45,7 @@ def homepage_layout():
 
                         dbc.Col(
                             dbc.Card([
-                                dbc.CardImg(src="assets/Mypicture.jpg", top=True, className="team-card-img"),
+                                dbc.CardImg(src="assets/Jess_Lourenco.jpg", top=True, className="team-card-img"),
                                 dbc.CardBody([
                                     html.H4("Title", className="card-title"),
                                     html.P("Body text for whatever you'd like to say.", className="card-text")
@@ -59,7 +59,7 @@ def homepage_layout():
                     dbc.Row([  
                         dbc.Col(
                             dbc.Card([
-                                dbc.CardImg(src="assets/Mypicture.jpg", top=True, className="team-card-img"),
+                                dbc.CardImg(src="assets/Andrew_Ballard.jpg", top=True, className="team-card-img"),
                                 dbc.CardBody([
                                     html.H4("Title", className="card-title"),
                                     html.P("Body text for whatever you'd like to say.", className="card-text")
@@ -70,7 +70,7 @@ def homepage_layout():
 
                         dbc.Col(
                             dbc.Card([
-                                dbc.CardImg(src="assets/Mypicture.jpg", top=True, className="team-card-img"),
+                                dbc.CardImg(src="assets/Shayan_Akhoondan.jpg", top=True, className="team-card-img"),
                                 dbc.CardBody([
                                     html.H4("Title", className="card-title"),
                                     html.P("Body text for whatever you'd like to say.", className="card-text")

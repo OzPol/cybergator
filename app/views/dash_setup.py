@@ -7,6 +7,9 @@ from app.views.pages.sue_graph_layout import sue_graph_layout
 from app.views.pages.dahsboard import dashboard
 from app.views.pages.banner import banner
 from app.views.callbacks.sue_graph_callbacks import fetch_data
+from app.views.pages.network_graph import graph_layout
+from app.views.callbacks.graph_callbacks import register_graph_callbacks
+
 
 def render_page_content(pathname, session_user):
     """Dynamically updates the content area based on the session"""
@@ -35,6 +38,11 @@ def render_page_content(pathname, session_user):
     elif pathname == "/sue-graph":
         print(fetch_data(None, "/sue-graph"))
         return sue_graph_layout()
+    elif pathname == "/system-graph":
+        return graph_layout()
+    
+    return html.H1("404 - Page Not Found", className="text-center")
+
     
 
 def get_main_layout():
@@ -44,7 +52,7 @@ def get_main_layout():
         html.Div(id="sidebar-container"), 
         html.Div(id="banner-container"), 
         html.Div(id="page-content",
-                 style={"marginLeft": "15%", "marginTop": "80px", "padding": "20px"})
+                style={"marginLeft": "15%", "marginTop": "80px", "padding": "20px"})
     ])
 
 @callback(Output("page-content", "children"), [Input("url", "pathname"), State("session-user", "data")])

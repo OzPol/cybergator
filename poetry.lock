@@ -424,6 +424,23 @@ files = [
 ]
 
 [[package]]
+name = "dash-cytoscape"
+version = "1.0.2"
+description = "A Component Library for Dash aimed at facilitating network visualization in Python, wrapped around Cytoscape.js"
+optional = false
+python-versions = ">=3.8"
+groups = ["main"]
+files = [
+    {file = "dash_cytoscape-1.0.2.tar.gz", hash = "sha256:a61019d2184d63a2b3b5c06d056d3b867a04223a674cc3c7cf900a561a9a59aa"},
+]
+
+[package.dependencies]
+dash = "*"
+
+[package.extras]
+leaflet = ["dash-leaflet (>=1.0.16rc3)"]
+
+[[package]]
 name = "dash-html-components"
 version = "2.0.0"
 description = "Vanilla HTML components for Dash"
@@ -1332,4 +1349,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.12,<3.14"
-content-hash = "a8878bbba7d328cea9a0eae19b783220335b5561f35dd8fc0d71c126f2479b1a"
+content-hash = "94cafff2fd1471ba4783dc98ed9c83a06b19f6ce10c613b24aaef42b4bc0bd83"
