@@ -195,7 +195,7 @@ def system_tables():
             ),
         ],
         id="accordion",  # ID for the accordion component
-        active_item="attack-tree",  # Default open tab
+        active_item="",  # Default open tab
         flush=True,  # Remove borders for a cleaner look
     )
 
