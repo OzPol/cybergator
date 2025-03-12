@@ -9,6 +9,8 @@ from app.views.pages.banner import banner
 from app.views.callbacks.sue_graph_callbacks import fetch_data
 from app.views.pages.network_graph import graph_layout
 from app.views.callbacks.graph_callbacks import register_graph_callbacks
+from app.views.pages.system_tables import system_tables_layout
+
 
 
 def render_page_content(pathname, session_user):
@@ -40,10 +42,11 @@ def render_page_content(pathname, session_user):
         return sue_graph_layout()
     elif pathname == "/system-graph":
         return graph_layout()
+    elif pathname == "/system-tables":
+        return system_tables_layout()
     
     return html.H1("404 - Page Not Found", className="text-center")
 
-    
 
 def get_main_layout():
     return html.Div([
