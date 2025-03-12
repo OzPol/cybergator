@@ -17,6 +17,8 @@ from app.views.dash_setup import get_main_layout
 import app.views.callbacks.auth_callbacks
 from app.controllers.graph_controller import graph_bp
 from app.views.callbacks.graph_callbacks import register_graph_callbacks
+from app.controllers.system_tables_controller import system_tables_bp
+
 
 
 load_dotenv()
@@ -34,6 +36,7 @@ CORS(flask_app, resources={r"/api/*": {"origins": "*"}})
 flask_app.register_blueprint(auth_bp, url_prefix="/api/auth")
 flask_app.register_blueprint(sue_bp, url_prefix="/api/sue-graph")
 flask_app.register_blueprint(graph_bp, url_prefix="/api/graph")
+flask_app.register_blueprint(system_tables_bp, url_prefix="/api/system-tables")
 
 # Dash configs
 dash_app = Dash(__name__, server=flask_app, url_base_pathname="/", suppress_callback_exceptions=True, external_stylesheets=[dbc.themes.BOOTSTRAP])
