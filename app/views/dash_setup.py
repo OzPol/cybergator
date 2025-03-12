@@ -4,6 +4,7 @@ from app.views.pages.auth_layouts import get_auth_layout
 from app.views.pages.sidebar import sidebar
 from app.views.pages.homepage import homepage_layout
 from app.views.pages.sue_graph_layout import sue_graph_layout
+from app.views.pages.system_tables import system_tables
 from app.views.pages.dahsboard import dashboard
 from app.views.pages.banner import banner
 from app.views.callbacks.sue_graph_callbacks import fetch_data
@@ -40,6 +41,8 @@ def render_page_content(pathname, session_user):
         return sue_graph_layout()
     elif pathname == "/system-graph":
         return graph_layout()
+    elif pathname == "/system-tables":
+        return system_tables()
     
     return html.H1("404 - Page Not Found", className="text-center")
 
