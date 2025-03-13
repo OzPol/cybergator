@@ -6,5 +6,5 @@ def sue_graph_layout():
         html.H1("Sue Graph Viewer"),
         dcc.Store(id="graph-trigger", data={"refresh": True}), 
         html.Img(id="graph-visualization", src="/assets/system_graph.png", 
-                 style={"width": "100%"}),  
+                style={"width": "100%"}),  
     ])

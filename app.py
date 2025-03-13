@@ -20,9 +20,6 @@ from app.views.callbacks.graph_callbacks import register_graph_callbacks
 from app.views.callbacks.system_tables_callbacks import register_system_tables_callbacks
 
 
-
-
-
 load_dotenv()
 
 # Flask configs
