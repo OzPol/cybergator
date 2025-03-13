@@ -3,39 +3,33 @@ import dash_bootstrap_components as dbc
 import json
 import os
 import pandas as pd
+from app.services.data_loader import *
 
 def system_tables():
-    # Construct the path to the JSON file
-    base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))  # Go up to the 'app' directory
-    Attack_Tree_json_path = os.path.join(base_dir, 'data', 'json', 'Attack_Tree.json')
-    Critical_Function_json_path = os.path.join(base_dir, 'data', 'json', 'Critical_Functions.json')
-    Fuzzy_Set_json_path = os.path.join(base_dir, 'data', 'json', 'Fuzzy_Set.json')
-    Nodes_Complete_json_path = os.path.join(base_dir, 'data', 'json', 'Nodes_Complete.json')
-    Risk_Factors_json_path = os.path.join(base_dir, 'data', 'json', 'Risk_Factors.json')
 
-    # Load the JSON data
-    with open(Attack_Tree_json_path, 'r') as file:
-        attack_tree_data = json.load(file)
-    with open(Critical_Function_json_path, 'r') as file:
-        critical_function_data = json.load(file)
-    # with open(Fuzzy_Set_json_path, 'r') as file:
-    #     attack_tree_data = json.load(file)    
-    # with open(Nodes_Complete_json_path, 'r') as file:
-    #     attack_tree_data = json.load(file)
-    with open(Risk_Factors_json_path, 'r') as file:
-        risk_factors_data = json.load(file)
+    nodes_complete_data = get_nodes()
+    risk_factors_data = get_risk_factors()
+    attack_tree_data = get_attack_tree()
+    critical_function_data = get_critical_functions()
+    Fuzzy_Set_json_path = get_fuzzy_set()
+
 
     # Extract the attack goals and steps
     attack_goals = attack_tree_data['attack_goals']
     critical_functions = critical_function_data.get("System_Critical_Functions", [])
+    
+    # These 2 a part of Risk_Factors.json
     work_areas = risk_factors_data.get("work_areas", [])
+    risk_matrix = risk_factors_data.get("Risk_Factors_Matrix", {})
+    nodes_complete = nodes_complete_data
 
     # Create a list to hold the rows of the table
     attack_tree_rows = []
     critical_functions_rows = []
     risk_factors_rows = []
+    nodes_complete_rows = []
     
-    # Iterate through each goal and step to populate the rows
+    # This is for Attack_Tree.json
     for goal in attack_goals:
         for step in goal['steps']:
             row = {
@@ -53,6 +47,7 @@ def system_tables():
             }
             attack_tree_rows.append(row)
     
+    # This is for Critical_Functions.json
     for function in critical_functions:
         row = {
             'Function Number': function.get('Function_Number', 'N/A'),  # Use .get() with a default value
@@ -62,6 +57,32 @@ def system_tables():
         }
         critical_functions_rows.append(row)
 
+    #This is for Nodes_Complete.json
+    for node in nodes_complete_data:
+        # Create a row for each node
+        cve_list = ", ".join(node.get("CVE", []))
+        cve_nvd = node.get("CVE_NVD", {})
+        nvd_values = ", ".join([f"{cve}: {score}" for cve, score in cve_nvd.items()]) if cve_nvd else "None"
+        
+        row = {
+            'Node ID': node.get('node_id', 'N/A'),
+            'Node Name': node.get('node_name', 'N/A'),
+            'Node Type': node.get('node_type', 'N/A'),
+            'Critical Functions': ", ".join(node.get('critical_functions', [])),
+            'Connected To': ", ".join(node.get('connected_to', [])),
+            'Critical Data Stored': str(node.get('critical_data_stored', False)),
+            'Backup Role': node.get('backup_role', 'N/A'),
+            'Data Redundancy': node.get('data_redundancy', 'N/A'),
+            'Redundancy': str(node.get('redundancy', False)),
+            'Risk Factor': node.get('risk_factor', 'N/A'),
+            'Switch Dependency': str(node.get('switch_dependency', False)),
+            'Resilience Penalty': str(node.get('resilience_penalty', 'N/A')),
+            'CVEs': cve_list,
+            'CVE NVD Scores': nvd_values
+        }
+        nodes_complete_rows.append(row)
+
+    # This is for Risk_Factors.json
     for work_area in work_areas:
         work_area_name = work_area.get("work_areas", "N/A")
         risk_factors = work_area.get("Risk_Factors_Matrix", {})
@@ -73,6 +94,7 @@ def system_tables():
     attack_tree_df = pd.DataFrame(attack_tree_rows)
     critical_function_df = pd.DataFrame(critical_functions_rows)
     risk_factors_df = pd.DataFrame(risk_factors_rows)
+    nodes_complete_df = pd.DataFrame(nodes_complete_rows)
     
     # Create the Dash table component for Attack Tree
     attack_tree_table = dash_table.DataTable(
@@ -165,6 +187,36 @@ def system_tables():
         ]
     )
 
+    nodes_complete_table = dash_table.DataTable(
+        id='nodes-complete-table',
+        columns=[{"name": i, "id": i} for i in nodes_complete_df.columns],
+        data=nodes_complete_df.to_dict('records'),
+        style_table={'overflowX': 'auto'},
+        style_cell={
+            'textAlign': 'left',
+            'padding': '5px',
+            'fontSize': '12px',
+            'whiteSpace': 'normal',
+            'height': 'auto',
+        },
+        style_header={
+            'backgroundColor': 'rgb(230, 230, 230)',
+            'fontWeight': 'bold',
+            'fontSize': '12px',
+            'padding': '5px',
+        },
+        style_data={
+            'fontSize': '12px',
+            'padding': '5px',
+        },
+        style_data_conditional=[
+            {
+                'if': {'row_index': 'odd'},
+                'backgroundColor': 'rgb(248, 248, 248)'
+            }
+        ]
+    )
+
     # Create the accordion layout
     accordion = dbc.Accordion(
         [
@@ -184,7 +236,7 @@ def system_tables():
                 item_id="fuzzy-set"  # Unique ID for this tab
             ),
             dbc.AccordionItem(
-                children=[html.Div("Nodes Complete table will go here.")],  # Placeholder for Nodes Complete
+                children=[nodes_complete_table],  # Placeholder for Nodes Complete
                 title="Nodes Complete",  # Title of the tab
                 item_id="nodes-complete"  # Unique ID for this tab
             ),
@@ -192,6 +244,11 @@ def system_tables():
                 children=[risk_factors_table],  # Placeholder for Risk Factor
                 title="Risk Factor",  # Title of the tab
                 item_id="risk-factor"  # Unique ID for this tab
+            ),
+            dbc.AccordionItem(
+                children=[html.Div("CVE information will go here")],  # Placeholder for Risk Factor
+                title="CVEs Table",  # Title of the tab
+                item_id="cve-table"  # Unique ID for this tab
             ),
         ],
         id="accordion",  # ID for the accordion component
