@@ -3,13 +3,8 @@
         "node_id": "N00100",
         "node_name": "System_Administrator_Terminal",
         "node_type": "Workstation",
-        "critical_functions": [
-            "F05",
-            "F06"
-        ],
-        "connected_to": [
-            "N20001"
-        ],
+        "critical_functions": ["F05", "F06"],
+        "connected_to": ["N20001"],
         "critical_data_stored": false,
         "backup_role": null,
         "data_redundancy": "No",
@@ -24,14 +19,8 @@
         "node_id": "N00200",
         "node_name": "Virtualization_Manager_Server",
         "node_type": "Server",
-        "critical_functions": [
-            "F01",
-            "F02",
-            "F04"
-        ],
-        "connected_to": [
-            "N20001"
-        ],
+        "critical_functions": ["F01", "F02", "F04"],
+        "connected_to": ["N20001"],
         "critical_data_stored": true,
         "backup_role": "Primary",
         "data_redundancy": "Yes",
@@ -39,11 +28,7 @@
         "risk_factor": "High",
         "switch_dependency": true,
         "resilience_penalty": 0.3,
-        "CVE": [
-            "CVE-2012-2697",
-            "CVE-2012-3440",
-            "CVE-2010-0727"
-        ],
+        "CVE": ["CVE-2012-2697", "CVE-2012-3440", "CVE-2010-0727"],
         "CVE_NVD": {
             "CVE-2012-2697": 4.9,
             "CVE-2012-3440": 5.6,
@@ -54,13 +39,8 @@
         "node_id": "N00201",
         "node_name": "Virtualization_Manager_SAN",
         "node_type": "SAN",
-        "critical_functions": [
-            "F07",
-            "F08"
-        ],
-        "connected_to": [
-            "N20001"
-        ],
+        "critical_functions": ["F07", "F08"],
+        "connected_to": ["N20001"],
         "critical_data_stored": true,
         "backup_role": "Secondary",
         "data_redundancy": "Yes",
@@ -68,11 +48,7 @@
         "risk_factor": "Medium",
         "switch_dependency": true,
         "resilience_penalty": 0.2,
-        "CVE": [
-            "CVE-2013-1935",
-            "CVE-2013-2224",
-            "CVE-2013-2188"
-        ],
+        "CVE": ["CVE-2013-1935", "CVE-2013-2224", "CVE-2013-2188"],
         "CVE_NVD": {
             "CVE-2013-1935": 5.7,
             "CVE-2013-2224": 6.9,
@@ -83,13 +59,8 @@
         "node_id": "N00300",
         "node_name": "Cybersecurity_Capability_Tools_Server",
         "node_type": "Server",
-        "critical_functions": [
-            "F05",
-            "F06"
-        ],
-        "connected_to": [
-            "N20001"
-        ],
+        "critical_functions": ["F05", "F06"],
+        "connected_to": ["N20001"],
         "critical_data_stored": true,
         "backup_role": "Primary",
         "data_redundancy": "Yes",
@@ -97,19 +68,11 @@
         "risk_factor": "High",
         "switch_dependency": true,
         "resilience_penalty": 0.3,
-        "CVE": [
-            "CVE-2024-23675",
-            "CVE-2024-23676",
-            "CVE-2023-40593",
-            "CVE-2023-40592",
-            "CVE-2023-0101",
-            "CVE-2021-20135",
-            "CVE-2020-5765",
-            "CVE-2020-7337",
-            "CVE-2009-5118",
-            "CVE-2007-2152",
-            "CVE-2015-7833"
-        ],
+        "CVE": ["CVE-2024-23675", "CVE-2024-23676", "CVE-2023-40593", 
+                "CVE-2023-40592", "CVE-2023-0101", "CVE-2021-20135",
+                "CVE-2020-5765", "CVE-2020-7337", "CVE-2009-5118",
+                "CVE-2007-2152", "CVE-2015-7833"
+                ],
         "CVE_NVD": {
             "CVE-2024-23675": 6.5,
             "CVE-2024-23676": 3.5,
@@ -123,18 +86,14 @@
             "CVE-2007-2152": 7.9,
             "CVE-2015-7833": 4.9
         }
+        
     },
     {
         "node_id": "N00301",
         "node_name": "Cybersecurity_Capability_Tools_SAN_Archive",
         "node_type": "SAN Archive",
-        "critical_functions": [
-            "F05",
-            "F06"
-        ],
-        "connected_to": [
-            "N20001"
-        ],
+        "critical_functions": ["F05", "F06"],
+        "connected_to": ["N20001"],
         "critical_data_stored": true,
         "backup_role": "Primary",
         "data_redundancy": "Yes",
@@ -142,9 +101,7 @@
         "risk_factor": "High",
         "switch_dependency": true,
         "resilience_penalty": 0.2,
-        "CVE": [
-            "CVE-2015-7833"
-        ],
+        "CVE": ["CVE-2015-7833"],
         "CVE_NVD": {
             "CVE-2015-7833": 4.9
         }
@@ -153,13 +110,8 @@
         "node_id": "N00302",
         "node_name": "Cybersecurity_Capability_Tools_SAN_Archive_Backup",
         "node_type": "SAN Archive Backup",
-        "critical_functions": [
-            "F05",
-            "F06"
-        ],
-        "connected_to": [
-            "N20006"
-        ],
+        "critical_functions": ["F05", "F06"],
+        "connected_to": ["N20006"],
         "critical_data_stored": true,
         "backup_role": "Secondary",
         "data_redundancy": "Yes",
@@ -167,9 +119,7 @@
         "risk_factor": "Medium",
         "switch_dependency": true,
         "resilience_penalty": 0.2,
-        "CVE": [
-            "CVE-2015-7833"
-        ],
+        "CVE": ["CVE-2015-7833"],
         "CVE_NVD": {
             "CVE-2015-7833": 4.9
         }
@@ -178,13 +128,8 @@
         "node_id": "N00400",
         "node_name": "Audit_Log_Server",
         "node_type": "Server",
-        "critical_functions": [
-            "F05",
-            "F06"
-        ],
-        "connected_to": [
-            "N20001"
-        ],
+        "critical_functions": ["F05", "F06"],
+        "connected_to": ["N20001"],
         "critical_data_stored": true,
         "backup_role": "Primary",
         "data_redundancy": "Yes",
@@ -192,9 +137,7 @@
         "risk_factor": "High",
         "switch_dependency": true,
         "resilience_penalty": 0.3,
-        "CVE": [
-            "CVE-2015-7833"
-        ],
+        "CVE": ["CVE-2015-7833"],
         "CVE_NVD": {
             "CVE-2015-7833": 4.9
         }
@@ -203,13 +146,8 @@
         "node_id": "N00401",
         "node_name": "Audit_Log_SAN_Archive",
         "node_type": "SAN Archive",
-        "critical_functions": [
-            "F05",
-            "F06"
-        ],
-        "connected_to": [
-            "N20001"
-        ],
+        "critical_functions": ["F05", "F06"],
+        "connected_to": ["N20001"],
         "critical_data_stored": true,
         "backup_role": "Primary",
         "data_redundancy": "Yes",
@@ -217,9 +155,7 @@
         "risk_factor": "High",
         "switch_dependency": true,
         "resilience_penalty": 0.2,
-        "CVE": [
-            "CVE-2015-7833"
-        ],
+        "CVE": ["CVE-2015-7833"],
         "CVE_NVD": {
             "CVE-2015-7833": 4.9
         }
@@ -228,13 +164,8 @@
         "node_id": "N00501",
         "node_name": "Server_Rack_Server_1",
         "node_type": "Server",
-        "critical_functions": [
-            "F01",
-            "F03"
-        ],
-        "connected_to": [
-            "N20002"
-        ],
+        "critical_functions": ["F01", "F03"],
+        "connected_to": ["N20002"],
         "critical_data_stored": true,
         "backup_role": "Primary",
         "data_redundancy": "Yes",
@@ -242,11 +173,7 @@
         "risk_factor": "High",
         "switch_dependency": true,
         "resilience_penalty": 0.3,
-        "CVE": [
-            "CVE-2012-2697",
-            "CVE-2012-3440",
-            "CVE-2010-0727"
-        ],
+        "CVE": ["CVE-2012-2697", "CVE-2012-3440", "CVE-2010-0727"],
         "CVE_NVD": {
             "CVE-2012-2697": 4.9,
             "CVE-2012-3440": 5.6,
@@ -257,13 +184,8 @@
         "node_id": "N00502",
         "node_name": "Server_Rack_Server_2",
         "node_type": "Server",
-        "critical_functions": [
-            "F01",
-            "F02"
-        ],
-        "connected_to": [
-            "N20002"
-        ],
+        "critical_functions": ["F01", "F02"],
+        "connected_to": ["N20002"],
         "critical_data_stored": true,
         "backup_role": "Primary",
         "data_redundancy": "Yes",
@@ -271,11 +193,7 @@
         "risk_factor": "High",
         "switch_dependency": true,
         "resilience_penalty": 0.3,
-        "CVE": [
-            "CVE-2012-2697",
-            "CVE-2012-3440",
-            "CVE-2010-0727"
-        ],
+        "CVE": ["CVE-2012-2697", "CVE-2012-3440", "CVE-2010-0727"],
         "CVE_NVD": {
             "CVE-2012-2697": 4.9,
             "CVE-2012-3440": 5.6,
@@ -286,12 +204,8 @@
         "node_id": "N00503",
         "node_name": "Server_Rack_Server_3",
         "node_type": "Server",
-        "critical_functions": [
-            "F07"
-        ],
-        "connected_to": [
-            "N20002"
-        ],
+        "critical_functions": ["F07"],
+        "connected_to": ["N20002"],
         "critical_data_stored": true,
         "backup_role": "Primary",
         "data_redundancy": "Yes",
@@ -299,9 +213,7 @@
         "risk_factor": "High",
         "switch_dependency": true,
         "resilience_penalty": 0.3,
-        "CVE": [
-            "CVE-2015-7833"
-        ],
+        "CVE": ["CVE-2015-7833"],
         "CVE_NVD": {
             "CVE-2015-7833": 4.9
         }
@@ -310,14 +222,8 @@
         "node_id": "N00504",
         "node_name": "Server_Rack_Server_4",
         "node_type": "Server",
-        "critical_functions": [
-            "F04",
-            "F08",
-            "F09"
-        ],
-        "connected_to": [
-            "N20002"
-        ],
+        "critical_functions": ["F04", "F08", "F09"],
+        "connected_to": ["N20002"],
         "critical_data_stored": true,
         "backup_role": "Primary",
         "data_redundancy": "Yes",
@@ -325,9 +231,7 @@
         "risk_factor": "High",
         "switch_dependency": true,
         "resilience_penalty": 0.3,
-        "CVE": [
-            "CVE-2015-7833"
-        ],
+        "CVE": ["CVE-2015-7833"],
         "CVE_NVD": {
             "CVE-2015-7833": 4.9
         }
@@ -336,12 +240,8 @@
         "node_id": "N00505",
         "node_name": "Server_Rack_Server_5",
         "node_type": "Server",
-        "critical_functions": [
-            "F08"
-        ],
-        "connected_to": [
-            "N20002"
-        ],
+        "critical_functions": ["F08"],
+        "connected_to": ["N20002"],
         "critical_data_stored": true,
         "backup_role": "Primary",
         "data_redundancy": "Yes",
@@ -349,11 +249,7 @@
         "risk_factor": "High",
         "switch_dependency": true,
         "resilience_penalty": 0.3,
-        "CVE": [
-            "CVE-2013-1935",
-            "CVE-2013-2224",
-            "CVE-2013-2188"
-        ],
+        "CVE": ["CVE-2013-1935", "CVE-2013-2224", "CVE-2013-2188"],
         "CVE_NVD": {
             "CVE-2013-1935": 5.7,
             "CVE-2013-2224": 6.9,
@@ -364,13 +260,8 @@
         "node_id": "N00506",
         "node_name": "Server_Rack_Server_6",
         "node_type": "Server",
-        "critical_functions": [
-            "F10",
-            "F13"
-        ],
-        "connected_to": [
-            "N20002"
-        ],
+        "critical_functions": ["F10", "F13"],
+        "connected_to": ["N20002"],
         "critical_data_stored": true,
         "backup_role": "Primary",
         "data_redundancy": "Yes",
@@ -378,11 +269,7 @@
         "risk_factor": "High",
         "switch_dependency": true,
         "resilience_penalty": 0.3,
-        "CVE": [
-            "CVE-2013-1935",
-            "CVE-2013-2224",
-            "CVE-2013-2188"
-        ],
+        "CVE": ["CVE-2013-1935", "CVE-2013-2224", "CVE-2013-2188"],
         "CVE_NVD": {
             "CVE-2013-1935": 5.7,
             "CVE-2013-2224": 6.9,
@@ -393,13 +280,8 @@
         "node_id": "N00507",
         "node_name": "Server_Rack_Server_7",
         "node_type": "Server",
-        "critical_functions": [
-            "F12",
-            "F14"
-        ],
-        "connected_to": [
-            "N20002"
-        ],
+        "critical_functions": ["F12", "F14"],
+        "connected_to": ["N20002"],
         "critical_data_stored": true,
         "backup_role": "Primary",
         "data_redundancy": "Yes",
@@ -407,9 +289,7 @@
         "risk_factor": "High",
         "switch_dependency": true,
         "resilience_penalty": 0.3,
-        "CVE": [
-            "CVE-2015-7833"
-        ],
+        "CVE": ["CVE-2015-7833"],
         "CVE_NVD": {
             "CVE-2015-7833": 4.9
         }
@@ -418,12 +298,8 @@
         "node_id": "N00508",
         "node_name": "Server_Rack_Server_8",
         "node_type": "Server",
-        "critical_functions": [
-            "F15"
-        ],
-        "connected_to": [
-            "N20002"
-        ],
+        "critical_functions": ["F15"],
+        "connected_to": ["N20002"],
         "critical_data_stored": true,
         "backup_role": "Primary",
         "data_redundancy": "Yes",
@@ -431,9 +307,7 @@
         "risk_factor": "High",
         "switch_dependency": true,
         "resilience_penalty": 0.3,
-        "CVE": [
-            "CVE-2015-7833"
-        ],
+        "CVE": ["CVE-2015-7833"],
         "CVE_NVD": {
             "CVE-2015-7833": 4.9
         }
@@ -442,14 +316,8 @@
         "node_id": "N00509",
         "node_name": "Server_Rack_Server_9",
         "node_type": "Server",
-        "critical_functions": [
-            "F04",
-            "F09",
-            "F12"
-        ],
-        "connected_to": [
-            "N20002"
-        ],
+        "critical_functions": ["F04", "F09", "F12"],
+        "connected_to": ["N20002"],
         "critical_data_stored": true,
         "backup_role": "Primary",
         "data_redundancy": "Yes",
@@ -457,9 +325,7 @@
         "risk_factor": "High",
         "switch_dependency": true,
         "resilience_penalty": 0.3,
-        "CVE": [
-            "CVE-2015-7833"
-        ],
+        "CVE": ["CVE-2015-7833"],
         "CVE_NVD": {
             "CVE-2015-7833": 4.9
         }
@@ -468,12 +334,8 @@
         "node_id": "N00510",
         "node_name": "Server_Rack_Server_10",
         "node_type": "Server",
-        "critical_functions": [
-            "F07"
-        ],
-        "connected_to": [
-            "N20002"
-        ],
+        "critical_functions": ["F07"],
+        "connected_to": ["N20002"],
         "critical_data_stored": true,
         "backup_role": "Primary",
         "data_redundancy": "Yes",
@@ -481,9 +343,7 @@
         "risk_factor": "High",
         "switch_dependency": true,
         "resilience_penalty": 0.3,
-        "CVE": [
-            "CVE-2015-7833"
-        ],
+        "CVE": ["CVE-2015-7833"],
         "CVE_NVD": {
             "CVE-2015-7833": 4.9
         }
@@ -492,12 +352,8 @@
         "node_id": "N00511",
         "node_name": "Server_Rack_Server_11",
         "node_type": "Server",
-        "critical_functions": [
-            "F02"
-        ],
-        "connected_to": [
-            "N20002"
-        ],
+        "critical_functions": ["F02"],
+        "connected_to": ["N20002"],
         "critical_data_stored": true,
         "backup_role": "Primary",
         "data_redundancy": "Yes",
@@ -505,14 +361,8 @@
         "risk_factor": "High",
         "switch_dependency": true,
         "resilience_penalty": 0.3,
-        "CVE": [
-            "CVE-2017-8543",
-            "CVE-2014-0301",
-            "CVE-2014-0323",
-            "CVE-2014-0315",
-            "CVE-2013-5058",
-            "CVE-2013-5056"
-        ],
+        "CVE": ["CVE-2017-8543", "CVE-2014-0301", "CVE-2014-0323",
+                "CVE-2014-0315", "CVE-2013-5058", "CVE-2013-5056"],
         "CVE_NVD": {
             "CVE-2017-8543": 9.8,
             "CVE-2014-0301": 9.3,
@@ -526,12 +376,8 @@
         "node_id": "N00512",
         "node_name": "Server_Rack_Server_12",
         "node_type": "Server",
-        "critical_functions": [
-            "F10"
-        ],
-        "connected_to": [
-            "N20002"
-        ],
+        "critical_functions": ["F10"],
+        "connected_to": ["N20002"],
         "critical_data_stored": true,
         "backup_role": "Primary",
         "data_redundancy": "Yes",
@@ -539,14 +385,8 @@
         "risk_factor": "High",
         "switch_dependency": true,
         "resilience_penalty": 0.3,
-        "CVE": [
-            "CVE-2017-8543",
-            "CVE-2014-0301",
-            "CVE-2014-0323",
-            "CVE-2014-0315",
-            "CVE-2013-5058",
-            "CVE-2013-5056"
-        ],
+        "CVE": ["CVE-2017-8543", "CVE-2014-0301", "CVE-2014-0323",
+                "CVE-2014-0315", "CVE-2013-5058", "CVE-2013-5056"],
         "CVE_NVD": {
             "CVE-2017-8543": 9.8,
             "CVE-2014-0301": 9.3,
@@ -560,14 +400,8 @@
         "node_id": "N00611",
         "node_name": "Engineering_Production_SAN_1",
         "node_type": "SAN",
-        "critical_functions": [
-            "F01",
-            "F02",
-            "F03"
-        ],
-        "connected_to": [
-            "N20003"
-        ],
+        "critical_functions": ["F01", "F02", "F03"],
+        "connected_to": ["N20003"],
         "critical_data_stored": true,
         "backup_role": "Primary",
         "data_redundancy": "Yes",
@@ -575,11 +409,7 @@
         "risk_factor": "Medium",
         "switch_dependency": true,
         "resilience_penalty": 0.2,
-        "CVE": [
-            "CVE-2012-2697",
-            "CVE-2012-3440",
-            "CVE-2010-0727"
-        ],
+        "CVE": ["CVE-2012-2697", "CVE-2012-3440", "CVE-2010-0727"],
         "CVE_NVD": {
             "CVE-2012-2697": 4.9,
             "CVE-2012-3440": 5.6,
@@ -590,14 +420,8 @@
         "node_id": "N00612",
         "node_name": "Engineering_Production_SAN_Archive_1",
         "node_type": "SAN Archive",
-        "critical_functions": [
-            "F01",
-            "F02",
-            "F03"
-        ],
-        "connected_to": [
-            "N20004"
-        ],
+        "critical_functions": ["F01", "F02", "F03"],
+        "connected_to": ["N20004"],
         "critical_data_stored": true,
         "backup_role": "Secondary",
         "data_redundancy": "Yes",
@@ -605,9 +429,7 @@
         "risk_factor": "Medium",
         "switch_dependency": true,
         "resilience_penalty": 0.2,
-        "CVE": [
-            "CVE-2015-7833"
-        ],
+        "CVE": ["CVE-2015-7833"],
         "CVE_NVD": {
             "CVE-2015-7833": 4.9
         }
@@ -616,12 +438,8 @@
         "node_id": "N00613",
         "node_name": "Engineering_Production_SAN_Archive_1_Backup",
         "node_type": "SAN Archive Backup",
-        "critical_functions": [
-            "F07"
-        ],
-        "connected_to": [
-            "N20004"
-        ],
+        "critical_functions": ["F07"],
+        "connected_to": ["N20004"],
         "critical_data_stored": true,
         "backup_role": "Secondary",
         "data_redundancy": "Yes",
@@ -629,9 +447,7 @@
         "risk_factor": "Medium",
         "switch_dependency": true,
         "resilience_penalty": 0.2,
-        "CVE": [
-            "CVE-2015-7833"
-        ],
+        "CVE": ["CVE-2015-7833"],
         "CVE_NVD": {
             "CVE-2015-7833": 4.9
         }
@@ -640,14 +456,8 @@
         "node_id": "N00621",
         "node_name": "Engineering_Production_SAN_2",
         "node_type": "SAN",
-        "critical_functions": [
-            "F01",
-            "F02",
-            "F03"
-        ],
-        "connected_to": [
-            "N20003"
-        ],
+        "critical_functions": ["F01", "F02", "F03"],
+        "connected_to": ["N20003"],
         "critical_data_stored": true,
         "backup_role": "Primary",
         "data_redundancy": "Yes",
@@ -655,9 +465,7 @@
         "risk_factor": "Medium",
         "switch_dependency": true,
         "resilience_penalty": 0.2,
-        "CVE": [
-            "CVE-2015-7833"
-        ],
+        "CVE": ["CVE-2015-7833"],
         "CVE_NVD": {
             "CVE-2015-7833": 4.9
         }
@@ -666,14 +474,8 @@
         "node_id": "N00622",
         "node_name": "Engineering_Production_SAN_Archive_2",
         "node_type": "SAN Archive",
-        "critical_functions": [
-            "F01",
-            "F02",
-            "F03"
-        ],
-        "connected_to": [
-            "N20004"
-        ],
+        "critical_functions": ["F01", "F02", "F03"],
+        "connected_to": ["N20004"],
         "critical_data_stored": true,
         "backup_role": "Secondary",
         "data_redundancy": "Yes",
@@ -681,9 +483,7 @@
         "risk_factor": "Medium",
         "switch_dependency": true,
         "resilience_penalty": 0.2,
-        "CVE": [
-            "CVE-2015-7833"
-        ],
+        "CVE": ["CVE-2015-7833"],
         "CVE_NVD": {
             "CVE-2015-7833": 4.9
         }
@@ -692,12 +492,8 @@
         "node_id": "N00623",
         "node_name": "Engineering_Production_SAN_Archive_2_Backup",
         "node_type": "SAN Archive Backup",
-        "critical_functions": [
-            "F07"
-        ],
-        "connected_to": [
-            "N20004"
-        ],
+        "critical_functions": ["F07"],
+        "connected_to": ["N20004"],
         "critical_data_stored": true,
         "backup_role": "Secondary",
         "data_redundancy": "Yes",
@@ -705,9 +501,7 @@
         "risk_factor": "Medium",
         "switch_dependency": true,
         "resilience_penalty": 0.2,
-        "CVE": [
-            "CVE-2015-7833"
-        ],
+        "CVE": ["CVE-2015-7833"],
         "CVE_NVD": {
             "CVE-2015-7833": 4.9
         }
@@ -716,12 +510,8 @@
         "node_id": "N00631",
         "node_name": "Engineering_Production_SAN_3",
         "node_type": "SAN",
-        "critical_functions": [
-            "F07"
-        ],
-        "connected_to": [
-            "N20003"
-        ],
+        "critical_functions": ["F07"],
+        "connected_to": ["N20003"],
         "critical_data_stored": true,
         "backup_role": "Primary",
         "data_redundancy": "Yes",
@@ -729,9 +519,7 @@
         "risk_factor": "Medium",
         "switch_dependency": true,
         "resilience_penalty": 0.2,
-        "CVE": [
-            "CVE-2015-7833"
-        ],
+        "CVE": ["CVE-2015-7833"],
         "CVE_NVD": {
             "CVE-2015-7833": 4.9
         }
@@ -740,14 +528,8 @@
         "node_id": "N00701",
         "node_name": "Test_SAN",
         "node_type": "SAN",
-        "critical_functions": [
-            "F04",
-            "F08",
-            "F09"
-        ],
-        "connected_to": [
-            "N20003"
-        ],
+        "critical_functions": ["F04", "F08", "F09"],
+        "connected_to": ["N20003"],
         "critical_data_stored": true,
         "backup_role": "Primary",
         "data_redundancy": "Yes",
@@ -755,9 +537,7 @@
         "risk_factor": "Medium",
         "switch_dependency": true,
         "resilience_penalty": 0.2,
-        "CVE": [
-            "CVE-2015-7833"
-        ],
+        "CVE": ["CVE-2015-7833"],
         "CVE_NVD": {
             "CVE-2015-7833": 4.9
         }
@@ -766,14 +546,8 @@
         "node_id": "N00702",
         "node_name": "Test_SAN_Archive",
         "node_type": "SAN Archive",
-        "critical_functions": [
-            "F04",
-            "F08",
-            "F09"
-        ],
-        "connected_to": [
-            "N20005"
-        ],
+        "critical_functions": ["F04", "F08", "F09"],
+        "connected_to": ["N20005"],
         "critical_data_stored": true,
         "backup_role": "Secondary",
         "data_redundancy": "Yes",
@@ -781,9 +555,7 @@
         "risk_factor": "Medium",
         "switch_dependency": true,
         "resilience_penalty": 0.2,
-        "CVE": [
-            "CVE-2015-7833"
-        ],
+        "CVE": ["CVE-2015-7833"],
         "CVE_NVD": {
             "CVE-2015-7833": 4.9
         }
@@ -792,12 +564,8 @@
         "node_id": "N00703",
         "node_name": "Test_SAN_Archive_Backup",
         "node_type": "SAN Archive Backup",
-        "critical_functions": [
-            "F08"
-        ],
-        "connected_to": [
-            "N20005"
-        ],
+        "critical_functions": ["F08"],
+        "connected_to": ["N20005"],
         "critical_data_stored": true,
         "backup_role": "Secondary",
         "data_redundancy": "Yes",
@@ -805,26 +573,18 @@
         "risk_factor": "Medium",
         "switch_dependency": true,
         "resilience_penalty": 0.2,
-        "CVE": [
-            "CVE-2015-7833"
-        ],
+        "CVE": ["CVE-2015-7833"],
         "CVE_NVD": {
             "CVE-2015-7833": 4.9
         }
+        
     },
     {
         "node_id": "N00801",
         "node_name": "Company_Management_SAN",
         "node_type": "SAN",
-        "critical_functions": [
-            "F10",
-            "F13",
-            "F14",
-            "F15"
-        ],
-        "connected_to": [
-            "N20003"
-        ],
+        "critical_functions": ["F10", "F13", "F14", "F15"],
+        "connected_to": ["N20003"],
         "critical_data_stored": true,
         "backup_role": "Primary",
         "data_redundancy": "Yes",
@@ -832,30 +592,19 @@
         "risk_factor": "High",
         "switch_dependency": true,
         "resilience_penalty": 0.3,
-        "CVE": [
-            "CVE-2012-2697",
-            "CVE-2012-3440",
-            "CVE-2010-0727"
-        ],
+        "CVE": ["CVE-2012-2697", "CVE-2012-3440", "CVE-2010-0727"],
         "CVE_NVD": {
             "CVE-2012-2697": 4.9,
             "CVE-2012-3440": 5.6,
             "CVE-2010-0727": 4.9
-        }
+        }        
     },
     {
         "node_id": "N00802",
         "node_name": "Company_Management_SAN_Archive",
         "node_type": "SAN Archive",
-        "critical_functions": [
-            "F10",
-            "F13",
-            "F14",
-            "F15"
-        ],
-        "connected_to": [
-            "N20006"
-        ],
+        "critical_functions": ["F10", "F13", "F14", "F15"],
+        "connected_to": ["N20006"],
         "critical_data_stored": true,
         "backup_role": "Primary",
         "data_redundancy": "Yes",
@@ -863,26 +612,18 @@
         "risk_factor": "High",
         "switch_dependency": true,
         "resilience_penalty": 0.2,
-        "CVE": [
-            "CVE-2015-7833"
-        ],
+        "CVE": ["CVE-2015-7833"],
         "CVE_NVD": {
             "CVE-2015-7833": 4.9
         }
+        
     },
     {
         "node_id": "N00803",
         "node_name": "Company_Management_SAN_Archive_Backup",
         "node_type": "SAN Archive Backup",
-        "critical_functions": [
-            "F10",
-            "F13",
-            "F14",
-            "F15"
-        ],
-        "connected_to": [
-            "N20006"
-        ],
+        "critical_functions": ["F10", "F13", "F14", "F15"],
+        "connected_to": ["N20006"],
         "critical_data_stored": true,
         "backup_role": "Secondary",
         "data_redundancy": "Yes",
@@ -890,9 +631,7 @@
         "risk_factor": "Medium",
         "switch_dependency": true,
         "resilience_penalty": 0.2,
-        "CVE": [
-            "CVE-2015-7833"
-        ],
+        "CVE": ["CVE-2015-7833"],
         "CVE_NVD": {
             "CVE-2015-7833": 4.9
         }
@@ -901,13 +640,8 @@
         "node_id": "N10601",
         "node_name": "Engineering_Production_Workstation_1",
         "node_type": "Workstation",
-        "critical_functions": [
-            "F01",
-            "F02"
-        ],
-        "connected_to": [
-            "N20002"
-        ],
+        "critical_functions": ["F01", "F02"],
+        "connected_to": ["N20002"],
         "critical_data_stored": false,
         "backup_role": null,
         "data_redundancy": "No",
@@ -915,16 +649,11 @@
         "risk_factor": "Medium",
         "switch_dependency": true,
         "resilience_penalty": 0.1,
-        "CVE": [
-            "CVE-2023-47804",
-            "CVE-2022-37401",
-            "CVE-2021-33035",
-            "CVE-2020-13958",
-            "CVE-2017-12607",
-            "CVE-2013-1935",
-            "CVE-2013-2224",
-            "CVE-2013-2188"
-        ],
+        "CVE": ["CVE-2023-47804", "CVE-2022-37401",
+                "CVE-2021-33035", "CVE-2020-13958",
+                "CVE-2017-12607", "CVE-2013-1935",
+                "CVE-2013-2224", "CVE-2013-2188"
+                ],
         "CVE_NVD": {
             "CVE-2023-47804": 8.8,
             "CVE-2022-37401": 8.8,
@@ -940,12 +669,8 @@
         "node_id": "N10602",
         "node_name": "Engineering_Production_Workstation_2",
         "node_type": "Workstation",
-        "critical_functions": [
-            "F03"
-        ],
-        "connected_to": [
-            "N20002"
-        ],
+        "critical_functions": ["F03"],
+        "connected_to": ["N20002"],
         "critical_data_stored": false,
         "backup_role": null,
         "data_redundancy": "No",
@@ -953,16 +678,11 @@
         "risk_factor": "Medium",
         "switch_dependency": true,
         "resilience_penalty": 0.1,
-        "CVE": [
-            "CVE-2023-47804",
-            "CVE-2022-37401",
-            "CVE-2021-33035",
-            "CVE-2020-13958",
-            "CVE-2017-12607",
-            "CVE-2013-1935",
-            "CVE-2013-2224",
-            "CVE-2013-2188"
-        ],
+        "CVE": ["CVE-2023-47804", "CVE-2022-37401",
+                "CVE-2021-33035", "CVE-2020-13958",
+                "CVE-2017-12607", "CVE-2013-1935",
+                "CVE-2013-2224", "CVE-2013-2188"
+                ],
         "CVE_NVD": {
             "CVE-2023-47804": 8.8,
             "CVE-2022-37401": 8.8,
@@ -978,13 +698,8 @@
         "node_id": "N10603",
         "node_name": "Engineering_Production_Workstation_3",
         "node_type": "Workstation",
-        "critical_functions": [
-            "F02",
-            "F07"
-        ],
-        "connected_to": [
-            "N20002"
-        ],
+        "critical_functions": ["F02", "F07"],
+        "connected_to": ["N20002"],
         "critical_data_stored": false,
         "backup_role": null,
         "data_redundancy": "No",
@@ -992,16 +707,11 @@
         "risk_factor": "Medium",
         "switch_dependency": true,
         "resilience_penalty": 0.1,
-        "CVE": [
-            "CVE-2023-47804",
-            "CVE-2022-37401",
-            "CVE-2021-33035",
-            "CVE-2020-13958",
-            "CVE-2017-12607",
-            "CVE-2013-1935",
-            "CVE-2013-2224",
-            "CVE-2013-2188"
-        ],
+        "CVE": ["CVE-2023-47804", "CVE-2022-37401",
+                "CVE-2021-33035", "CVE-2020-13958",
+                "CVE-2017-12607", "CVE-2013-1935",
+                "CVE-2013-2224", "CVE-2013-2188"
+                ],
         "CVE_NVD": {
             "CVE-2023-47804": 8.8,
             "CVE-2022-37401": 8.8,
@@ -1017,13 +727,8 @@
         "node_id": "N10604",
         "node_name": "Engineering_Production_Workstation_4",
         "node_type": "Workstation",
-        "critical_functions": [
-            "F07",
-            "F11"
-        ],
-        "connected_to": [
-            "N20002"
-        ],
+        "critical_functions": ["F07", "F11"],
+        "connected_to": ["N20002"],
         "critical_data_stored": false,
         "backup_role": null,
         "data_redundancy": "No",
@@ -1031,16 +736,11 @@
         "risk_factor": "Medium",
         "switch_dependency": true,
         "resilience_penalty": 0.1,
-        "CVE": [
-            "CVE-2023-47804",
-            "CVE-2022-37401",
-            "CVE-2021-33035",
-            "CVE-2020-13958",
-            "CVE-2017-12607",
-            "CVE-2013-1935",
-            "CVE-2013-2224",
-            "CVE-2013-2188"
-        ],
+        "CVE": ["CVE-2023-47804", "CVE-2022-37401",
+                "CVE-2021-33035", "CVE-2020-13958",
+                "CVE-2017-12607", "CVE-2013-1935",
+                "CVE-2013-2224", "CVE-2013-2188"
+                ],
         "CVE_NVD": {
             "CVE-2023-47804": 8.8,
             "CVE-2022-37401": 8.8,
@@ -1056,13 +756,8 @@
         "node_id": "N10605",
         "node_name": "Engineering_Production_Workstation_5",
         "node_type": "Workstation",
-        "critical_functions": [
-            "F02",
-            "F07"
-        ],
-        "connected_to": [
-            "N20002"
-        ],
+        "critical_functions": ["F02", "F07"],
+        "connected_to": ["N20002"],
         "critical_data_stored": false,
         "backup_role": null,
         "data_redundancy": "No",
@@ -1070,16 +765,11 @@
         "risk_factor": "Medium",
         "switch_dependency": true,
         "resilience_penalty": 0.1,
-        "CVE": [
-            "CVE-2023-47804",
-            "CVE-2022-37401",
-            "CVE-2021-33035",
-            "CVE-2020-13958",
-            "CVE-2017-12607",
-            "CVE-2013-1935",
-            "CVE-2013-2224",
-            "CVE-2013-2188"
-        ],
+        "CVE": ["CVE-2023-47804", "CVE-2022-37401",
+                "CVE-2021-33035", "CVE-2020-13958",
+                "CVE-2017-12607", "CVE-2013-1935",
+                "CVE-2013-2224", "CVE-2013-2188"
+                ],
         "CVE_NVD": {
             "CVE-2023-47804": 8.8,
             "CVE-2022-37401": 8.8,
@@ -1095,12 +785,8 @@
         "node_id": "N10701",
         "node_name": "Test_Engineering_Laptop_1",
         "node_type": "Workstation",
-        "critical_functions": [
-            "F04"
-        ],
-        "connected_to": [
-            "N20003"
-        ],
+        "critical_functions": ["F04"],
+        "connected_to": ["N20003"],
         "critical_data_stored": false,
         "backup_role": null,
         "data_redundancy": "No",
@@ -1108,16 +794,10 @@
         "risk_factor": "Medium",
         "switch_dependency": true,
         "resilience_penalty": 0.1,
-        "CVE": [
-            "CVE-2012-2697",
-            "CVE-2012-3440",
-            "CVE-2010-0727",
-            "CVE-2023-47804",
-            "CVE-2022-37401",
-            "CVE-2021-33035",
-            "CVE-2020-13958",
-            "CVE-2017-12607"
-        ],
+        "CVE": ["CVE-2012-2697", "CVE-2012-3440",
+                "CVE-2010-0727", "CVE-2023-47804",
+                "CVE-2022-37401", "CVE-2021-33035",
+                "CVE-2020-13958", "CVE-2017-12607"],
         "CVE_NVD": {
             "CVE-2012-2697": 4.9,
             "CVE-2012-3440": 5.6,
@@ -1133,13 +813,8 @@
         "node_id": "N10702",
         "node_name": "Test_Engineering_Laptop_2",
         "node_type": "Workstation",
-        "critical_functions": [
-            "F08",
-            "F09"
-        ],
-        "connected_to": [
-            "N20003"
-        ],
+        "critical_functions": ["F08", "F09"],
+        "connected_to": ["N20003"],
         "critical_data_stored": false,
         "backup_role": null,
         "data_redundancy": "No",
@@ -1147,16 +822,10 @@
         "risk_factor": "Medium",
         "switch_dependency": true,
         "resilience_penalty": 0.1,
-        "CVE": [
-            "CVE-2012-2697",
-            "CVE-2012-3440",
-            "CVE-2010-0727",
-            "CVE-2023-47804",
-            "CVE-2022-37401",
-            "CVE-2021-33035",
-            "CVE-2020-13958",
-            "CVE-2017-12607"
-        ],
+        "CVE": ["CVE-2012-2697", "CVE-2012-3440",
+                "CVE-2010-0727", "CVE-2023-47804",
+                "CVE-2022-37401", "CVE-2021-33035",
+                "CVE-2020-13958", "CVE-2017-12607"],
         "CVE_NVD": {
             "CVE-2012-2697": 4.9,
             "CVE-2012-3440": 5.6,
@@ -1172,15 +841,8 @@
         "node_id": "N10801",
         "node_name": "Company_Management_Workstation_5",
         "node_type": "Workstation",
-        "critical_functions": [
-            "F10",
-            "F13",
-            "F14",
-            "F15"
-        ],
-        "connected_to": [
-            "N20003"
-        ],
+        "critical_functions": ["F10", "F13", "F14" , "F15"],
+        "connected_to": ["N20003"],
         "critical_data_stored": false,
         "backup_role": null,
         "data_redundancy": "No",
@@ -1188,16 +850,11 @@
         "risk_factor": "Medium",
         "switch_dependency": true,
         "resilience_penalty": 0.1,
-        "CVE": [
-            "CVE-2023-47804",
-            "CVE-2022-37401",
-            "CVE-2021-33035",
-            "CVE-2020-13958",
-            "CVE-2017-12607",
-            "CVE-2013-1935",
-            "CVE-2013-2224",
-            "CVE-2013-2188"
-        ],
+        "CVE": ["CVE-2023-47804", "CVE-2022-37401",
+                "CVE-2021-33035", "CVE-2020-13958", 
+                "CVE-2017-12607", "CVE-2013-1935",
+                "CVE-2013-2224", "CVE-2013-2188"
+                ],
         "CVE_NVD": {
             "CVE-2023-47804": 8.8,
             "CVE-2022-37401": 8.8,
@@ -1213,12 +870,8 @@
         "node_id": "N10802",
         "node_name": "Company_Management_Workstation_6",
         "node_type": "Workstation",
-        "critical_functions": [
-            "F13"
-        ],
-        "connected_to": [
-            "N20003"
-        ],
+        "critical_functions": ["F13"],
+        "connected_to": ["N20003"],
         "critical_data_stored": false,
         "backup_role": null,
         "data_redundancy": "No",
@@ -1226,16 +879,11 @@
         "risk_factor": "Medium",
         "switch_dependency": true,
         "resilience_penalty": 0.1,
-        "CVE": [
-            "CVE-2023-47804",
-            "CVE-2022-37401",
-            "CVE-2021-33035",
-            "CVE-2020-13958",
-            "CVE-2017-12607",
-            "CVE-2013-1935",
-            "CVE-2013-2224",
-            "CVE-2013-2188"
-        ],
+        "CVE": ["CVE-2023-47804", "CVE-2022-37401",
+                "CVE-2021-33035", "CVE-2020-13958", 
+                "CVE-2017-12607", "CVE-2013-1935",
+                "CVE-2013-2224", "CVE-2013-2188"
+                ],
         "CVE_NVD": {
             "CVE-2023-47804": 8.8,
             "CVE-2022-37401": 8.8,
@@ -1245,19 +893,14 @@
             "CVE-2013-1935": 5.7,
             "CVE-2013-2224": 6.9,
             "CVE-2013-2188": 4.7
-        }
+        }       
     },
     {
         "node_id": "N40000",
         "node_name": "Firewall",
         "node_type": "Firewall",
-        "critical_functions": [
-            "F16",
-            "F18"
-        ],
-        "connected_to": [
-            "N30000"
-        ],
+        "critical_functions": ["F16", "F18"],
+        "connected_to": ["N30000"],
         "critical_data_stored": false,
         "backup_role": null,
         "data_redundancy": "No",
@@ -1265,15 +908,10 @@
         "risk_factor": "High",
         "switch_dependency": true,
         "resilience_penalty": 0.2,
-        "CVE": [
-            "CVE-2023-20269",
-            "CVE-2023-20256",
-            "CVE-2023-20247",
-            "CVE-2023-20200",
-            "CVE-2023-20095",
-            "CVE-2023-20015",
-            "CVE-2023-20934"
-        ],
+        "CVE": ["CVE-2023-20269", "CVE-2023-20256",
+                "CVE-2023-20247", "CVE-2023-20200", 
+                "CVE-2023-20095", "CVE-2023-20015", 
+                "CVE-2023-20934"],
         "CVE_NVD": {
             "CVE-2023-20269": 9.1,
             "CVE-2023-20256": 5.8,
@@ -1288,16 +926,8 @@
         "node_id": "N30000",
         "node_name": "Router",
         "node_type": "Router",
-        "critical_functions": [
-            "F16",
-            "F18"
-        ],
-        "connected_to": [
-            "N20001",
-            "N20002",
-            "N20004",
-            "N40000"
-        ],
+        "critical_functions": ["F16", "F18"],
+        "connected_to": ["N20001", "N20002", "N20004", "N40000"],
         "critical_data_stored": false,
         "backup_role": null,
         "data_redundancy": "No",
@@ -1305,13 +935,9 @@
         "risk_factor": "High",
         "switch_dependency": true,
         "resilience_penalty": 0.2,
-        "CVE": [
-            "CVE-2018-0284",
-            "CVE-2014-7999",
-            "CVE-2014-7993",
-            "CVE-2014-7994",
-            "CVE-2014-7995"
-        ],
+        "CVE": ["CVE-2018-0284", "CVE-2014-7999", "CVE-2014-7993",
+                "CVE-2014-7994", "CVE-2014-7995"
+            ],
         "CVE_NVD": {
             "CVE-2018-0284": 6.5,
             "CVE-2014-7999": 7.7,
@@ -1324,19 +950,11 @@
         "node_id": "N20001",
         "node_name": "Ethernet_Switch_1",
         "node_type": "Switch",
-        "critical_functions": [
-            "F16"
-        ],
+        "critical_functions": ["F16"],
         "connected_to": [
-            "N30000",
-            "N00100",
-            "N00200",
-            "N00201",
-            "N00300",
-            "N00301",
-            "N00400",
-            "N00401"
-        ],
+            "N30000", "N00100", "N00200", "N00201",
+            "N00300", "N00301", "N00400", "N00401"
+            ],
         "critical_data_stored": false,
         "backup_role": null,
         "data_redundancy": "No",
@@ -1344,12 +962,8 @@
         "risk_factor": "High",
         "switch_dependency": true,
         "resilience_penalty": 0.2,
-        "CVE": [
-            "CVE-2016-6473",
-            "CVE-2017-6606",
-            "CVE-2017-3803",
-            "CVE-2016-1425"
-        ],
+        "CVE": ["CVE-2016-6473", "CVE-2017-6606",
+                "CVE-2017-3803", "CVE-2016-1425"],
         "CVE_NVD": {
             "CVE-2016-6473": 6.5,
             "CVE-2017-6606": 6.4,
@@ -1361,29 +975,14 @@
         "node_id": "N20002",
         "node_name": "Ethernet_Switch_2",
         "node_type": "Switch",
-        "critical_functions": [
-            "F16"
-        ],
+        "critical_functions": ["F16"],
         "connected_to": [
-            "N30000",
-            "N00501",
-            "N00502",
-            "N00503",
-            "N00504",
-            "N00505",
-            "N00506",
-            "N00507",
-            "N00508",
-            "N00509",
-            "N00510",
-            "N00511",
-            "N00512",
-            "N10601",
-            "N10602",
-            "N10603",
-            "N10604",
-            "N20003"
-        ],
+            "N30000", "N00501", "N00502", "N00503",
+            "N00504", "N00505", "N00506", "N00507",
+            "N00508", "N00509", "N00510", "N00511",
+            "N00512", "N10601", "N10602", "N10603",
+            "N10604", "N20003"
+            ],
         "critical_data_stored": false,
         "backup_role": null,
         "data_redundancy": "No",
@@ -1391,12 +990,8 @@
         "risk_factor": "High",
         "switch_dependency": true,
         "resilience_penalty": 0.2,
-        "CVE": [
-            "CVE-2016-6473",
-            "CVE-2017-6606",
-            "CVE-2017-3803",
-            "CVE-2016-1425"
-        ],
+        "CVE": ["CVE-2016-6473", "CVE-2017-6606",
+                "CVE-2017-3803", "CVE-2016-1425"],
         "CVE_NVD": {
             "CVE-2016-6473": 6.5,
             "CVE-2017-6606": 6.4,
@@ -1408,21 +1003,11 @@
         "node_id": "N20003",
         "node_name": "Ethernet_Switch_3",
         "node_type": "Switch",
-        "critical_functions": [
-            "F16"
-        ],
+        "critical_functions": ["F16"],
         "connected_to": [
-            "N20002",
-            "N00611",
-            "N00621",
-            "N00631",
-            "N00701",
-            "N00801",
-            "N10701",
-            "N10702",
-            "N10801",
-            "N10802"
-        ],
+            "N20002", "N00611", "N00621", "N00631",
+            "N00701", "N00801", "N10701", "N10702",
+            "N10801", "N10802"],
         "critical_data_stored": false,
         "backup_role": null,
         "data_redundancy": "No",
@@ -1430,12 +1015,8 @@
         "risk_factor": "High",
         "switch_dependency": true,
         "resilience_penalty": 0.2,
-        "CVE": [
-            "CVE-2016-6473",
-            "CVE-2017-6606",
-            "CVE-2017-3803",
-            "CVE-2016-1425"
-        ],
+        "CVE": ["CVE-2016-6473", "CVE-2017-6606",
+                "CVE-2017-3803", "CVE-2016-1425"],
         "CVE_NVD": {
             "CVE-2016-6473": 6.5,
             "CVE-2017-6606": 6.4,
@@ -1447,30 +1028,20 @@
         "node_id": "N20004",
         "node_name": "Ethernet_Switch_4",
         "node_type": "Switch",
-        "critical_functions": [
-            "F16"
-        ],
+        "critical_functions": ["F16"],
         "connected_to": [
-            "N30000",
-            "N00612",
-            "N00613",
-            "N00622",
-            "N00623",
-            "N20005"
-        ],
-        "critical_data_stored": false,
+            "N30000", "N00612", "N00613",
+            "N00622", "N00623", "N20005"
+            ],
+            "critical_data_stored": false,
         "backup_role": null,
         "data_redundancy": "No",
         "redundancy": false,
         "risk_factor": "High",
         "switch_dependency": true,
         "resilience_penalty": 0.2,
-        "CVE": [
-            "CVE-2016-6473",
-            "CVE-2017-6606",
-            "CVE-2017-3803",
-            "CVE-2016-1425"
-        ],
+        "CVE": ["CVE-2016-6473", "CVE-2017-6606",
+                "CVE-2017-3803", "CVE-2016-1425"],
         "CVE_NVD": {
             "CVE-2016-6473": 6.5,
             "CVE-2017-6606": 6.4,
@@ -1482,15 +1053,8 @@
         "node_id": "N20005",
         "node_name": "Ethernet_Switch_5",
         "node_type": "Switch",
-        "critical_functions": [
-            "F16"
-        ],
-        "connected_to": [
-            "N20004",
-            "N00702",
-            "N00703",
-            "N20006"
-        ],
+        "critical_functions": ["F16"],
+        "connected_to": ["N20004", "N00702", "N00703", "N20006"],
         "critical_data_stored": false,
         "backup_role": null,
         "data_redundancy": "No",
@@ -1498,12 +1062,8 @@
         "risk_factor": "High",
         "switch_dependency": true,
         "resilience_penalty": 0.2,
-        "CVE": [
-            "CVE-2016-6473",
-            "CVE-2017-6606",
-            "CVE-2017-3803",
-            "CVE-2016-1425"
-        ],
+        "CVE": ["CVE-2016-6473", "CVE-2017-6606",
+                "CVE-2017-3803", "CVE-2016-1425"],
         "CVE_NVD": {
             "CVE-2016-6473": 6.5,
             "CVE-2017-6606": 6.4,
@@ -1515,15 +1075,8 @@
         "node_id": "N20006",
         "node_name": "Ethernet_Switch_6",
         "node_type": "Switch",
-        "critical_functions": [
-            "F16"
-        ],
-        "connected_to": [
-            "N20005",
-            "N00302",
-            "N00802",
-            "N00803"
-        ],
+        "critical_functions": ["F16"],
+        "connected_to": ["N20005", "N00302", "N00802", "N00803"],
         "critical_data_stored": false,
         "backup_role": null,
         "data_redundancy": "No",
@@ -1531,12 +1084,8 @@
         "risk_factor": "High",
         "switch_dependency": true,
         "resilience_penalty": 0.2,
-        "CVE": [
-            "CVE-2016-6473",
-            "CVE-2017-6606",
-            "CVE-2017-3803",
-            "CVE-2016-1425"
-        ],
+        "CVE": ["CVE-2016-6473", "CVE-2017-6606",
+                "CVE-2017-3803", "CVE-2016-1425"],
         "CVE_NVD": {
             "CVE-2016-6473": 6.5,
             "CVE-2017-6606": 6.4,

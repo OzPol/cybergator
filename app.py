@@ -17,6 +17,7 @@ from app.views.dash_setup import get_main_layout
 import app.views.callbacks.auth_callbacks
 from app.controllers.graph_controller import graph_bp
 from app.views.callbacks.graph_callbacks import register_graph_callbacks
+from app.views.callbacks.system_tables_callbacks import register_system_tables_callbacks
 
 
 load_dotenv()
@@ -42,7 +43,8 @@ dash_app.layout = get_main_layout()
 atexit.register(close_pool)
 atexit.register(close_neo4j_connection)
 
-register_graph_callbacks(dash_app) 
+register_graph_callbacks(dash_app)
+register_system_tables_callbacks(dash_app)
 
 # Run Flask & Dash
 if __name__ == "__main__":
