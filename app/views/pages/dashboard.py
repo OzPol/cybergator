@@ -5,5 +5,4 @@ def dashboard(session_user):
     return html.Div(
         html.H1(f"Welcome {session_user}! You are logged in."),
         id="page-content",
- 
     )

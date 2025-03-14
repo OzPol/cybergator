@@ -4,8 +4,7 @@ from app.views.pages.auth_layouts import get_auth_layout
 from app.views.pages.sidebar import sidebar
 from app.views.pages.homepage import homepage_layout
 from app.views.pages.sue_graph_layout import sue_graph_layout
-from app.views.pages.system_tables import system_tables
-from app.views.pages.dahsboard import dashboard
+from app.views.pages.dashboard import dashboard
 from app.views.pages.banner import banner
 from app.views.callbacks.sue_graph_callbacks import fetch_data
 from app.views.pages.network_graph import graph_layout
@@ -50,6 +49,8 @@ def render_page_content(pathname, session_user):
     elif pathname == "/system-tables/nodes":
         return nodes_table_layout()
 
+
+    
     return html.H1("404 - Page Not Found", className="text-center")
 
 
@@ -66,6 +67,7 @@ def get_main_layout():
 @callback(Output("page-content", "children"), [Input("url", "pathname"), State("session-user", "data")])
 def update_page(pathname, session_user):
     return render_page_content(pathname, session_user)
+
 
 @callback(Output("banner-container", "children"), [Input("session-user", "data")])
 def update_banner(session_user):
