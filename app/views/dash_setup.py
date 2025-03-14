@@ -4,13 +4,14 @@ from app.views.pages.auth_layouts import get_auth_layout
 from app.views.pages.sidebar import sidebar
 from app.views.pages.homepage import homepage_layout
 from app.views.pages.sue_graph_layout import sue_graph_layout
-from app.views.pages.system_tables import system_tables
-from app.views.pages.dahsboard import dashboard
+from app.views.pages.dashboard import dashboard
 from app.views.pages.banner import banner
 from app.views.callbacks.sue_graph_callbacks import fetch_data
 from app.views.pages.network_graph import graph_layout
 from app.views.callbacks.graph_callbacks import register_graph_callbacks
-
+from app.views.pages.system_tables import system_tables_layout
+from app.views.pages.cves_table import cves_table_layout
+from app.views.pages.nodes_table import nodes_table_layout
 
 def render_page_content(pathname, session_user):
     """Dynamically updates the content area based on the session"""
@@ -42,11 +43,16 @@ def render_page_content(pathname, session_user):
     elif pathname == "/system-graph":
         return graph_layout()
     elif pathname == "/system-tables":
-        return system_tables()
+        return system_tables_layout()
+    elif pathname == "/system-tables/cves":
+        return cves_table_layout()
+    elif pathname == "/system-tables/nodes":
+        return nodes_table_layout()
+
+
     
     return html.H1("404 - Page Not Found", className="text-center")
 
-    
 
 def get_main_layout():
     return html.Div([

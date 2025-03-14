@@ -13,7 +13,7 @@ def sidebar(session_user=None):
         nav_items.append(dbc.NavLink("Login/Register", href="/auth", active="exact", style={"color": "white"}))
     
     # If session_user exists, add the extra links
-    if session_user:
+    if session_user:        
         extra_links = [
             dbc.NavLink("System Tables", href="/system-tables", active="exact", style={"color": "white"}),
             dbc.NavLink("System Graph", href="/system-graph", active="exact", style={"color": "white"}),
@@ -25,6 +25,14 @@ def sidebar(session_user=None):
         ]
         # Append extra links to the nav_items list
         nav_items.extend(extra_links)
+        
+        # ADD RESILIENCE SCORE DISPLAY
+        nav_items.append(
+            html.Div(
+                id="system-resilience-score",
+                style={"color": "yellow", "textAlign": "center", "marginTop": "20px", "fontSize": "18px"}
+            )
+        )
 
     return html.Div(
         [
