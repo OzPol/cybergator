@@ -18,6 +18,10 @@ import app.views.callbacks.auth_callbacks
 from app.controllers.graph_controller import graph_bp
 from app.views.callbacks.graph_callbacks import register_graph_callbacks
 from app.views.callbacks.system_tables_callbacks import register_system_tables_callbacks
+import app.views.callbacks.resilience_callbacks
+from app.controllers.resilience_controller import resilience_bp
+from app.views.callbacks.resilience_callbacks import register_resilience_callbacks
+# from app.views.callbacks.resilience_callbacks import update_resilience_score
 
 
 load_dotenv()
@@ -35,6 +39,7 @@ CORS(flask_app, resources={r"/api/*": {"origins": "*"}})
 flask_app.register_blueprint(auth_bp, url_prefix="/api/auth")
 flask_app.register_blueprint(sue_bp, url_prefix="/api/sue-graph")
 flask_app.register_blueprint(graph_bp, url_prefix="/api/graph")
+flask_app.register_blueprint(resilience_bp, url_prefix="/api/resilience")
 
 # Dash configs
 dash_app = Dash(__name__, server=flask_app, url_base_pathname="/", suppress_callback_exceptions=True, external_stylesheets=[dbc.themes.BOOTSTRAP])
@@ -45,6 +50,7 @@ atexit.register(close_neo4j_connection)
 
 register_graph_callbacks(dash_app)
 register_system_tables_callbacks(dash_app)
+register_resilience_callbacks(dash_app)  # Register the resilience score callback
 
 # Run Flask & Dash
 if __name__ == "__main__":

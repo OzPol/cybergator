@@ -1,0 +1,252 @@
+[
+    {
+        "node_id": "N00100",
+        "node_name": "System_Administrator_Terminal",
+        "resilience_score": 8.16547
+    },
+    {
+        "node_id": "N00200",
+        "node_name": "Virtualization_Manager_Server",
+        "resilience_score": 3.70836
+    },
+    {
+        "node_id": "N00201",
+        "node_name": "Virtualization_Manager_SAN",
+        "resilience_score": 3.72462
+    },
+    {
+        "node_id": "N00300",
+        "node_name": "Cybersecurity_Capability_Tools_Server",
+        "resilience_score": 5.72214
+    },
+    {
+        "node_id": "N00301",
+        "node_name": "Cybersecurity_Capability_Tools_SAN_Archive",
+        "resilience_score": 7.9988
+    },
+    {
+        "node_id": "N00302",
+        "node_name": "Cybersecurity_Capability_Tools_SAN_Archive_Backup",
+        "resilience_score": 7.99914
+    },
+    {
+        "node_id": "N00400",
+        "node_name": "Audit_Log_Server",
+        "resilience_score": 8.00214
+    },
+    {
+        "node_id": "N00401",
+        "node_name": "Audit_Log_SAN_Archive",
+        "resilience_score": 7.9988
+    },
+    {
+        "node_id": "N00501",
+        "node_name": "Server_Rack_Server_1",
+        "resilience_score": 3.47786
+    },
+    {
+        "node_id": "N00502",
+        "node_name": "Server_Rack_Server_2",
+        "resilience_score": 6.70186
+    },
+    {
+        "node_id": "N00503",
+        "node_name": "Server_Rack_Server_3",
+        "resilience_score": 7.09602
+    },
+    {
+        "node_id": "N00504",
+        "node_name": "Server_Rack_Server_4",
+        "resilience_score": 2.84913
+    },
+    {
+        "node_id": "N00505",
+        "node_name": "Server_Rack_Server_5",
+        "resilience_score": 7.75256
+    },
+    {
+        "node_id": "N00506",
+        "node_name": "Server_Rack_Server_6",
+        "resilience_score": 9.38322
+    },
+    {
+        "node_id": "N00507",
+        "node_name": "Server_Rack_Server_7",
+        "resilience_score": 5.96414
+    },
+    {
+        "node_id": "N00508",
+        "node_name": "Server_Rack_Server_8",
+        "resilience_score": 18.05843
+    },
+    {
+        "node_id": "N00509",
+        "node_name": "Server_Rack_Server_9",
+        "resilience_score": 2.85803
+    },
+    {
+        "node_id": "N00510",
+        "node_name": "Server_Rack_Server_10",
+        "resilience_score": 7.09602
+    },
+    {
+        "node_id": "N00511",
+        "node_name": "Server_Rack_Server_11",
+        "resilience_score": 79.35552
+    },
+    {
+        "node_id": "N00512",
+        "node_name": "Server_Rack_Server_12",
+        "resilience_score": 14.75102
+    },
+    {
+        "node_id": "N00611",
+        "node_name": "Engineering_Production_SAN_1",
+        "resilience_score": 3.44252
+    },
+    {
+        "node_id": "N00612",
+        "node_name": "Engineering_Production_SAN_Archive_1",
+        "resilience_score": 3.60171
+    },
+    {
+        "node_id": "N00613",
+        "node_name": "Engineering_Production_SAN_Archive_1_Backup",
+        "resilience_score": 7.09381
+    },
+    {
+        "node_id": "N00621",
+        "node_name": "Engineering_Production_SAN_2",
+        "resilience_score": 3.60161
+    },
+    {
+        "node_id": "N00622",
+        "node_name": "Engineering_Production_SAN_Archive_2",
+        "resilience_score": 3.60171
+    },
+    {
+        "node_id": "N00623",
+        "node_name": "Engineering_Production_SAN_Archive_2_Backup",
+        "resilience_score": 7.09381
+    },
+    {
+        "node_id": "N00631",
+        "node_name": "Engineering_Production_SAN_3",
+        "resilience_score": 7.09362
+    },
+    {
+        "node_id": "N00701",
+        "node_name": "Test_SAN",
+        "resilience_score": 2.84815
+    },
+    {
+        "node_id": "N00702",
+        "node_name": "Test_SAN_Archive",
+        "resilience_score": 2.8483
+    },
+    {
+        "node_id": "N00703",
+        "node_name": "Test_SAN_Archive_Backup",
+        "resilience_score": 8.16704
+    },
+    {
+        "node_id": "N00801",
+        "node_name": "Company_Management_SAN",
+        "resilience_score": 4.95068
+    },
+    {
+        "node_id": "N00802",
+        "node_name": "Company_Management_SAN_Archive",
+        "resilience_score": 5.17686
+    },
+    {
+        "node_id": "N00803",
+        "node_name": "Company_Management_SAN_Archive_Backup",
+        "resilience_score": 5.17686
+    },
+    {
+        "node_id": "N10601",
+        "node_name": "Engineering_Production_Workstation_1",
+        "resilience_score": 5.44931
+    },
+    {
+        "node_id": "N10602",
+        "node_name": "Engineering_Production_Workstation_2",
+        "resilience_score": 5.515
+    },
+    {
+        "node_id": "N10603",
+        "node_name": "Engineering_Production_Workstation_3",
+        "resilience_score": 5.47121
+    },
+    {
+        "node_id": "N10604",
+        "node_name": "Engineering_Production_Workstation_4",
+        "resilience_score": 2.86195
+    },
+    {
+        "node_id": "N10605",
+        "node_name": "Engineering_Production_Workstation_5",
+        "resilience_score": 5.47121
+    },
+    {
+        "node_id": "N10701",
+        "node_name": "Test_Engineering_Laptop_1",
+        "resilience_score": 6.43887
+    },
+    {
+        "node_id": "N10702",
+        "node_name": "Test_Engineering_Laptop_2",
+        "resilience_score": 3.33432
+    },
+    {
+        "node_id": "N10801",
+        "node_name": "Company_Management_Workstation_5",
+        "resilience_score": 4.03025
+    },
+    {
+        "node_id": "N10802",
+        "node_name": "Company_Management_Workstation_6",
+        "resilience_score": 14.10419
+    },
+    {
+        "node_id": "N40000",
+        "node_name": "Firewall",
+        "resilience_score": 6.54513
+    },
+    {
+        "node_id": "N30000",
+        "node_name": "Router",
+        "resilience_score": 7.1079
+    },
+    {
+        "node_id": "N20001",
+        "node_name": "Ethernet_Switch_1",
+        "resilience_score": 13.51053
+    },
+    {
+        "node_id": "N20002",
+        "node_name": "Ethernet_Switch_2",
+        "resilience_score": 13.16083
+    },
+    {
+        "node_id": "N20003",
+        "node_name": "Ethernet_Switch_3",
+        "resilience_score": 13.44635
+    },
+    {
+        "node_id": "N20004",
+        "node_name": "Ethernet_Switch_4",
+        "resilience_score": 13.5714
+    },
+    {
+        "node_id": "N20005",
+        "node_name": "Ethernet_Switch_5",
+        "resilience_score": 13.63534
+    },
+    {
+        "node_id": "N20006",
+        "node_name": "Ethernet_Switch_6",
+        "resilience_score": 13.63667
+    }
+]
