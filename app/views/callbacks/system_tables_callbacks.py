@@ -44,7 +44,11 @@ def register_system_tables_callbacks(app):
 
     # Callback to add a new CVE entry
     @app.callback(
-        Output("cves-table", "data"),
+        [Output("cves-table", "data"),
+        Output("new-cve-id", "value"),
+        Output("new-nvd-score", "value"),
+        Output("new-node-id", "value"),
+        Output("new-node-name", "value")],
         Input("add-cve-btn", "n_clicks"),
         [State("new-cve-id", "value"),
         State("new-nvd-score", "value"),
@@ -55,8 +59,10 @@ def register_system_tables_callbacks(app):
     )
     def add_new_cve(n_clicks, cve_id, nvd_score, node_id, node_name, existing_data):
         """Adds a new CVE entry dynamically."""
-        if not cve_id or not nvd_score or not node_id or not node_name:
-            return existing_data  # No update if any field is missing
+        # No update if any field is missing
+        if not all([cve_id, nvd_score, node_id, node_name]):
+            print("Missing input fields")  # Debugging
+            return existing_data, "", "", "", ""
 
         # Append new CVE to the table
         new_entry = {
@@ -64,10 +70,10 @@ def register_system_tables_callbacks(app):
             "NVD Score": nvd_score,
             "Node ID": node_id,
             "Node Name": node_name,
+            "Remove": "❌"
         }
         existing_data.append(new_entry)
 
-        # Update JSON file
         nodes_data = get_nodes()
         for node in nodes_data:
             if node["node_id"] == node_id:
@@ -80,4 +86,4 @@ def register_system_tables_callbacks(app):
                 node["CVE_NVD"][cve_id] = nvd_score
 
         save_nodes_data(nodes_data)
-        return existing_data    
+        return existing_data, "", "", "", ""  
