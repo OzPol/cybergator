@@ -53,10 +53,11 @@ def cves_table_layout():
         html.H4("Add New CVE", className="text-center mt-4"),
         dbc.Row([
             dbc.Col(dcc.Input(id="new-cve-id", type="text", placeholder="CVE ID"), width=3),
-            dbc.Col(dcc.Input(id="new-nvd-score", type="number", placeholder="NVD Score"), width=2),
             dbc.Col(dcc.Input(id="new-node-id", type="text", placeholder="Node ID"), width=3),
-            dbc.Col(dcc.Input(id="new-node-name", type="text", placeholder="Node Name"), width=3),
             dbc.Col(dbc.Button("Add CVE", id="add-cve-btn", color="success"), width=1),
         ], className="mt-2"),
+        
+        # Display error messages
+        html.Div(id="error-message", className="text-danger mt-2 text-center"),
 
     ], fluid=True)
