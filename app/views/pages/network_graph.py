@@ -16,7 +16,7 @@ def graph_layout():
     # Graph Layout Page
     return html.Div([
         html.H3("System Graph", className="text-center"),
-        html.Button("Refresh Graph", id="refresh-graph-btn", n_clicks=0, className="btn btn-primary"),
+        html.Button("Refresh Graph", id="refresh-graph-btn", n_clicks=1, className="btn btn-primary"),
         dcc.Loading(
             id="loading-graph",
             type="circle",

@@ -29,8 +29,24 @@ def sidebar(session_user=None):
         # ADD RESILIENCE SCORE DISPLAY
         nav_items.append(
             html.Div(
-                id="system-resilience-score",
-                style={"color": "yellow", "textAlign": "center", "marginTop": "20px", "fontSize": "18px"}
+                [
+                    # html.H5("System Resiliency Score", style={"color": "white", "textAlign": "center", "marginBottom": "5px"}),
+                    html.Div(
+                        id="system-resilience-score",
+                        style={
+                            "color": "black",
+                            "backgroundColor": "#f07b10",
+                            "textAlign": "center",
+                            "padding": "10px",
+                            "borderRadius": "10px",
+                            "fontSize": "20px",
+                            "fontWeight": "bold",
+                            "width": "80%",
+                            "margin": "0 auto",
+                        },
+                    )
+                ],
+                style={"marginTop": "20px", "padding": "10px"},
             )
         )
 

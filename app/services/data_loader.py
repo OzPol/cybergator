@@ -1,15 +1,23 @@
 import json
 import os
 import shutil  # For backup reset
+import pandas as pd
 
 # Path to JSON files
 DATA_PATH = os.path.join(os.path.dirname(__file__), "../data/json/")
 BACKUP_PATH = os.path.join(DATA_PATH, "..data/json/backup/")
+CSV_PATH = os.path.join(os.path.dirname(__file__), "../data/csv/")
 
 def load_json(filename):
     """Loads a JSON file from the data/json/ directory."""
     with open(os.path.join(DATA_PATH, filename), "r") as f:
         return json.load(f)
+
+def load_xlsx(filename):
+    """Loads an XLSX file and returns a list of dictionaries."""
+    filepath = os.path.join(CSV_PATH, filename)
+    df = pd.read_excel(filepath)  # Load the XLSX file into a DataFrame
+    return df.to_dict(orient="records")  # Convert DataFrame to a list of dictionaries
 
 # Functions to get specific data
 def get_nodes():
@@ -26,6 +34,9 @@ def get_critical_functions():
 
 def get_fuzzy_set():
     return load_json("Fuzzy_Set.json")
+
+def get_software_inventory():
+    return load_xlsx("software_inventory_nodes.xlsx")
 
 def save_nodes_data(updated_nodes):
     """Saves updated node data back to Nodes_Complete.json."""

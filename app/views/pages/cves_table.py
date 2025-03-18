@@ -25,6 +25,13 @@ def cves_table_layout():
     return dbc.Container([
         html.H3("CVEs Table", className="text-center mt-4"),
 
+        html.Div(
+            dcc.Link(
+                dbc.Button("Go to System Tables", color="primary", className="mb-3"),
+                href="/system-tables"
+            )
+        ),
+
         # CVE Search Bar
         dcc.Input(id="cve-search", type="text", placeholder="Search CVEs...", debounce=True),
 

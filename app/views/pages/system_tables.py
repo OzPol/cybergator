@@ -31,5 +31,19 @@ def system_tables_layout():
                 ), width=6, className="mb-3"
             ),
         ], className="justify-content-center"),
+
+         dbc.Row([
+            dbc.Col(
+                dbc.Card(
+                    dbc.CardBody([
+                        html.H5("Software Nodes", className="card-title"),
+                        html.P("List of software nodes and their details.", className="card-text"),
+                        dbc.Button("View Table", href="/system-tables/software-nodes", color="primary"),  
+                    ]),
+                    className="shadow-sm p-3 mb-4 bg-white rounded",
+                    style={"width": "100%", "textAlign": "center"}
+                ), width=6, className="mb-3"
+            ),
+        ], className="justify-content-center"),
     ], fluid=True) 
 

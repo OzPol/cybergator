@@ -33,6 +33,13 @@ def nodes_table_layout():
     return dbc.Container([
         html.H3("Nodes Table", className="text-center mt-4"),
 
+        html.Div(
+            dcc.Link(
+                dbc.Button("Go to System Tables", color="primary", className="mb-3"),
+                href="/system-tables"
+            )
+        ),
+
         # Search Bar for Live Filtering
         dcc.Input(id="node-search", type="text", placeholder="Search Nodes...", debounce=True),
 

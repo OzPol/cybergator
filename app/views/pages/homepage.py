@@ -8,7 +8,7 @@ def homepage_layout():
             dbc.Row([  
                 dbc.Col([  
                     html.H2("Introduction", className="section-title mb-2 text-center"),
-                    html.P("This introduces our work and describes the project in detail - filler filler filler filler",
+                    html.P("This introduces our work and describes the project in detail",
                            className="mb-5 text-center")
                 ], width=12)
             ], className="mt-4 mb-5"),  
