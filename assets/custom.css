@@ -75,6 +75,24 @@ body {
   margin: 0 auto;
 }
 
+/* Custom class for the Resilience Score column */
+.resilience-score-col {
+  text-align: center;
+  padding-left: 10px;
+  position: absolute;
+  left: 10px;
+  top: 30px;
+  font-size: 23px;
+}
+
+/* Custom class for the Resilience Score text */
+.resilience-score-text {
+  color: white;
+  font-weight: bold;
+  font-size: 23px;
+  white-space: nowrap;
+}
+
 .team-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
