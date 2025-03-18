@@ -34,7 +34,7 @@ body {
 /* Card container styling */
 .team-card-img {
   width: 100%;
-  height: 200px; /* Fixed height - adjust as needed */
+  height: 300px; /* Fixed height - adjust as needed */
   object-fit: cover; /* This maintains aspect ratio while filling container */
   object-position: center 22%;
 }
