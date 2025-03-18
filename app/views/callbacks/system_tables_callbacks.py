@@ -44,73 +44,103 @@ def register_system_tables_callbacks(app):
                 html.P("This will show the full CVEs table.")
             ])
         return html.Div("Select a table to view its contents.")
-
-    # Callback to add a new CVE entry
+    
     @app.callback(
         [Output("cves-table", "data"),
-        Output("new-cve-id", "value"),
-        Output("new-node-id", "value"),
-        Output("error-message", "children")],
-        Input("add-cve-btn", "n_clicks"),
+         Output("new-cve-id", "value"),
+         Output("new-node-id", "value"),
+         Output("error-message", "children")],
+        [Input("add-cve-btn", "n_clicks"),
+         Input("cves-table", "active_cell")],  # Handle both add & remove
         [State("new-cve-id", "value"),
-        State("new-node-id", "value"),
-        State("cves-table", "data")],
+         State("new-node-id", "value"),
+         State("cves-table", "data"),
+         State("cves-table", "derived_viewport_data")],
         prevent_initial_call=True
     )
-    def add_new_cve(n_clicks, cve_id, node_id, existing_data):
-        """
-            Adds a new CVE entry dynamically.
-            CVE ids are validated and scores are pulled dynamically from the NVD database api. 
-        """
+    def modify_cve_table(n_clicks, active_cell, cve_id, node_id, cve_data, derived_viewport_data):
+        """Handles adding and removing CVEs."""
         
-        # No update if any field is missing
-        if not all([cve_id, node_id]):
-            return existing_data, "", "", "❌ Missing required fields!"
-        
-        # Fetch CVE details from Flask API
-        api_url = f"{API_BASE_URL}/{cve_id}"
-        try:
-            response = requests.get(api_url)
-            if response.status_code != 200:
-                return existing_data, "", node_id, f"❌ No data found for {cve_id}!"
+        triggered_id = ctx.triggered_id
+        nvd_score = ""
+
+        if triggered_id == "add-cve-btn":
+            # Adding a new CVE
+            if not all([cve_id, node_id]):
+                return cve_data, "", "", "❌ Missing required fields!"
             
-            cve_data = response.json()
-            nvd_score = cve_data.get("NVD Score", "N/A")
-            cve_id = cve_data.get("CVE ID")
+            api_url = f"{API_BASE_URL}/{cve_id}"
+            try:
+                response = requests.get(api_url)
+                if response.status_code != 200:
+                    return cve_data, "", node_id, f"❌ No data found for CVE {cve_id}!"
 
-        except requests.exceptions.RequestException as e:
-            return existing_data, "", "", f"❌ Error fetching CVE: {str(e)}"
-
-        nodes_data = get_nodes()
-        node_name = None
-        node_found = False
-        
-        for node in nodes_data:
-            if node["node_id"] == node_id:
-                node_name = node["node_name"]
-                node_found = True
                 
-                if "CVE" not in node:
-                    node["CVE"] = []
-                if "CVE_NVD" not in node:
-                    node["CVE_NVD"] = {}
+                cve_data_response = response.json()
+                nvd_score = cve_data_response.get("NVD Score", "N/A")
+                cve_id = cve_data_response.get("CVE ID")
 
-                node["CVE"].append(cve_id)
-                node["CVE_NVD"][cve_id] = nvd_score
-                break
-           
-        if not node_found:
-            return existing_data, cve_id, "", f"❌ No node found with ID {node_id}!"
+            except requests.exceptions.RequestException as e:
+                return cve_data, "", "", f"❌ API Error fetching CVE: {str(e)}"
+
+            nodes_data = get_nodes()
+            node_name = None
+            node_found = False
+
+            for node in nodes_data:
+                if node["node_id"] == node_id:
+                    node_name = node["node_name"]
+                    node_found = True
+
+                    if "CVE" not in node:
+                        node["CVE"] = []
+                    if "CVE_NVD" not in node:
+                        node["CVE_NVD"] = {}
+
+                    node["CVE"].append(cve_id)
+                    node["CVE_NVD"][cve_id] = nvd_score
+                    break
             
-        # Append new CVE to the table
-        new_entry = {
-            "CVE ID": cve_id,
-            "NVD Score": nvd_score,
-            "Node ID": node_id,
-            "Node Name": node_name,
-            "Remove": "❌"
-        }
-        existing_data.append(new_entry)
+            if not node_found:
+                return cve_data, cve_id, "", f"❌ No node found with ID {node_id}!"
 
-        save_nodes_data(nodes_data)
-        return existing_data, "", "", no_update
+            new_entry = {
+                "CVE ID": cve_id,
+                "NVD Score": nvd_score,
+                "Node ID": node_id,
+                "Node Name": node_name,
+                "Remove": "❌"
+            }
+            cve_data.append(new_entry)
+
+            save_nodes_data(nodes_data)  # Save to JSON
+            return cve_data, "", "", ""
+
+        elif triggered_id == "cves-table":
+            # Removing a CVE
+            if not active_cell or active_cell["column_id"] != "Remove":
+                return no_update, no_update, no_update, no_update  # Ignore clicks outside "Remove" column
+
+            row_idx = active_cell.get("row")
+            selected_cve = derived_viewport_data[row_idx]
+
+            cve_to_remove = selected_cve["CVE ID"]
+            node_id_to_remove = selected_cve["Node ID"]
+
+            nodes_data = get_nodes()
+            for node in nodes_data:
+                if node["node_id"] == node_id_to_remove:
+                    if cve_to_remove in node.get("CVE", []):
+                        node["CVE"].remove(cve_to_remove)
+                        node["CVE_NVD"].pop(cve_to_remove, None)
+                    break
+
+
+            save_nodes_data(nodes_data)
+
+            # Remove from UI table correctly
+            cve_data = [entry for entry in cve_data if entry["CVE ID"] != cve_to_remove]
+
+            return cve_data, "", "", f"{cve_to_remove} removed from {node_id_to_remove}!"
+
+        return no_update, no_update, no_update, no_update  
