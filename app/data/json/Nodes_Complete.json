@@ -126,8 +126,8 @@
     },
     {
         "node_id": "N00301",
-        "node_name": "Cybersecurity_Capability_Tools_SAN_Archive",
-        "node_type": "SAN Archive",
+        "node_name": "Cybersecurity_Capability_Tools_SAN",
+        "node_type": "SAN",
         "critical_functions": [
             "F05",
             "F06"
@@ -151,6 +151,31 @@
     },
     {
         "node_id": "N00302",
+        "node_name": "Cybersecurity_Capability_Tools_SAN_Archive",
+        "node_type": "SAN Archive",
+        "critical_functions": [
+            "F05",
+            "F06"
+        ],
+        "connected_to": [
+            "N20006"
+        ],
+        "critical_data_stored": true,
+        "backup_role": "Secondary",
+        "data_redundancy": "Yes",
+        "redundancy": true,
+        "risk_factor": "Medium",
+        "switch_dependency": true,
+        "resilience_penalty": 0.2,
+        "CVE": [
+            "CVE-2015-7833"
+        ],
+        "CVE_NVD": {
+            "CVE-2015-7833": 4.9
+        }
+    },
+    {
+        "node_id": "N00303",
         "node_name": "Cybersecurity_Capability_Tools_SAN_Archive_Backup",
         "node_type": "SAN Archive Backup",
         "critical_functions": [
