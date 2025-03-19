@@ -1195,7 +1195,7 @@
     },
     {
         "node_id": "N10801",
-        "node_name": "Company_Management_Workstation_5",
+        "node_name": "Company_Management_Workstation_6",
         "node_type": "Workstation",
         "critical_functions": [
             "F10",
@@ -1236,7 +1236,7 @@
     },
     {
         "node_id": "N10802",
-        "node_name": "Company_Management_Workstation_6",
+        "node_name": "Company_Management_Workstation_7",
         "node_type": "Workstation",
         "critical_functions": [
             "F13"
