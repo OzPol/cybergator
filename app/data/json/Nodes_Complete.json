@@ -251,7 +251,7 @@
     },
     {
         "node_id": "N00501",
-        "node_name": "Server_Rack_Server_1",
+        "node_name": "Server_SR1",
         "node_type": "Server",
         "critical_functions": [
             "F01",
@@ -280,7 +280,7 @@
     },
     {
         "node_id": "N00502",
-        "node_name": "Server_Rack_Server_2",
+        "node_name": "Server_SR2",
         "node_type": "Server",
         "critical_functions": [
             "F01",
@@ -309,7 +309,7 @@
     },
     {
         "node_id": "N00503",
-        "node_name": "Server_Rack_Server_3",
+        "node_name": "Server_SR3",
         "node_type": "Server",
         "critical_functions": [
             "F07"
@@ -333,7 +333,7 @@
     },
     {
         "node_id": "N00504",
-        "node_name": "Server_Rack_Server_4",
+        "node_name": "Server_SR4",
         "node_type": "Server",
         "critical_functions": [
             "F04",
@@ -359,7 +359,7 @@
     },
     {
         "node_id": "N00505",
-        "node_name": "Server_Rack_Server_5",
+        "node_name": "Server_SR5",
         "node_type": "Server",
         "critical_functions": [
             "F08"
@@ -387,7 +387,7 @@
     },
     {
         "node_id": "N00506",
-        "node_name": "Server_Rack_Server_6",
+        "node_name": "Server_SR6",
         "node_type": "Server",
         "critical_functions": [
             "F10",
@@ -416,7 +416,7 @@
     },
     {
         "node_id": "N00507",
-        "node_name": "Server_Rack_Server_7",
+        "node_name": "Server_SR7",
         "node_type": "Server",
         "critical_functions": [
             "F12",
@@ -441,7 +441,7 @@
     },
     {
         "node_id": "N00508",
-        "node_name": "Server_Rack_Server_8",
+        "node_name": "Server_SR8",
         "node_type": "Server",
         "critical_functions": [
             "F15"
@@ -465,7 +465,7 @@
     },
     {
         "node_id": "N00509",
-        "node_name": "Server_Rack_Server_9",
+        "node_name": "Server_SR9",
         "node_type": "Server",
         "critical_functions": [
             "F04",
@@ -491,7 +491,7 @@
     },
     {
         "node_id": "N00510",
-        "node_name": "Server_Rack_Server_10",
+        "node_name": "Server_SR10",
         "node_type": "Server",
         "critical_functions": [
             "F07"
@@ -515,7 +515,7 @@
     },
     {
         "node_id": "N00511",
-        "node_name": "Server_Rack_Server_11",
+        "node_name": "Server_SR11",
         "node_type": "Server",
         "critical_functions": [
             "F02"
@@ -549,7 +549,7 @@
     },
     {
         "node_id": "N00512",
-        "node_name": "Server_Rack_Server_12",
+        "node_name": "Server_SR12",
         "node_type": "Server",
         "critical_functions": [
             "F10"
