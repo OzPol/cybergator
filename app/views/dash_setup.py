@@ -12,6 +12,7 @@ from app.views.callbacks.graph_callbacks import register_graph_callbacks
 from app.views.pages.system_tables import system_tables_layout
 from app.views.pages.cves_table import cves_table_layout
 from app.views.pages.nodes_table import nodes_table_layout
+from app.views.pages.export_layout import export_layout
 
 def render_page_content(pathname, session_user):
     """Dynamically updates the content area based on the session"""
@@ -48,6 +49,9 @@ def render_page_content(pathname, session_user):
         return cves_table_layout()
     elif pathname == "/system-tables/nodes":
         return nodes_table_layout()
+    elif pathname == "/export":
+        return export_layout()  # This will call the layout for the export page.
+
 
 
     

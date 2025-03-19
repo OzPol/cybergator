@@ -12,6 +12,7 @@ from app.databases.neo4j_db import close_neo4j_connection
 
 from app.controllers.auth_controller import auth_bp
 from app.controllers.sue_graph_controller import sue_bp
+from app.controllers.cve_controller import cve_bp
 
 from app.views.dash_setup import get_main_layout
 import app.views.callbacks.auth_callbacks
@@ -40,6 +41,7 @@ flask_app.register_blueprint(auth_bp, url_prefix="/api/auth")
 flask_app.register_blueprint(sue_bp, url_prefix="/api/sue-graph")
 flask_app.register_blueprint(graph_bp, url_prefix="/api/graph")
 flask_app.register_blueprint(resilience_bp, url_prefix="/api/resilience")
+flask_app.register_blueprint(cve_bp, url_prefix="/api/cve")
 
 # Dash configs
 dash_app = Dash(__name__, server=flask_app, url_base_pathname="/", suppress_callback_exceptions=True, external_stylesheets=[dbc.themes.BOOTSTRAP])

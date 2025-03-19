@@ -25,13 +25,10 @@ def sidebar(session_user=None):
         ]
         # Append extra links to the nav_items list
         nav_items.extend(extra_links)
-        
-        # ADD RESILIENCE SCORE DISPLAY
+
+        # ADD EXPORT DATA BUTTON
         nav_items.append(
-            html.Div(
-                id="system-resilience-score",
-                style={"color": "yellow", "textAlign": "center", "marginTop": "20px", "fontSize": "18px"}
-            )
+            dbc.Button("Export Data", id="export-btn", color="primary", href="/export", style={"position": "absolute", "bottom": "20px", "width": "40%"})
         )
 
     return html.Div(
