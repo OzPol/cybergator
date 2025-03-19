@@ -226,8 +226,8 @@
     },
     {
         "node_id": "N00401",
-        "node_name": "Audit_Log_SAN_Archive",
-        "node_type": "SAN Archive",
+        "node_name": "Audit_Log_SAN",
+        "node_type": "SAN",
         "critical_functions": [
             "F05",
             "F06"
