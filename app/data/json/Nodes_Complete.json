@@ -126,8 +126,8 @@
     },
     {
         "node_id": "N00301",
-        "node_name": "Cybersecurity_Capability_Tools_SAN_Archive",
-        "node_type": "SAN Archive",
+        "node_name": "Cybersecurity_Capability_Tools_SAN",
+        "node_type": "SAN",
         "critical_functions": [
             "F05",
             "F06"
@@ -151,6 +151,31 @@
     },
     {
         "node_id": "N00302",
+        "node_name": "Cybersecurity_Capability_Tools_SAN_Archive",
+        "node_type": "SAN Archive",
+        "critical_functions": [
+            "F05",
+            "F06"
+        ],
+        "connected_to": [
+            "N20006"
+        ],
+        "critical_data_stored": true,
+        "backup_role": "Secondary",
+        "data_redundancy": "Yes",
+        "redundancy": true,
+        "risk_factor": "Medium",
+        "switch_dependency": true,
+        "resilience_penalty": 0.2,
+        "CVE": [
+            "CVE-2015-7833"
+        ],
+        "CVE_NVD": {
+            "CVE-2015-7833": 4.9
+        }
+    },
+    {
+        "node_id": "N00303",
         "node_name": "Cybersecurity_Capability_Tools_SAN_Archive_Backup",
         "node_type": "SAN Archive Backup",
         "critical_functions": [
@@ -201,8 +226,8 @@
     },
     {
         "node_id": "N00401",
-        "node_name": "Audit_Log_SAN_Archive",
-        "node_type": "SAN Archive",
+        "node_name": "Audit_Log_SAN",
+        "node_type": "SAN",
         "critical_functions": [
             "F05",
             "F06"
@@ -226,7 +251,7 @@
     },
     {
         "node_id": "N00501",
-        "node_name": "Server_Rack_Server_1",
+        "node_name": "Server_SR1",
         "node_type": "Server",
         "critical_functions": [
             "F01",
@@ -255,7 +280,7 @@
     },
     {
         "node_id": "N00502",
-        "node_name": "Server_Rack_Server_2",
+        "node_name": "Server_SR2",
         "node_type": "Server",
         "critical_functions": [
             "F01",
@@ -284,7 +309,7 @@
     },
     {
         "node_id": "N00503",
-        "node_name": "Server_Rack_Server_3",
+        "node_name": "Server_SR3",
         "node_type": "Server",
         "critical_functions": [
             "F07"
@@ -308,7 +333,7 @@
     },
     {
         "node_id": "N00504",
-        "node_name": "Server_Rack_Server_4",
+        "node_name": "Server_SR4",
         "node_type": "Server",
         "critical_functions": [
             "F04",
@@ -334,7 +359,7 @@
     },
     {
         "node_id": "N00505",
-        "node_name": "Server_Rack_Server_5",
+        "node_name": "Server_SR5",
         "node_type": "Server",
         "critical_functions": [
             "F08"
@@ -362,7 +387,7 @@
     },
     {
         "node_id": "N00506",
-        "node_name": "Server_Rack_Server_6",
+        "node_name": "Server_SR6",
         "node_type": "Server",
         "critical_functions": [
             "F10",
@@ -391,7 +416,7 @@
     },
     {
         "node_id": "N00507",
-        "node_name": "Server_Rack_Server_7",
+        "node_name": "Server_SR7",
         "node_type": "Server",
         "critical_functions": [
             "F12",
@@ -416,7 +441,7 @@
     },
     {
         "node_id": "N00508",
-        "node_name": "Server_Rack_Server_8",
+        "node_name": "Server_SR8",
         "node_type": "Server",
         "critical_functions": [
             "F15"
@@ -440,7 +465,7 @@
     },
     {
         "node_id": "N00509",
-        "node_name": "Server_Rack_Server_9",
+        "node_name": "Server_SR9",
         "node_type": "Server",
         "critical_functions": [
             "F04",
@@ -466,7 +491,7 @@
     },
     {
         "node_id": "N00510",
-        "node_name": "Server_Rack_Server_10",
+        "node_name": "Server_SR10",
         "node_type": "Server",
         "critical_functions": [
             "F07"
@@ -490,7 +515,7 @@
     },
     {
         "node_id": "N00511",
-        "node_name": "Server_Rack_Server_11",
+        "node_name": "Server_SR11",
         "node_type": "Server",
         "critical_functions": [
             "F02"
@@ -524,7 +549,7 @@
     },
     {
         "node_id": "N00512",
-        "node_name": "Server_Rack_Server_12",
+        "node_name": "Server_SR12",
         "node_type": "Server",
         "critical_functions": [
             "F10"
@@ -1170,7 +1195,7 @@
     },
     {
         "node_id": "N10801",
-        "node_name": "Company_Management_Workstation_5",
+        "node_name": "Company_Management_Workstation_6",
         "node_type": "Workstation",
         "critical_functions": [
             "F10",
@@ -1211,7 +1236,7 @@
     },
     {
         "node_id": "N10802",
-        "node_name": "Company_Management_Workstation_6",
+        "node_name": "Company_Management_Workstation_7",
         "node_type": "Workstation",
         "critical_functions": [
             "F13"
