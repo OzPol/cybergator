@@ -108,6 +108,65 @@ body {
   font-size: 1rem;
 }
 
+/* Environmental Risk Factors Page Styling */
+.environmental-container {
+  max-width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.risk-header-row {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.risk-factor-title {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.risk-factor-description {
+  font-size: 14px;
+  color: #666;
+}
+
+.remove-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  color: red;
+}
+
+.add-factor-btn {
+  width: 100%;
+  margin-top: 20px;
+}
+
+/* ✅ Make the Container Full Width */
+.full-page-container {
+    width: 100%;
+    max-width: 95%;
+    margin: auto;
+}
+
+/* ✅ Ensure the Rows Span Full Width */
+.full-width-row {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/* ✅ Adjust Sliders to Span More Space */
+.dcc-slider {
+    width: 100%;
+}
+
+/* ✅ Ensure Factor Cards Expand */
+#risk-factors-container {
+    width: 100%;
+}
+
 /* Ensure content aligns with sidebar edge */
 @media (min-width: 992px) {
   .row {
