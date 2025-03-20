@@ -12,6 +12,8 @@ from app.views.callbacks.graph_callbacks import register_graph_callbacks
 from app.views.pages.system_tables import system_tables_layout
 from app.views.pages.cves_table import cves_table_layout
 from app.views.pages.nodes_table import nodes_table_layout
+from app.views.pages.software_table import software_table_layout
+from app.views.pages.critical_functions_table import critical_function_layout
 from app.views.pages.export_layout import export_layout
 from app.views.pages.environmental_factors import environmental_factors_layout
 
@@ -22,14 +24,7 @@ def render_page_content(pathname, session_user):
             return dcc.Location(id="redirect-welcome", href="/welcome", refresh=True)
         return get_auth_layout()
     
-    # elif pathname == "/register":
-    #     if session_user:  # If user is logged in, redirect to the welcome page
-    #         return dcc.Location(id="redirect-welcome", href="/welcome", refresh=True)
-    #     return register_layout()
     elif pathname == "/welcome":
-        # if not session_user:  # If no session, redirect back to login
-        #     return dcc.Location(id="redirect-auth", href="/auth", refresh=True)
-        # return html.H1(f"Welcome {session_user}! You are logged in.")
         return homepage_layout()
     elif pathname == "/dashboard":
         if not session_user:
@@ -50,12 +45,14 @@ def render_page_content(pathname, session_user):
         return cves_table_layout()
     elif pathname == "/system-tables/nodes":
         return nodes_table_layout()
+    elif pathname == "/system-tables/software-nodes":
+        return software_table_layout()
+    elif pathname == "/system-tables/critical-functions":
+        return critical_function_layout()
     elif pathname == "/export":
         return export_layout()
     elif pathname == "/environmental-factors":
         return environmental_factors_layout()
-
-
 
     
     return html.H1("404 - Page Not Found", className="text-center")

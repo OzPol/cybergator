@@ -26,6 +26,7 @@ def sidebar(session_user=None):
         # Append extra links to the nav_items list
         nav_items.extend(extra_links)
 
+
         # ADD EXPORT DATA BUTTON
         nav_items.append(
             dbc.Button("Export Data", id="export-btn", color="primary", href="/export", style={"position": "absolute", "bottom": "20px", "width": "40%"})
