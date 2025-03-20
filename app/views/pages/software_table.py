@@ -1,4 +1,4 @@
-from dash import html, dcc
+from dash import html, dcc, dash_table
 import dash_bootstrap_components as dbc
 from app.services.data_loader import get_software_inventory
 
@@ -34,6 +34,13 @@ def software_table_layout():
 
     return dbc.Container([
         html.H3("Software Inventory Table", className="text-center mt-4"),
+
+        html.Div(
+            dcc.Link(
+                dbc.Button("Go to System Tables", color="primary", className="mb-3"),
+                href="/system-tables"
+            )
+        ),
 
         dcc.Input(id="software-search", type="text", placeholder="Search Software...", debounce=True),
 

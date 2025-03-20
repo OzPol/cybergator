@@ -13,6 +13,7 @@ from app.views.pages.system_tables import system_tables_layout
 from app.views.pages.cves_table import cves_table_layout
 from app.views.pages.nodes_table import nodes_table_layout
 from app.views.pages.software_table import software_table_layout
+from app.views.pages.critical_functions_table import critical_function_layout
 
 def render_page_content(pathname, session_user):
     """Dynamically updates the content area based on the session"""
@@ -51,6 +52,8 @@ def render_page_content(pathname, session_user):
         return nodes_table_layout()
     elif pathname == "/system-tables/software-nodes":
         return software_table_layout()
+    elif pathname == "/system-tables/critical-functions":
+        return critical_function_layout()
 
 
     
