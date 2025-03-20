@@ -15,11 +15,12 @@ def load_software_data():
             "Category": entry.get("category", ""),
             "Rack Name": entry.get("rack_name", ""),
             "Node ID": entry.get("node_id", ""),
-            "Node Name": entry.get("node_name", 0),
-            "Software ID": entry.get("software_id", 0),
-            "Software Make": entry.get("software_make", 0),
-            "Software Description": entry.get("software_description", 0),
-            "Software Version": entry.get("software_version", 0),
+            "Node Name": entry.get("node_name", ""),
+            "Is In Use": entry.get("is_in_use", ""),
+            "Software ID": entry.get("software_id", ""),
+            "Software Make": entry.get("software_make", ""),
+            "Software Description": entry.get("software_description", ""),
+            "Software Version": entry.get("software_version", ""),
             "Remove": "❌"
         }
         for entry in software_data
@@ -51,6 +52,7 @@ def software_table_layout():
                 {"name": "Rack Name", "id": "Rack Name"},
                 {"name": "Node ID", "id": "Node ID"},
                 {"name": "Node Name", "id": "Node Name", "editable": True},
+                {"name": "Is In Use", "id": "Is In Use"},
                 {"name": "Software ID", "id": "Software ID"},
                 {"name": "Software Make", "id": "Software Make"},
                 {"name": "Software Description", "id": "Software Description"},

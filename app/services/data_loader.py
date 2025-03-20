@@ -16,7 +16,7 @@ def load_json(filename):
 def load_xlsx(filename):
     """Loads an XLSX file and returns a list of dictionaries."""
     filepath = os.path.join(CSV_PATH, filename)
-    df = pd.read_excel(filepath)  # Load the XLSX file into a DataFrame
+    df = pd.read_csv(filepath)  # Load the CSV file into a DataFrame
     return df.to_dict(orient="records")  # Convert DataFrame to a list of dictionaries
 
 # Functions to get specific data
@@ -36,7 +36,7 @@ def get_fuzzy_set():
     return load_json("Fuzzy_Set.json")
 
 def get_software_inventory():
-    return load_xlsx("software_inventory_nodes.xlsx")
+    return load_xlsx("software_inventory.csv")
 
 def save_nodes_data(updated_nodes):
     """Saves updated node data back to Nodes_Complete.json."""
