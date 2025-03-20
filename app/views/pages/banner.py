@@ -1,7 +1,7 @@
 from dash import html
 import dash_bootstrap_components as dbc
 
-def banner(page_title="CyberGators", session_user=None):
+def banner(page_title="CyberGators", session_user=None, resilience_score=None):
     return html.Div([
         dbc.Row([
             # Left spacer to balance centering
@@ -12,6 +12,17 @@ def banner(page_title="CyberGators", session_user=None):
                 html.H1(page_title, className="banner-title"),
                 width=10,
                 style={"textAlign": "center", "flexGrow": 1}  # Keep title centered
+            ),
+
+            # Right Column for Resilience Score
+            dbc.Col(
+                html.Div(
+                    f"Resilience Score: {resilience_score}" if resilience_score else "Resilience Score: N/A",
+                    id="system-resilience-score",
+                    className="resilience-score-text"
+                ),
+                width=2,
+                className="resilience-score-col"  # Apply custom CSS class here
             ),
 
             # Right Column for Logout Button

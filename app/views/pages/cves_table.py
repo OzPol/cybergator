@@ -7,13 +7,13 @@ def load_cve_data():
     nodes_data = get_nodes()  # Load nodes from JSON
     cve_list = []
 
-    for node in nodes_data:
+    for idx, node in enumerate(nodes_data):
         for cve_id, nvd_score in node["CVE_NVD"].items():
             cve_list.append({
                 "CVE ID": cve_id,
                 "NVD Score": nvd_score,
-                "Node ID": node["node_id"],  # Include Node ID
-                "Node Name": node["node_name"],  # Include Node Name
+                "Node ID": node["node_id"],
+                "Node Name": node["node_name"],
                 "Remove": "❌"
             })
     return cve_list
@@ -52,9 +52,14 @@ def cves_table_layout():
             page_size=50,  # Display 50 CVEs per page
             style_table={"overflowX": "auto"},
             style_cell={"textAlign": "left"},
+            
+            derived_viewport_data=cve_data,
         ),
 
         html.Br(),
+        
+        # Display error messages
+        html.Div(id="error-message", className="text-danger mt-2 text-center"),
 
         # Add New CVE Section
         html.H4("Add New CVE", className="text-center mt-4"),
@@ -63,8 +68,5 @@ def cves_table_layout():
             dbc.Col(dcc.Input(id="new-node-id", type="text", placeholder="Node ID"), width=3),
             dbc.Col(dbc.Button("Add CVE", id="add-cve-btn", color="success"), width=1),
         ], className="mt-2"),
-        
-        # Display error messages
-        html.Div(id="error-message", className="text-danger mt-2 text-center"),
 
     ], fluid=True)
