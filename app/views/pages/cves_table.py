@@ -1,6 +1,7 @@
 from dash import html, dcc, dash_table
 import dash_bootstrap_components as dbc
 from app.services.data_loader import get_nodes  # Load data from Nodes_Complete.json
+from app.services.data_loader import get_all_nodes, get_all_software
 
 def load_cve_data():
     """Extract CVEs, their NVD scores, and affected nodes, fully flattened."""
@@ -19,9 +20,13 @@ def load_cve_data():
     return cve_list
 
 def cves_table_layout():
-    """Render the CVEs Table Page with Add Functionality."""
+    # Render the CVEs Table Page with Add Functionality.
     cve_data = load_cve_data()  # Fetch CVEs from Nodes_Complete.json
-
+    software_options = get_all_software()  # Get software list for dropdown
+    # Prepare dropdowns for makes and versions
+    software_make_options = [{"label": make, "value": make} for make in software_options.keys()]
+    
+    
     return dbc.Container([
         html.H3("CVEs Table", className="text-center mt-4"),
 
@@ -65,8 +70,23 @@ def cves_table_layout():
         html.H4("Add New CVE", className="text-center mt-4"),
         dbc.Row([
             dbc.Col(dcc.Input(id="new-cve-id", type="text", placeholder="CVE ID"), width=3),
-            dbc.Col(dcc.Input(id="new-node-id", type="text", placeholder="Node ID"), width=3),
-            dbc.Col(dbc.Button("Add CVE", id="add-cve-btn", color="success"), width=1),
-        ], className="mt-2"),
+            # Select NVD Score (Readonly, fetched automatically)
+            dbc.Col(dcc.Input(id="new-nvd-score", type="number", placeholder="NVD Score", disabled=True), width=3),
 
+            # Select Software Make
+            dbc.Col(dcc.Dropdown(
+                id="new-software-make",
+                options=software_make_options,
+                placeholder="Select Software Make",
+            ), width=3),
+
+            # Select Software Version (Filtered on Make)
+            dbc.Col(dcc.Dropdown(
+                id="new-software-version",
+                options=[],  # Will be populated dynamically
+                placeholder="Select Software Version",
+            ), width=3),
+            
+            dbc.Col(dbc.Button("Add CVE", id="add-cve-btn", color="success"), width=2),
+        ], className="mt-2"),
     ], fluid=True)

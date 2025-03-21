@@ -38,8 +38,37 @@ def get_fuzzy_set():
 def get_software_inventory():
     return load_xlsx("software_inventory.csv")
 
+def get_all_nodes():
+    # Returns node names and IDs formatted for Dash dropdowns.
+    nodes_data = get_nodes()
+    return [{"label": node["node_name"], "value": node["node_id"]} for node in nodes_data]
+
+def get_all_software():
+    # Load software inventory from CSV and return as a DataFrame.
+    filepath = os.path.join(CSV_PATH, "software_inventory.csv")
+    df = pd.read_csv(filepath)
+    
+# Return software grouped by Make → Versions for dropdowns.
+    # Remove duplicates to get unique software entries
+    unique_software = df[['software_make', 'software_description', 'software_version', 'software_id']].drop_duplicates()
+
+    # Group by software_make
+    software_options = {}
+    for _, row in unique_software.iterrows():
+        make = row["software_make"]
+        # version_label = f"{row['software_description']} ({row['software_version']})"
+        version_label = f"{row['software_version']}"
+        version_value = row["software_id"]
+
+        if make not in software_options:
+            software_options[make] = []
+
+        software_options[make].append({"label": version_label, "value": version_value})
+
+    return software_options
+
 def save_nodes_data(updated_nodes):
-    """Saves updated node data back to Nodes_Complete.json."""
+    # Saves updated node data back to Nodes_Complete.json.
     try:
         with open(os.path.join(DATA_PATH, "Nodes_Complete.json"), "w") as f:
             json.dump(updated_nodes, f, indent=4)

@@ -3,7 +3,10 @@ import dash
 import requests
 from app.views.pages.nodes_table import nodes_table_layout
 from app.views.pages.cves_table import cves_table_layout
-from app.services.data_loader import get_nodes, save_nodes_data
+from app.services.data_loader import (
+    get_nodes, save_nodes_data,
+    get_all_software, get_software_inventory
+)
 
 API_BASE_URL = "http://localhost:8000/api/cve"
 
@@ -11,119 +14,103 @@ def register_system_tables_callbacks(app):
     """Register callbacks to handle system table selection."""
 
     @app.callback(
-        Output("selected-table", "data"),  # Stores which table is selected
-        [Input("nodes-table-btn", "n_clicks"),
-        Input("cves-table-btn", "n_clicks")],
+        Output("selected-table", "data"),
+        [
+            Input("nodes-table-btn", "n_clicks"),
+            Input("cves-table-btn", "n_clicks")
+        ],
         prevent_initial_call=True
     )
     def select_table(nodes_clicks, cves_clicks):
-        """Updates selected table based on button clicked."""
         ctx = dash.callback_context
         if not ctx.triggered:
             return dash.no_update
-        
         triggered_id = ctx.triggered[0]["prop_id"].split(".")[0]
-        return triggered_id  # Stores selected table
+        return triggered_id
 
     @app.callback(
         Output("table-content", "children"),
         Input("selected-table", "data")
     )
     def update_table_content(selected_table):
-        """Loads table content dynamically."""
-        print(f" Updating table content for: {selected_table}") 
-        
+        print(f"Updating table content for: {selected_table}")
         if selected_table == "nodes-table-btn":
-            return html.Div([
-                html.H4("Nodes Table"),
-                html.P("This will show the full nodes table.")
-            ])
+            return nodes_table_layout()
         elif selected_table == "cves-table-btn":
-            return html.Div([
-                html.H4("CVEs Table"),
-                html.P("This will show the full CVEs table.")
-            ])
+            return cves_table_layout()
         return html.Div("Select a table to view its contents.")
-    
+
     @app.callback(
-        [Output("cves-table", "data"),
-         Output("new-cve-id", "value"),
-         Output("new-node-id", "value"),
-         Output("error-message", "children")],
-        [Input("add-cve-btn", "n_clicks"),
-         Input("cves-table", "active_cell")],  # Handle both add & remove
-        [State("new-cve-id", "value"),
-         State("new-node-id", "value"),
-         State("cves-table", "data"),
-         State("cves-table", "derived_viewport_data")],
+        [
+            Output("cves-table", "data"),
+            Output("new-cve-id", "value"),
+            Output("new-software-version", "value"),
+            Output("error-message", "children")],
+        [
+            Input("add-cve-btn", "n_clicks"),
+            Input("cves-table", "active_cell")],
+        [
+            State("new-cve-id", "value"),
+            State("new-software-version", "value"),
+            State("cves-table", "data"),
+            State("cves-table", "derived_viewport_data")
+        ],
         prevent_initial_call=True
     )
-    def modify_cve_table(n_clicks, active_cell, cve_id, node_id, cve_data, derived_viewport_data):
-        """Handles adding and removing CVEs."""
-        
+    def modify_cve_table(n_clicks, active_cell, cve_id, software_id, cve_data, derived_viewport_data):
         triggered_id = ctx.triggered_id
-        nvd_score = ""
 
         if triggered_id == "add-cve-btn":
-            # Adding a new CVE
-            if not all([cve_id, node_id]):
-                return cve_data, "", "", "❌ Missing required fields!"
-            
-            api_url = f"{API_BASE_URL}/{cve_id}"
+            if not all([cve_id, software_id]):
+                return cve_data, "", "", "Missing CVE ID or Software selection!"
+
+            # Fetch CVE details
             try:
-                response = requests.get(api_url)
+                response = requests.get(f"{API_BASE_URL}/{cve_id}")
                 if response.status_code != 200:
-                    return cve_data, "", node_id, f"❌ No data found for CVE {cve_id}!"
+                    return cve_data, "", software_id, f"No data found for CVE {cve_id}!"
+                cve_info = response.json()
+                cve_id = cve_info.get("CVE ID")
+                nvd_score = cve_info.get("NVD Score", "N/A")
+            except Exception as e:
+                return cve_data, "", "", f"API Error: {str(e)}"
 
-                
-                cve_data_response = response.json()
-                nvd_score = cve_data_response.get("NVD Score", "N/A")
-                cve_id = cve_data_response.get("CVE ID")
-
-            except requests.exceptions.RequestException as e:
-                return cve_data, "", "", f"❌ API Error fetching CVE: {str(e)}"
+            # Get affected nodes from CSV
+            software_inventory = get_software_inventory()
+            affected_node_ids = {entry["node_id"] for entry in software_inventory if entry["software_id"] == software_id}
 
             nodes_data = get_nodes()
-            node_name = None
-            node_found = False
+            updates = 0
 
             for node in nodes_data:
-                if node["node_id"] == node_id:
-                    node_name = node["node_name"]
-                    node_found = True
-
+                if node["node_id"] in affected_node_ids:
                     if "CVE" not in node:
                         node["CVE"] = []
                     if "CVE_NVD" not in node:
                         node["CVE_NVD"] = {}
+                    if cve_id not in node["CVE"]:
+                        node["CVE"].append(cve_id)
+                        node["CVE_NVD"][cve_id] = nvd_score
+                        cve_data.append({
+                            "CVE ID": cve_id,
+                            "NVD Score": nvd_score,
+                            "Node ID": node["node_id"],
+                            "Node Name": node["node_name"],
+                            "Remove": "❌"
+                        })
+                        updates += 1
 
-                    node["CVE"].append(cve_id)
-                    node["CVE_NVD"][cve_id] = nvd_score
-                    break
-            
-            if not node_found:
-                return cve_data, cve_id, "", f"❌ No node found with ID {node_id}!"
+            if updates == 0:
+                return cve_data, "", "", "⚠️ CVE already exists on all nodes."
 
-            new_entry = {
-                "CVE ID": cve_id,
-                "NVD Score": nvd_score,
-                "Node ID": node_id,
-                "Node Name": node_name,
-                "Remove": "❌"
-            }
-            cve_data.append(new_entry)
-
-            save_nodes_data(nodes_data)  # Save to JSON
-            return cve_data, "", "", ""
+            save_nodes_data(nodes_data)
+            return cve_data, "", "", f"✅ CVE added to {updates} node(s)."
 
         elif triggered_id == "cves-table":
-            # Removing a CVE
             if not active_cell or active_cell["column_id"] != "Remove":
-                return no_update, no_update, no_update, no_update  # Ignore clicks outside "Remove" column
-
+                return no_update, no_update, no_update, no_update
             row_idx = active_cell.get("row")
             selected_cve = derived_viewport_data[row_idx]
-
             cve_to_remove = selected_cve["CVE ID"]
             node_id_to_remove = selected_cve["Node ID"]
 
@@ -135,12 +122,19 @@ def register_system_tables_callbacks(app):
                         node["CVE_NVD"].pop(cve_to_remove, None)
                     break
 
-
             save_nodes_data(nodes_data)
-
-            # Remove from UI table correctly
-            cve_data = [entry for entry in cve_data if entry["CVE ID"] != cve_to_remove]
-
+            cve_data = [entry for entry in cve_data if entry["CVE ID"] != cve_to_remove or entry["Node ID"] != node_id_to_remove]
             return cve_data, "", "", f"{cve_to_remove} removed from {node_id_to_remove}!"
 
-        return no_update, no_update, no_update, no_update  
+        return no_update, no_update, no_update, no_update
+
+    @app.callback(
+        Output("new-software-version", "options"),
+        Input("new-software-make", "value"),
+        prevent_initial_call=True
+    )
+    def update_versions_for_selected_make(selected_make):
+        if not selected_make:
+            return []
+        software_data = get_all_software()
+        return software_data.get(selected_make, [])
