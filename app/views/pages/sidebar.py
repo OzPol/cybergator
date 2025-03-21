@@ -29,7 +29,23 @@ def sidebar(session_user=None):
 
         # ADD EXPORT DATA BUTTON
         nav_items.append(
-            dbc.Button("Export Data", id="export-btn", color="primary", href="/export", style={"position": "absolute", "bottom": "20px", "width": "40%"})
+            dbc.Button("Export Data", id="export-btn", color="primary", href="/export", style={"position": "absolute", "bottom": "20px", "width": "80%"})
+        )
+        
+        # ADD RESET OPTIONS
+        nav_items.append(
+            dbc.DropdownMenu(
+                label="Reset Options",
+                children=[
+                    dbc.DropdownMenuItem("Reset All", id="reset-all", n_clicks=0),
+                    dbc.DropdownMenuItem("Reset Nodes", id="reset-nodes", n_clicks=0),
+                    dbc.DropdownMenuItem("Reset Software Inventory", id="reset-software", n_clicks=0),
+                    dbc.DropdownMenuItem("Reset Attack Tree", id="reset-attack", n_clicks=0),
+                    dbc.DropdownMenuItem("Reset Risk Factors", id="reset-risk", n_clicks=0),
+                ],
+                color="primary",
+                className="mt-2",
+            )
         )
 
     return html.Div(
