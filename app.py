@@ -24,6 +24,8 @@ from app.controllers.resilience_controller import resilience_bp
 from app.controllers.software_controller import software_bp
 from app.views.callbacks.resilience_callbacks import register_resilience_callbacks
 from app.controllers.nodes_controller import nodes_bp
+from app.views.callbacks.neo4j_callbacks import register_neo4j_callbacks
+from app.controllers.neo4j_controller import neo4j_bp
 
 load_dotenv()
 
@@ -44,6 +46,7 @@ flask_app.register_blueprint(resilience_bp, url_prefix="/api/resilience")
 flask_app.register_blueprint(cve_bp, url_prefix="/api/cve")
 flask_app.register_blueprint(nodes_bp, url_prefix="/api/nodes") 
 flask_app.register_blueprint(software_bp, url_prefix="/api/software")
+flask_app.register_blueprint(neo4j_bp, url_prefix="/api/neo4j")
 
 # Dash configs
 dash_app = Dash(__name__, server=flask_app, url_base_pathname="/", suppress_callback_exceptions=True, external_stylesheets=[dbc.themes.BOOTSTRAP])
@@ -55,6 +58,8 @@ atexit.register(close_neo4j_connection)
 register_graph_callbacks(dash_app)
 register_system_tables_callbacks(dash_app)
 register_resilience_callbacks(dash_app)  # Register the resilience score callback
+register_neo4j_callbacks(dash_app)
+
 
 # Run Flask & Dash
 if __name__ == "__main__":
