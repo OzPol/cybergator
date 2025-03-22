@@ -65,13 +65,31 @@ def get_network_graph():
 
         return elements
 
-
 def get_node_class(node_type):
-    if node_type and node_type.lower() == "server":
+    if not node_type:
+        return "unknown"
+
+    # Normalize and tokenize node type
+    words = node_type.lower().replace("_", " ").replace("-", " ").split()
+
+    if {"san", "archive", "backup"}.issubset(words):
+        return "san_archive_backup"
+    elif {"san", "archive"}.issubset(words):
+        return "san_archive"
+    elif "san" in words:
+        return "san"
+    elif "server" in words:
         return "server"
-    elif node_type:
-        return "device"
-    return ""
+    elif "workstation" in words:
+        return "workstation"
+    elif "switch" in words:
+        return "switch"
+    elif "router" in words:
+        return "router"
+    elif "firewall" in words:
+        return "firewall"
+
+    return "unknown"
 
 
 if __name__ == "__main__":
