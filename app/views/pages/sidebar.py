@@ -22,26 +22,33 @@ def sidebar(session_user=None):
             dbc.NavLink("APT Simulation", href="/apt-simulation", active="exact", style={"color": "white"}),
             dbc.NavLink("CVE Simulations", href="/cve-simulations", active="exact", style={"color": "white"}),
             dbc.NavLink("FSM Simulation", href="/fsm-simulation", active="exact", style={"color": "white"}),
+            dbc.NavLink("Neo4j Graph", href="/neo4j-graph", active="exact", style={"color": "white"}),
         ]
         # Append extra links to the nav_items list
         nav_items.extend(extra_links)
-
-        # ADD RECALCULATE RESILIENCE BUTTON
+        
+        # RECALCULATE RESILIENCE BUTTON
         nav_items.append(
             dbc.Button("Recalculate Resilience", id="recalculate-resilience-btn", color="primary",
-                        className="mt-2",style={"position": "absolute", "bottom": "100px","width": "80%"})
+                        className="mt-2",style={"position": "absolute", "bottom": "190px","width": "80%"})
         )
-        
+        # Resilience recalculation feedback
         nav_items.append(
             html.Div(id="resilience-recalculate-feedback", className="text-white mt-2", style={"fontSize": "0.9rem"})
         )
-
-        # ADD EXPORT DATA BUTTON
+        
+        # REFRESH NEO4J GRAPH BUTTON
         nav_items.append(
-            dbc.Button("Export Data", id="export-btn", color="primary", href="/export", style={"position": "absolute", "bottom": "30px", "width": "80%"})
+            dbc.Button("Refresh Neo4j Graph", id="refresh-neo4j-btn", color="primary",
+                        className="mt-2", style={"position": "absolute", "bottom": "110px", "width": "80%"})
         )
 
-        # ADD RESET OPTIONS
+        # EXPORT DATA BUTTON
+        nav_items.append(
+            dbc.Button("Export Data", id="export-btn", color="primary", href="/export", style={"position": "absolute", "bottom": "40px", "width": "80%"})
+        )
+        
+        # RESET OPTIONS
         nav_items.append(
             dbc.DropdownMenu(
                 label="Reset Options",
@@ -52,7 +59,7 @@ def sidebar(session_user=None):
                     dbc.DropdownMenuItem("Reset Attack Tree", id="reset-attack", n_clicks=0),
                     dbc.DropdownMenuItem("Reset Risk Factors", id="reset-risk", n_clicks=0),
                 ],
-                color="primary", className="mt-2", style={"position": "absolute", "bottom": "200px","width": "80%"}
+                color="primary", className="mt-2", style={"position": "absolute", "bottom": "280px","width": "100%"}
             )
         )
 
