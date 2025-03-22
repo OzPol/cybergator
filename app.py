@@ -21,9 +21,9 @@ from app.views.callbacks.graph_callbacks import register_graph_callbacks
 from app.views.callbacks.system_tables_callbacks import register_system_tables_callbacks
 import app.views.callbacks.resilience_callbacks
 from app.controllers.resilience_controller import resilience_bp
+from app.controllers.software_controller import software_bp
 from app.views.callbacks.resilience_callbacks import register_resilience_callbacks
-# from app.views.callbacks.resilience_callbacks import update_resilience_score
-
+from app.controllers.nodes_controller import nodes_bp
 
 load_dotenv()
 
@@ -42,6 +42,8 @@ flask_app.register_blueprint(sue_bp, url_prefix="/api/sue-graph")
 flask_app.register_blueprint(graph_bp, url_prefix="/api/graph")
 flask_app.register_blueprint(resilience_bp, url_prefix="/api/resilience")
 flask_app.register_blueprint(cve_bp, url_prefix="/api/cve")
+flask_app.register_blueprint(nodes_bp, url_prefix="/api/nodes") 
+flask_app.register_blueprint(software_bp, url_prefix="/api/software")
 
 # Dash configs
 dash_app = Dash(__name__, server=flask_app, url_base_pathname="/", suppress_callback_exceptions=True, external_stylesheets=[dbc.themes.BOOTSTRAP])

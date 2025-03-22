@@ -1,6 +1,9 @@
 from dash import html, Input, Output, State, ctx, no_update
 import dash
+import requests
 from app.services.data_loader import get_software_cves, get_next_software_id, save_json
+
+API_BASE_URL = "http://localhost:8000/api/software" 
 
 def register_software_unique_callbacks(app):
     """Register callbacks for unique software table actions."""
@@ -47,30 +50,34 @@ def register_software_unique_callbacks(app):
         prevent_initial_call=True
     )
     def add_new_software(n_clicks, make, description, version, current_data):
-        """Adds a new software entry to software_cves.json."""
         if not all([make, description, version]):
             return no_update, "Missing required fields!", no_update, no_update, no_update
 
-        new_software_id = get_next_software_id()
-        software_cves = get_software_cves()
-
-        software_cves[new_software_id] = {
+        # 🔻 API call instead of local file manipulation
+        payload = {
             "make": make,
-            "version": version,
             "description": description,
-            "cves": {},
-            "nodes": []
+            "version": version
         }
-        save_json(software_cves, "software_cves.json")
 
-        new_entry = {
-            "Software ID": new_software_id,
-            "Make": make,
-            "Description": description,
-            "Version": version,
-            "Expand": "➕",
-            "Remove": "❌"
-        }
-        current_data.append(new_entry)
+        try:
+            response = requests.post(API_BASE_URL, json=payload)
+            if response.status_code != 201:
+                return no_update, "❌ Failed to add software!", no_update, no_update, no_update
+            
+            new_id = response.json().get("id")  # Get generated ID from API response
 
-        return current_data, "", "", "", ""
+            new_entry = {
+                "Software ID": new_id,
+                "Make": make,
+                "Description": description,
+                "Version": version,
+                "Expand": "➕",
+                "Remove": "❌"
+            }
+            current_data.append(new_entry)
+
+            return current_data, "", "", "", ""
+
+        except Exception as e:
+            return no_update, f"API error: {str(e)}", no_update, no_update, no_update

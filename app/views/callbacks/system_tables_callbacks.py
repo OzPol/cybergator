@@ -1,6 +1,7 @@
 from dash import Input, Output, State, html, ctx, no_update
 import dash
 import requests
+import subprocess
 from app.views.pages.nodes_table import nodes_table_layout
 from app.views.pages.cves_table import cves_table_layout
 from app.views.pages.software_unique_table import software_unique_table_layout
@@ -128,6 +129,10 @@ def register_system_tables_callbacks(app):
                     break
 
             save_nodes_data(nodes_data)
+            
+            # re-run the whole script
+            subprocess.run(["python", "app/services/resilience_score_calculator.py"])
+            
             cve_data = [entry for entry in cve_data if entry["CVE ID"] != cve_to_remove or entry["Node ID"] != node_id_to_remove]
             return cve_data, "", "", f"{cve_to_remove} removed from {node_id_to_remove}!"
 
