@@ -1,0 +1,806 @@
+{
+    "attack_goals": [
+        {
+        "goal_id": "G001",
+        "goal_name": "Code Execution via Buffer Overflow",
+        "steps": [
+            {
+            "step_id": "S001",
+            "name": "Execution",
+            "cve": "CVE-2007-2152",
+            "tactic": "Execution",
+            "technique": "T1203: Exploitation for Client Execution",
+            "subtechnique": "N/A",
+            "critical_functions_impacted": ["F01", "F02"],
+            "probability": 0.5,
+            "next_state": "Under Attack"
+            }
+        ]
+        },
+        {
+        "goal_id": "G002",
+        "goal_name": "Privilege Escalation via DLL Injection",
+        "steps": [
+            {
+            "step_id": "S002",
+            "name": "Privilege Escalation",
+            "cve": "CVE-2009-5118",
+            "tactic": "Privilege Escalation",
+            "technique": "T1055: Process Injection",
+            "subtechnique": "T1055.001: DLL Injection",
+            "critical_functions_impacted": ["F03", "F04"],
+            "probability": 0.6,
+            "next_state": "Compromised"
+            }
+        ]
+        },
+        {
+        "goal_id": "G003",
+        "goal_name": "Denial of Service via Kernel Exploit",
+        "steps": [
+            {
+            "step_id": "S003",
+            "name": "Denial of Service",
+            "cve": "CVE-2010-0727",
+            "tactic": "Impact",
+            "technique": "T1499: Endpoint Denial of Service",
+            "subtechnique": "N/A",
+            "critical_functions_impacted": ["F05", "F06"],
+            "probability": 0.7,
+            "next_state": "Degraded Operation"
+            }
+        ]
+        },
+        {
+        "goal_id": "G004",
+        "goal_name": "Denial of Service via LDAP-based Automount",
+        "steps": [
+            {
+            "step_id": "S004",
+            "name": "Denial of Service",
+            "cve": "CVE-2012-2697",
+            "tactic": "Impact",
+            "technique": "T1499: Endpoint Denial of Service",
+            "subtechnique": "N/A",
+            "critical_functions_impacted": ["F01", "F05"],
+            "probability": 0.4,
+            "next_state": "Degraded Operation"
+            }
+        ]
+        },
+        {
+        "goal_id": "G005",
+        "goal_name": "Privilege Escalation via Symlink Attack",
+        "steps": [
+            {
+            "step_id": "S005",
+            "name": "Privilege Escalation",
+            "cve": "CVE-2012-3440",
+            "tactic": "Privilege Escalation",
+            "technique": "T1546: Event Triggered Execution",
+            "subtechnique": "T1546.012: Unix Shell Configuration Modification",
+            "critical_functions_impacted": ["F03", "F04"],
+            "probability": 0.5,
+            "next_state": "Compromised"
+            }
+        ]
+        },
+        {
+        "goal_id": "G006",
+        "goal_name": "Denial of Service via KVM Subsystem",
+        "steps": [
+            {
+            "step_id": "S006",
+            "name": "Denial of Service",
+            "cve": "CVE-2013-1935",
+            "tactic": "Impact",
+            "technique": "T1499: Endpoint Denial of Service",
+            "subtechnique": "N/A",
+            "critical_functions_impacted": ["F02", "F06"],
+            "probability": 0.6,
+            "next_state": "Degraded Operation"
+            }
+        ]
+        },
+        {
+        "goal_id": "G007",
+        "goal_name": "Privilege Escalation via sendmsg System Call",
+        "steps": [
+            {
+            "step_id": "S007",
+            "name": "Privilege Escalation",
+            "cve": "CVE-2013-2224",
+            "tactic": "Privilege Escalation",
+            "technique": "T1068: Exploitation for Privilege Escalation",
+            "subtechnique": "N/A",
+            "critical_functions_impacted": ["F03", "F04"],
+            "probability": 0.7,
+            "next_state": "Compromised"
+            }
+        ]
+        },
+        {
+        "goal_id": "G008",
+        "goal_name": "Denial of Service via IP Race Condition",
+        "steps": [
+            {
+            "step_id": "S008",
+            "name": "Denial of Service",
+            "cve": "CVE-2012-3552",
+            "tactic": "Impact",
+            "technique": "T1499: Endpoint Denial of Service",
+            "subtechnique": "T1499.001: Flooding",
+            "critical_functions_impacted": ["F04", "F05"],
+            "probability": 0.5,
+            "next_state": "Degraded Operation"
+            }
+        ]
+        },
+        {
+        "goal_id": "G009",
+        "goal_name": "Denial of Service via Red Hat Filesystem Access",
+        "steps": [
+            {
+            "step_id": "S009",
+            "name": "Denial of Service",
+            "cve": "CVE-2013-2188",
+            "tactic": "Impact",
+            "technique": "T1499: Endpoint Denial of Service",
+            "subtechnique": "N/A",
+            "critical_functions_impacted": ["F06", "F07"],
+            "probability": 0.4,
+            "next_state": "Degraded Operation"
+            }
+        ]
+        },
+        {
+        "goal_id": "G010",
+        "goal_name": "Privilege Escalation via Integer Overflow",
+        "steps": [
+            {
+            "step_id": "S010",
+            "name": "Privilege Escalation",
+            "cve": "CVE-2013-5058",
+            "tactic": "Privilege Escalation",
+            "technique": "T1068: Exploitation for Privilege Escalation",
+            "subtechnique": "N/A",
+            "critical_functions_impacted": ["F03", "F04"],
+            "probability": 0.6,
+            "next_state": "Compromised"
+            }
+        ]
+        },
+        {
+        "goal_id": "G011",
+        "goal_name": "Remote Code Execution via Use-After-Free",
+        "steps": [
+            {
+            "step_id": "S011",
+            "name": "Code Execution",
+            "cve": "CVE-2013-5056",
+            "tactic": "Execution",
+            "technique": "T1203: Exploitation for Client Execution",
+            "subtechnique": "T1203.001: Web Browser",
+            "critical_functions_impacted": ["F10"],
+            "probability": 0.7,
+            "next_state": "Compromised"
+            }
+        ]
+        },
+        {
+        "goal_id": "G012",
+        "goal_name": "Remote Command Execution via Cross-Device Secret",
+        "steps": [
+            {
+            "step_id": "S012",
+            "name": "Remote Command Execution",
+            "cve": "CVE-2014-7994",
+            "tactic": "Execution",
+            "technique": "T1059: Command and Scripting Interpreter",
+            "subtechnique": "T1059.007: Network Device CLI",
+            "critical_functions_impacted": ["F02", "F03"],
+            "probability": 0.6,
+            "next_state": "Compromised"
+            }
+        ]
+        },
+        {
+        "goal_id": "G013",
+        "goal_name": "Privilege Escalation via Physical Access",
+        "steps": [
+            {
+            "step_id": "S013",
+            "name": "Shell Access via Physical Connection",
+            "cve": "CVE-2014-7995",
+            "tactic": "Privilege Escalation",
+            "technique": "T1068: Exploitation for Privilege Escalation",
+            "subtechnique": "N/A",
+            "critical_functions_impacted": ["F05"],
+            "probability": 0.4,
+            "next_state": "Compromised"
+            }
+        ]
+        },
+        {
+        "goal_id": "G014",
+        "goal_name": "Remote Code Execution via JPEG Exploit",
+        "steps": [
+            {
+            "step_id": "S014",
+            "name": "Code Execution via JPEG",
+            "cve": "CVE-2014-0301",
+            "tactic": "Execution",
+            "technique": "T1203: Exploitation for Client Execution",
+            "subtechnique": "T1203.001: Web Browser",
+            "critical_functions_impacted": ["F08", "F09"],
+            "probability": 0.7,
+            "next_state": "Compromised"
+            }
+        ]
+        },
+        {
+        "goal_id": "G015",
+        "goal_name": "Information Disclosure or Denial of Service via Kernel Exploit",
+        "steps": [
+            {
+            "step_id": "S015A",
+            "name": "Information Disclosure via Kernel Memory",
+            "cve": "CVE-2014-0323",
+            "tactic": "Collection",
+            "technique": "T1005: Data from Local System",
+            "subtechnique": "N/A",
+            "critical_functions_impacted": ["F10"],
+            "probability": 0.5,
+            "next_state": "Sensitive Information Collected"
+            },
+            {
+            "step_id": "S015B",
+            "name": "Denial of Service via System Hang",
+            "cve": "CVE-2014-0323",
+            "tactic": "Impact",
+            "technique": "T1499: Endpoint Denial of Service",
+            "subtechnique": "N/A",
+            "critical_functions_impacted": ["F08", "F09"],
+            "probability": 0.6,
+            "next_state": "Degraded Operation"
+            }
+        ]
+        },
+        {
+        "goal_id": "G016",
+        "goal_name": "Privilege Escalation via Search Path Exploit",
+        "steps": [
+            {
+            "step_id": "S016",
+            "name": "Privilege Escalation via Search Path",
+            "cve": "CVE-2014-0315",
+            "tactic": "Privilege Escalation",
+            "technique": "T1203: Exploitation for Privilege Escalation",
+            "subtechnique": "N/A",
+            "critical_functions_impacted": ["F10"],
+            "probability": 0.5,
+            "next_state": "Compromised"
+            }
+        ]
+        },
+        {
+        "goal_id": "G017",
+        "goal_name": "Denial of Service via USB Interface",
+        "steps": [
+            {
+            "step_id": "S017",
+            "name": "Denial of Service via USB Descriptor",
+            "cve": "CVE-2015-7833",
+            "tactic": "Impact",
+            "technique": "T1499: Endpoint Denial of Service",
+            "subtechnique": "N/A",
+            "critical_functions_impacted": ["F07", "F08"],
+            "probability": 0.4,
+            "next_state": "Degraded Operation"
+            }
+        ]
+        },
+        {
+        "goal_id": "G018",
+        "goal_name": "Network Storm via Layer 2 Exploit",
+        "steps": [
+            {
+            "step_id": "S018",
+            "name": "Network Storm via Layer 2",
+            "cve": "CVE-2016-6473",
+            "tactic": "Impact",
+            "technique": "T1499: Network Denial of Service",
+            "subtechnique": "N/A",
+            "critical_functions_impacted": ["F02", "F03"],
+            "probability": 0.6,
+            "next_state": "Degraded Operation"
+            }
+        ]
+        },
+        {
+        "goal_id": "G019",
+        "goal_name": "Denial of Service via LLDP Packet",
+        "steps": [
+            {
+            "step_id": "S019",
+            "name": "Denial of Service via LLDP Packet",
+            "cve": "CVE-2016-1425",
+            "tactic": "Impact",
+            "technique": "T1499: Network Denial of Service",
+            "subtechnique": "N/A",
+            "critical_functions_impacted": ["F05", "F06"],
+            "probability": 0.7,
+            "next_state": "Degraded Operation"
+            }
+        ]
+        },
+        {
+        "goal_id": "G020",
+        "goal_name": "Arbitrary Command Execution via Cisco IOS XE",
+        "steps": [
+            {
+            "step_id": "S020",
+            "name": "Command Execution via Startup Script",
+            "cve": "CVE-2017-6606",
+            "tactic": "Execution",
+            "technique": "T1059: Command and Scripting Interpreter",
+            "subtechnique": "T1059.004: Unix Shell",
+            "critical_functions_impacted": ["F05", "F06"],
+            "probability": 0.6,
+            "next_state": "Compromised"
+            }
+        ]
+        },
+        {
+        "goal_id": "G021",
+        "goal_name": "Denial of Service via Cisco IOS Memory Leak",
+        "steps": [
+            {
+            "step_id": "S021",
+            "name": "Memory Leak via Forwarding Queue",
+            "cve": "CVE-2017-3803",
+            "tactic": "Impact",
+            "technique": "T1499: Endpoint Denial of Service",
+            "subtechnique": "N/A",
+            "critical_functions_impacted": ["F08", "F09"],
+            "probability": 0.5,
+            "next_state": "Degraded Operation"
+            }
+        ]
+        },
+        {
+        "goal_id": "G022",
+        "goal_name": "Remote Code Execution via Windows Search",
+        "steps": [
+            {
+            "step_id": "S022",
+            "name": "Command Execution via Windows Search",
+            "cve": "CVE-2017-8543",
+            "tactic": "Execution",
+            "technique": "T1059: Command and Scripting Interpreter",
+            "subtechnique": "T1059.001: PowerShell",
+            "critical_functions_impacted": ["F10"],
+            "probability": 0.7,
+            "next_state": "Compromised"
+            }
+        ]
+        },
+        {
+        "goal_id": "G023",
+        "goal_name": "Code Execution via Malicious PPT File",
+        "steps": [
+            {
+            "step_id": "S023",
+            "name": "Execution via Malicious PPT File",
+            "cve": "CVE-2017-12607",
+            "tactic": "Execution",
+            "technique": "T1204: User Execution",
+            "subtechnique": "T1204.002: Malicious File",
+            "critical_functions_impacted": ["F03", "F04"],
+            "probability": 0.4,
+            "next_state": "Compromised"
+            }
+        ]
+        },
+        {
+        "goal_id": "G024",
+        "goal_name": "Privilege Escalation via McAfee VirusScan",
+        "steps": [
+            {
+            "step_id": "S024",
+            "name": "Privilege Escalation via VirusScan Exploit",
+            "cve": "CVE-2020-7337",
+            "tactic": "Privilege Escalation",
+            "technique": "T1068: Exploitation for Privilege Escalation",
+            "subtechnique": "N/A",
+            "critical_functions_impacted": ["F08", "F09"],
+            "probability": 0.6,
+            "next_state": "Compromised"
+            }
+        ]
+        },
+        {
+        "goal_id": "G025",
+        "goal_name": "XSS Vulnerability Exploitation in Nessus",
+        "steps": [
+            {
+            "step_id": "S025",
+            "name": "Stored XSS Attack in Nessus",
+            "cve": "CVE-2020-5765",
+            "tactic": "Execution",
+            "technique": "T1059: Command and Scripting Interpreter",
+            "subtechnique": "T1059.007: JavaScript",
+            "critical_functions_impacted": ["F05", "F06"],
+            "probability": 0.5,
+            "next_state": "Compromised"
+            }
+        ]
+        },
+        {
+        "goal_id": "G026",
+        "goal_name": "Document Hyperlink Execution in OpenOffice",
+        "steps": [
+            {
+            "step_id": "S026",
+            "name": "Script Execution via OpenOffice Hyperlink",
+            "cve": "CVE-2020-13958",
+            "tactic": "Execution",
+            "technique": "T1204: User Execution",
+            "subtechnique": "T1204.002: Malicious File",
+            "critical_functions_impacted": ["F10"],
+            "probability": 0.6,
+            "next_state": "Compromised"
+            }
+        ]
+        },
+        {
+        "goal_id": "G027",
+        "goal_name": "Privilege Escalation in Nessus",
+        "steps": [
+            {
+            "step_id": "S027",
+            "name": "Local Privilege Escalation in Nessus",
+            "cve": "CVE-2021-20135",
+            "tactic": "Privilege Escalation",
+            "technique": "T1068: Exploitation for Privilege Escalation",
+            "subtechnique": "N/A",
+            "critical_functions_impacted": ["F10"],
+            "probability": 0.6,
+            "next_state": "Compromised"
+            }
+        ]
+        },
+        {
+        "goal_id": "G028",
+        "goal_name": "Exploitation for Client Execution in Apache OpenOffice",
+        "steps": [
+            {
+            "step_id": "S028",
+            "name": "Buffer Overflow via DBF Document in OpenOffice",
+            "cve": "CVE-2021-33035",
+            "tactic": "Execution",
+            "technique": "T1203: Exploitation for Client Execution",
+            "subtechnique": "N/A",
+            "critical_functions_impacted": ["F05", "F06"],
+            "probability": 0.5,
+            "next_state": "Under Attack"
+            }
+        ]
+        },
+        {
+        "goal_id": "G029",
+        "goal_name": "Brute Force on Passwords in Apache OpenOffice",
+        "steps": [
+            {
+            "step_id": "S029",
+            "name": "Brute Force Attack on Weak Password Encryption",
+            "cve": "CVE-2022-37401",
+            "tactic": "Credential Access",
+            "technique": "T1110: Brute Force",
+            "subtechnique": "T1110.003: Password Cracking",
+            "critical_functions_impacted": ["F08", "F09"],
+            "probability": 0.6,
+            "next_state": "Compromised"
+            }
+        ]
+        },
+        {
+        "goal_id": "G030",
+        "goal_name": "Brute Force on Passwords in LibreOffice",
+        "steps": [
+            {
+            "step_id": "S030",
+            "name": "Brute Force Attack on Weak Password Encryption",
+            "cve": "CVE-2022-26307",
+            "tactic": "Credential Access",
+            "technique": "T1110: Brute Force",
+            "subtechnique": "T1110.003: Password Cracking",
+            "critical_functions_impacted": ["F08", "F09"],
+            "probability": 0.6,
+            "next_state": "Compromised"
+            }
+        ]
+        },
+        {
+        "goal_id": "G031",
+        "goal_name": "Brute Force Attack on VPN Access",
+        "steps": [
+            {
+            "step_id": "S031",
+            "name": "Brute Force Attack on VPN Credentials",
+            "cve": "CVE-2023-20269",
+            "tactic": "Credential Access",
+            "technique": "T1110: Brute Force",
+            "subtechnique": "T1110.001: Password Guessing",
+            "critical_functions_impacted": ["F08", "F09"],
+            "probability": 0.5,
+            "next_state": "Compromised"
+            }
+        ]
+        },
+        {
+        "goal_id": "G032",
+        "goal_name": "ACL Bypass for Unauthorized Access",
+        "steps": [
+            {
+            "step_id": "S032",
+            "name": "ACL Bypass via Per-User-Override Feature",
+            "cve": "CVE-2023-20256",
+            "tactic": "Defense Evasion",
+            "technique": "T1562: Impair Defenses",
+            "subtechnique": "T1562.001: Disable or Modify Tools",
+            "critical_functions_impacted": ["F05", "F06"],
+            "probability": 0.4,
+            "next_state": "Under Attack"
+            }
+        ]
+        },
+        {
+        "goal_id": "G033",
+        "goal_name": "Bypass SSL VPN Certificate Authentication",
+        "steps": [
+            {
+            "step_id": "S033",
+            "name": "Bypass Multiple Certificate Authentication Policy",
+            "cve": "CVE-2023-20247",
+            "tactic": "Credential Access",
+            "technique": "T1556: Modify Authentication Process",
+            "subtechnique": "T1556.004: Network Device Authentication",
+            "critical_functions_impacted": ["F05", "F06"],
+            "probability": 0.6,
+            "next_state": "Compromised"
+            }
+        ]
+        },
+        {
+        "goal_id": "G034",
+        "goal_name": "SNMP-based Denial of Service",
+        "steps": [
+            {
+            "step_id": "S034",
+            "name": "Denial of Service via SNMP Request",
+            "cve": "CVE-2023-20200",
+            "tactic": "Impact",
+            "technique": "T1499: Endpoint Denial of Service",
+            "subtechnique": "T1499.001: Flood Network",
+            "critical_functions_impacted": ["F01", "F02"],
+            "probability": 0.7,
+            "next_state": "Degraded Operation"
+            }
+        ]
+        },
+        {
+        "goal_id": "G035",
+        "goal_name": "Denial of Service via HTTPS Requests",
+        "steps": [
+            {
+            "step_id": "S035",
+            "name": "Denial of Service via Crafted HTTPS Requests",
+            "cve": "CVE-2023-20095",
+            "tactic": "Impact",
+            "technique": "T1499: Endpoint Denial of Service",
+            "subtechnique": "T1499.001: Flood Network",
+            "critical_functions_impacted": ["F05", "F06"],
+            "probability": 0.7,
+            "next_state": "Degraded Operation"
+            }
+        ]
+        },
+        {
+        "goal_id": "G036",
+        "goal_name": "Privilege Escalation via CLI Command Injection",
+        "steps": [
+            {
+            "step_id": "S036",
+            "name": "Privilege Escalation via CLI Command Injection",
+            "cve": "CVE-2023-20015",
+            "tactic": "Privilege Escalation",
+            "technique": "T1068: Exploitation for Privilege Escalation",
+            "critical_functions_impacted": ["F05", "F06"],
+            "probability": 0.6,
+            "next_state": "Compromised"
+            }
+        ]
+        },
+        {
+        "goal_id": "G037",
+        "goal_name": "Privilege Escalation via Android Permissions Bypass",
+        "steps": [
+            {
+            "step_id": "S037",
+            "name": "Disable Microphone Privacy Indicator",
+            "cve": "CVE-2023-20934",
+            "tactic": "Privilege Escalation",
+            "technique": "T1068: Exploitation for Privilege Escalation",
+            "critical_functions_impacted": ["F07", "F08"],
+            "probability": 0.5,
+            "next_state": "Compromised"
+            }
+        ]
+        },
+        {
+        "goal_id": "G038",
+        "goal_name": "Privilege Escalation via Nessus Host Exploit",
+        "steps": [
+            {
+            "step_id": "S038",
+            "name": "Privilege Escalation via Nessus Exploit",
+            "cve": "CVE-2023-0101",
+            "tactic": "Privilege Escalation",
+            "technique": "T1068: Exploitation for Privilege Escalation",
+            "critical_functions_impacted": ["F05", "F06"],
+            "probability": 0.6,
+            "next_state": "Compromised"
+            }
+        ]
+        },
+        {
+        "goal_id": "G039",
+        "goal_name": "Denial of Service via SAML Request in Splunk",
+        "steps": [
+            {
+            "step_id": "S039",
+            "name": "Denial of Service via Malformed SAML Request",
+            "cve": "CVE-2023-40593",
+            "tactic": "Impact",
+            "technique": "T1499: Endpoint Denial of Service",
+            "critical_functions_impacted": ["F05", "F06"],
+            "probability": 0.7,
+            "next_state": "Degraded Operation"
+            }
+        ]
+        },
+        {
+        "goal_id": "G040",
+        "goal_name": "Command Execution via Reflected XSS",
+        "steps": [
+            {
+            "step_id": "S040",
+            "name": "Reflected XSS Exploit for Command Execution",
+            "cve": "CVE-2023-40592",
+            "tactic": "Execution",
+            "technique": "T1059: Command and Scripting Interpreter",
+            "subtechnique": "T1059.003: Windows Command Shell",
+            "critical_functions_impacted": ["F05", "F06"],
+            "probability": 0.5,
+            "next_state": "Compromised"
+            }
+        ]
+        },
+        {
+        "goal_id": "G041",
+        "goal_name": "Macro Execution in OpenOffice",
+        "steps": [
+            {
+            "step_id": "S041",
+            "name": "Automatic Macro Execution in OpenOffice",
+            "cve": "CVE-2023-47804",
+            "tactic": "Execution",
+            "technique": "T1203: Exploitation for Client Execution",
+            "critical_functions_impacted": ["F03", "F04"],
+            "probability": 0.6,
+            "next_state": "Under Attack"
+            }
+        ]
+        },
+        {
+        "goal_id": "G042",
+        "goal_name": "Macro Execution via Link in OpenOffice",
+        "steps": [
+            {
+            "step_id": "S042",
+            "name": "Unauthorized Macro Execution in OpenOffice",
+            "cve": "CVE-2022-47502",
+            "tactic": "Execution",
+            "technique": "T1203: Exploitation for Client Execution",
+            "critical_functions_impacted": ["F03", "F04"],
+            "probability": 0.6,
+            "next_state": "Under Attack"
+            }
+        ]
+        },
+        {
+        "goal_id": "G043",
+        "goal_name": "Data Destruction via API in Splunk KV Store",
+        "steps": [
+            {
+            "step_id": "S043",
+            "name": "KV Store Data Destruction via API Access",
+            "cve": "CVE-2024-23675",
+            "tactic": "Impact",
+            "technique": "T1485: Data Destruction",
+            "critical_functions_impacted": ["F07", "F08"],
+            "probability": 0.5,
+            "next_state": "Degraded Operation"
+            }
+        ]
+        },
+        {
+        "goal_id": "G044",
+        "goal_name": "Unauthorized Access to High-Privilege Metrics in Splunk",
+        "steps": [
+            {
+            "step_id": "S044",
+            "name": "Metric Access via `mrollup` Command",
+            "cve": "CVE-2024-23676",
+            "tactic": "Credential Access",
+            "technique": "T1078: Valid Accounts",
+            "critical_functions_impacted": ["F09", "F10"],
+            "probability": 0.4,
+            "next_state": "Compromised"
+            }
+        ]
+        },
+        {
+        "goal_id": "G046",
+        "goal_name": "Unauthorized Access to High-Privilege Metrics in Splunk",
+        "steps": [
+            {
+                "step_id": "S046",
+                "name": "Metric Access via `mrollup` Command",
+                "cve": "CVE-2024-23676",
+                "tactic": "Credential Access",
+                "technique": "T1078: Valid Accounts",
+                "subtechnique": "N/A",
+                "critical_functions_impacted": ["F09", "F10"],
+                "probability": 0.4,
+                "next_state": "Compromised"
+            }
+        ]
+        },        
+        {
+        "goal_id": "G045",
+        "goal_name": "Data Destruction via API in Splunk KV Store",
+        "steps": [
+            {
+                "step_id": "S045",
+                "name": "KV Store Data Destruction via API Access",
+                "cve": "CVE-2024-23675",
+                "tactic": "Impact",
+                "technique": "T1485: Data Destruction",
+                "subtechnique": "N/A",
+                "critical_functions_impacted": ["F07", "F08"],
+                "probability": 0.5,
+                "next_state": "Degraded Operation"
+            }
+        ]
+        },        
+        {
+        "goal_id": "G047",
+        "goal_name": "Unauthorized Firmware Installation on Cisco-Meraki Devices",
+        "steps": [
+            {
+                "step_id": "S047",
+                "name": "Firmware Installation via Local Status Page Exploit",
+                "cve": "CVE-2018-0284",
+                "tactic": "Privilege Escalation",
+                "technique": "T1068: Exploitation for Privilege Escalation",
+                "subtechnique": "N/A",
+                "critical_functions_impacted": ["F05", "F06"],
+                "probability": 0.6,
+                "next_state": "Compromised"
+            }
+        ]
+        }
+    ]
+}

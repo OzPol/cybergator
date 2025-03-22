@@ -26,10 +26,34 @@ def sidebar(session_user=None):
         # Append extra links to the nav_items list
         nav_items.extend(extra_links)
 
+        # ADD RECALCULATE RESILIENCE BUTTON
+        nav_items.append(
+            dbc.Button("Recalculate Resilience", id="recalculate-resilience-btn", color="primary",
+                        className="mt-2",style={"position": "absolute", "bottom": "100px","width": "80%"})
+        )
+        
+        nav_items.append(
+            html.Div(id="resilience-recalculate-feedback", className="text-white mt-2", style={"fontSize": "0.9rem"})
+        )
 
         # ADD EXPORT DATA BUTTON
         nav_items.append(
-            dbc.Button("Export Data", id="export-btn", color="primary", href="/export", style={"position": "absolute", "bottom": "20px", "width": "40%"})
+            dbc.Button("Export Data", id="export-btn", color="primary", href="/export", style={"position": "absolute", "bottom": "30px", "width": "80%"})
+        )
+
+        # ADD RESET OPTIONS
+        nav_items.append(
+            dbc.DropdownMenu(
+                label="Reset Options",
+                children=[
+                    dbc.DropdownMenuItem("Reset All", id="reset-all", n_clicks=0),
+                    dbc.DropdownMenuItem("Reset Nodes", id="reset-nodes", n_clicks=0),
+                    dbc.DropdownMenuItem("Reset Software Inventory", id="reset-software", n_clicks=0),
+                    dbc.DropdownMenuItem("Reset Attack Tree", id="reset-attack", n_clicks=0),
+                    dbc.DropdownMenuItem("Reset Risk Factors", id="reset-risk", n_clicks=0),
+                ],
+                color="primary", className="mt-2", style={"position": "absolute", "bottom": "200px","width": "80%"}
+            )
         )
 
     return html.Div(

@@ -1,0 +1,64 @@
+category,rack_name,node_id,node_name,is_in_use,software_id,software_make,software_description,software_version
+rack,boundary_defense_rack,N00200,Virtualization_Manager_Server,TRUE,SW001,RedHat,RedHat Enterprise Linux (RHEL),RHEL 5.0
+rack,boundary_defense_rack,N00201,Virtualization_Manager_SAN,TRUE,SW002,RedHat,RedHat Enterprise Linux (RHEL),RHEL 6.0
+rack,boundary_defense_rack,N00300,Cybersecurity_Capability_Tools_Server,TRUE,SW006,Splunk,Enterprise Security Information and Event Manager (SIEM),8.6
+rack,boundary_defense_rack,N00300,Cybersecurity_Capability_Tools_Server,TRUE,SW005,Tenable,Nessus Vulnerability Scanner,8.10.0
+rack,boundary_defense_rack,N00300,Cybersecurity_Capability_Tools_Server,TRUE,SW003,RedHat,RedHat Enterprise Linux (RHEL),RHEL 7.1
+rack,boundary_defense_rack,N00300,Cybersecurity_Capability_Tools_Server,TRUE,SW004,McAfee,VirusScan Enterprise,2
+rack,boundary_defense_rack,N00301,Cybersecurity_Capability_Tools_SAN,TRUE,SW003,RedHat,RedHat Enterprise Linux (RHEL),RHEL 7.1
+rack,bulk_data_storage_rack,N00302,Cybersecurity_Capability_Tools_SAN_Archive,TRUE,SW003,RedHat,RedHat Enterprise Linux (RHEL),RHEL 7.1
+rack,bulk_data_storage_rack,N00303,Cybersecurity_Capability_Tools_SAN_Archive_Backup,TRUE,SW003,RedHat,RedHat Enterprise Linux (RHEL),RHEL 7.1
+rack,boundary_defense_rack,N00400,Audit_Log_Server,TRUE,SW003,RedHat,RedHat Enterprise Linux (RHEL),RHEL 7.1
+rack,boundary_defense_rack,N00401,Audit_Log_SAN,TRUE,SW003,RedHat,RedHat Enterprise Linux (RHEL),RHEL 7.1
+rack,server_rack,N00501,Server_SR1,TRUE,SW001,RedHat,RedHat Enterprise Linux (RHEL),RHEL 5.0
+rack,server_rack,N00502,Server_SR2,TRUE,SW001,RedHat,RedHat Enterprise Linux (RHEL),RHEL 5.0
+rack,server_rack,N00503,Server_SR3,TRUE,SW003,RedHat,RedHat Enterprise Linux (RHEL),RHEL 7.1
+rack,server_rack,N00504,Server_SR4,TRUE,SW003,RedHat,RedHat Enterprise Linux (RHEL),RHEL 7.1
+rack,server_rack,N00505,Server_SR5,TRUE,SW002,RedHat,RedHat Enterprise Linux (RHEL),RHEL 6.0
+rack,server_rack,N00506,Server_SR6,TRUE,SW002,RedHat,RedHat Enterprise Linux (RHEL),RHEL 6.0
+rack,server_rack,N00507,Server_SR7,TRUE,SW003,RedHat,RedHat Enterprise Linux (RHEL),RHEL 7.1
+rack,server_rack,N00508,Server_SR8,TRUE,SW003,RedHat,RedHat Enterprise Linux (RHEL),RHEL 7.1
+rack,server_rack,N00509,Server_SR9,TRUE,SW003,RedHat,RedHat Enterprise Linux (RHEL),RHEL 7.1
+rack,server_rack,N00510,Server_SR10,TRUE,SW003,RedHat,RedHat Enterprise Linux (RHEL),RHEL 7.1
+rack,server_rack,N00511,Server_SR11,TRUE,SW007,Microsoft,Windows Server 2008 Service Pack 2,Windows Server 2008 SP2
+rack,server_rack,N00512,Server_SR12,TRUE,SW007,Microsoft,Windows Server 2008 Service Pack 2,Windows Server 2008 SP2
+rack,server_rack,N00611,Engineering_Production_SAN_1,TRUE,SW001,RedHat,RedHat Enterprise Linux (RHEL),RHEL 5.0
+rack,bulk_data_storage_rack,N00612,Engineering_Production_SAN_Archive_1,TRUE,SW003,RedHat,RedHat Enterprise Linux (RHEL),RHEL 7.1
+rack,bulk_data_storage_rack,N00613,Engineering_Production_SAN_Archive_1_Backup,TRUE,SW003,RedHat,RedHat Enterprise Linux (RHEL),RHEL 7.1
+rack,server_rack,N00621,Engineering_Production_SAN_2,TRUE,SW003,RedHat,RedHat Enterprise Linux (RHEL),RHEL 7.1
+rack,bulk_data_storage_rack,N00622,Engineering_Production_SAN_Archive_2,TRUE,SW003,RedHat,RedHat Enterprise Linux (RHEL),RHEL 7.1
+rack,bulk_data_storage_rack,N00623,Engineering_Production_SAN_Archive_2_Backup,TRUE,SW003,RedHat,RedHat Enterprise Linux (RHEL),RHEL 7.1
+rack,server_rack,N00631,Engineering_Production_SAN_3,TRUE,SW003,RedHat,RedHat Enterprise Linux (RHEL),RHEL 7.1
+rack,server_rack,N00701,Test_SAN,TRUE,SW003,RedHat,RedHat Enterprise Linux (RHEL),RHEL 7.1
+rack,bulk_data_storage_rack,N00702,Test_SAN_Archive,TRUE,SW003,RedHat,RedHat Enterprise Linux (RHEL),RHEL 7.1
+rack,bulk_data_storage_rack,N00703,Test_SAN_Archive_Backup,TRUE,SW003,RedHat,RedHat Enterprise Linux (RHEL),RHEL 7.1
+rack,server_rack,N00801,Company_Management_SAN,TRUE,SW001,RedHat,RedHat Enterprise Linux (RHEL),RHEL 5.0
+rack,bulk_data_storage_rack,N00802,Company_Management_SAN_Archive,TRUE,SW003,RedHat,RedHat Enterprise Linux (RHEL),RHEL 7.1
+rack,bulk_data_storage_rack,N00803,Company_Management_SAN_Archive_Backup,TRUE,SW003,RedHat,RedHat Enterprise Linux (RHEL),RHEL 7.1
+workstation,not_a_rack,N10601,Engineering_Production_Workstation_1,TRUE,SW008,OpenOffice,Apache OpenOffice (Open Source),4.1.1.4
+workstation,not_a_rack,N10601,Engineering_Production_Workstation_1,TRUE,SW002,RedHat,RedHat Enterprise Linux (RHEL),RHEL 6.0
+workstation,not_a_rack,N10602,Engineering_Production_Workstation_2,TRUE,SW008,OpenOffice,Apache OpenOffice (Open Source),4.1.1.4
+workstation,not_a_rack,N10602,Engineering_Production_Workstation_2,TRUE,SW002,RedHat,RedHat Enterprise Linux (RHEL),RHEL 6.0
+workstation,not_a_rack,N10603,Engineering_Production_Workstation_3,TRUE,SW008,OpenOffice,Apache OpenOffice (Open Source),4.1.1.4
+workstation,not_a_rack,N10603,Engineering_Production_Workstation_3,TRUE,SW002,RedHat,RedHat Enterprise Linux (RHEL),RHEL 6.0
+workstation,not_a_rack,N10604,Engineering_Production_Workstation_4,TRUE,SW008,OpenOffice,Apache OpenOffice (Open Source),4.1.1.4
+workstation,not_a_rack,N10604,Engineering_Production_Workstation_4,TRUE,SW002,RedHat,RedHat Enterprise Linux (RHEL),RHEL 6.0
+workstation,not_a_rack,N10605,Engineering_Production_Workstation_5,TRUE,SW008,OpenOffice,Apache OpenOffice (Open Source),4.1.1.4
+workstation,not_a_rack,N10605,Engineering_Production_Workstation_5,TRUE,SW002,RedHat,RedHat Enterprise Linux (RHEL),RHEL 6.0
+workstation,not_a_rack,N10701,Test_Engineering_Laptop_1,TRUE,SW008,OpenOffice,Apache OpenOffice (Open Source),4.1.1.4
+workstation,not_a_rack,N10701,Test_Engineering_Laptop_1,TRUE,SW001,RedHat,RedHat Enterprise Linux (RHEL),RHEL 5.0
+workstation,not_a_rack,N10702,Test_Engineering_Laptop_2,TRUE,SW008,OpenOffice,Apache OpenOffice (Open Source),4.1.1.4
+workstation,not_a_rack,N10702,Test_Engineering_Laptop_2,TRUE,SW001,RedHat,RedHat Enterprise Linux (RHEL),RHEL 5.0
+workstation,not_a_rack,N10801,Company_Management_Workstation_6,TRUE,SW008,OpenOffice,Apache OpenOffice (Open Source),4.1.1.4
+workstation,not_a_rack,N10801,Company_Management_Workstation_6,TRUE,SW002,RedHat,RedHat Enterprise Linux (RHEL),RHEL 6.0
+workstation,not_a_rack,N10802,Company_Management_Workstation_7,TRUE,SW008,OpenOffice,Apache OpenOffice (Open Source),4.1.1.4
+workstation,not_a_rack,N10802,Company_Management_Workstation_7,TRUE,SW002,RedHat,RedHat Enterprise Linux (RHEL),RHEL 6.0
+rack,boundary_defense_rack,N20001,Ethernet_Switch_1,TRUE,SW009,Cisco,Catalyst 2960-X IOS,IOS 15.2(1)E
+rack,server_rack,N20002,Ethernet_Switch_2,TRUE,SW009,Cisco,Catalyst 2960-X IOS,IOS 15.2(1)E
+rack,server_rack,N20003,Ethernet_Switch_3,TRUE,SW009,Cisco,Catalyst 2960-X IOS,IOS 15.2(1)E
+rack,bulk_data_storage_rack,N20004,Ethernet_Switch_4,TRUE,SW009,Cisco,Catalyst 2960-X IOS,IOS 15.2(1)E
+rack,bulk_data_storage_rack,N20005,Ethernet_Switch_5,TRUE,SW009,Cisco,Catalyst 2960-X IOS,IOS 15.2(1)E
+rack,bulk_data_storage_rack,N20006,Ethernet_Switch_6,TRUE,SW009,Cisco,Catalyst 2960-X IOS,IOS 15.2(1)E
+rack,boundary_defense_rack,N30000,Router,TRUE,SW0010,Cisco,Meraki MS425-32 Layer 3 Switch (firmware 2014-09-23),9/23/2014
+rack,server_rack,N30001,Router,FALSE,SW0010,Cisco,Meraki MS425-32 Layer 3 Switch (firmware 2014-09-23),9/23/2014
+rack,boundary_defense_rack,N40000,Firewall,TRUE,SW0011,Cisco,FirePower 4125 Next Generation Firewall with Firepower Threat Defense (FTD) Software,6.6.7

@@ -16,7 +16,7 @@ def load_critical_functions():
             "Work Area": function["Work_Area"],
             "Criticality": function["Criticality"],
             "Criticality Value": function["Criticality_Value"],
-            "Remove": "❌"  # Remove button
+            "Remove": "❎"  # Remove button
         }
         for function in functions_data.get("System_Critical_Functions", [])
     ]

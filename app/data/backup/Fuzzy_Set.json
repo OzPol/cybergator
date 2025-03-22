@@ -1,0 +1,92 @@
+{
+    "flood_risk": {
+        "Yes": { "left": 0.8, "peak": 1.0, "right": 1.0 },
+        "No": { "left": 0.0, "peak": 0.0, "right": 0.2 },
+        "NA": {"left": 0.0, "peak": 0.0, "right": 0.0} 
+    },
+    "unlocked_doors": {
+        "Yes": { "left": 0.4, "peak": 0.5, "right": 0.6 },
+        "No": { "left": 0.0, "peak": 0.0, "right": 0.2 },
+        "NA": {"left": 0.0, "peak": 0.0, "right": 0.0} 
+    },
+    "security_guard_present": {
+        "Part-time": { "left": 0.3, "peak": 0.5, "right": 0.7 },
+        "Full-time": { "left": 0.0, "peak": 0.0, "right": 0.2 },
+        "No": { "left": 0.7, "peak": 1.0, "right": 1.0 },
+        "NA": {"left": 0.0, "peak": 0.0, "right": 0.0} 
+    },
+    "alarm_coverage": {
+        "None": { "left": 0.6, "peak": 0.8, "right": 1.0 },
+        "Limited": { "left": 0.3, "peak": 0.5, "right": 0.7 },
+        "Full": { "left": 0.0, "peak": 0.1, "right": 0.2 },
+        "NA": {"left": 0.0, "peak": 0.0, "right": 0.0}
+    },
+    "access_control": {
+        "Low": { "left": 1.2, "peak": 1.5, "right": 1.8 },
+        "Medium": { "left": 0.3, "peak": 0.5, "right": 0.7 },
+        "High": { "left": 0.0, "peak": 0.1, "right": 0.2 },
+        "NA": {"left": 0.0, "peak": 0.0, "right": 0.0} 
+    },
+    "key_lock_usage": {
+        "Yes": { "left": 0.0, "peak": 0.1, "right": 0.2 },
+        "No": { "left": 1.3, "peak": 1.5, "right": 1.7 },
+        "NA": {"left": 0.0, "peak": 0.0, "right": 0.0} 
+    },
+    "outdated_components": {
+        "Yes": { "left": 0.8, "peak": 1.0, "right": 1.0 },
+        "No": { "left": 0.0, "peak": 0.0, "right": 0.2 },
+        "NA": {"left": 0.0, "peak": 0.0, "right": 0.0} 
+    },
+    "patching_delays": {
+        "Yes": { "left": 0.8, "peak": 1.0, "right": 5.0 },
+        "No": { "left": 0.0, "peak": 0.0, "right": 0.2 },
+        "NA": {"left": 0.0, "peak": 0.0, "right": 0.0} 
+    },
+    "proprietary_software": {
+        "Yes": { "left": 0.8, "peak": 1.0, "right": 1.0 },
+        "No": { "left": 0.0, "peak": 0.0, "right": 0.2 },
+        "NA": {"left": 0.0, "peak": 0.0, "right": 0.0} 
+    },
+    "training_level": {
+        "Low": { "left": 1.8, "peak": 2.0, "right": 2.2 },
+        "Medium": { "left": 0.4, "peak": 0.6, "right": 0.8 },
+        "High": { "left": 0.0, "peak": 0.1, "right": 0.2 },
+        "NA": {"left": 0.0, "peak": 0.0, "right": 0.0} 
+    },
+    "firewall_up_to_date": {
+        "Yes": { "left": 0.0, "peak": 0.0, "right": 0.2 },
+        "No": { "left": 1.8, "peak": 2.0, "right": 2.2 },
+        "NA": {"left": 0.0, "peak": 0.0, "right": 0.0} 
+    },
+    "vulnerability_scanner_up_to_date": {
+        "Yes": { "left": 0.0, "peak": 0.0, "right": 0.2 },
+        "No": { "left": 0.8, "peak": 1.0, "right": 1.0 },
+        "NA": {"left": 0.0, "peak": 0.0, "right": 0.0} 
+    },
+    "end_of_life_components": {
+        "Yes": { "left": 0.0, "peak": 0.0, "right": 0.2 },
+        "No": { "left": 0.8, "peak": 1.0, "right": 1.0 },
+        "NA": {"left": 0.0, "peak": 0.0, "right": 0.0} 
+    },
+    "shared_building_foot_traffic": {
+        "Yes": { "left": 0.8, "peak": 1.0, "right": 1.0 },
+        "No": { "left": 0.0, "peak": 0.0, "right": 0.2 },
+        "NA": {"left": 0.0, "peak": 0.0, "right": 0.0} 
+    },
+    "smart_lock_pro_installed": {
+        "Yes": { "left": 0.0, "peak": 0.0, "right": 0.2 },
+        "No": { "left": 0.2, "peak": 0.3, "right": 0.4 },
+        "NA": {"left": 0.0, "peak": 0.0, "right": 0.0} 
+    },
+    "access_via_other_room": {
+        "Yes": { "left": 0.2, "peak": 0.3, "right": 0.4 },
+        "No": { "left": 0.0, "peak": 0.0, "right": 0.2 },
+        "NA": {"left": 0.0, "peak": 0.0, "right": 0.0} 
+    },
+    "it_staff_count": {
+        "Low": { "left": 0.8, "peak": 1.0, "right": 1.0 },
+        "Medium": { "left": 0.4, "peak": 0.5, "right": 0.6 },
+        "High": { "left": 0.0, "peak": 0.1, "right": 0.2 },
+        "NA": {"left": 0.0, "peak": 0.0, "right": 0.0} 
+    }
+}
