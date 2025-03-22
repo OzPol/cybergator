@@ -3,10 +3,13 @@ import dash
 import requests
 from app.views.pages.nodes_table import nodes_table_layout
 from app.views.pages.cves_table import cves_table_layout
+from app.views.pages.software_unique_table import software_unique_table_layout
 from app.services.data_loader import (
     get_nodes, save_nodes_data,
     get_all_software, get_software_inventory
 )
+
+
 
 API_BASE_URL = "http://localhost:8000/api/cve"
 
@@ -38,6 +41,8 @@ def register_system_tables_callbacks(app):
             return nodes_table_layout()
         elif selected_table == "cves-table-btn":
             return cves_table_layout()
+        elif selected_table == "software-unique-btn": 
+            return software_unique_table_layout()
         return html.Div("Select a table to view its contents.")
 
     @app.callback(

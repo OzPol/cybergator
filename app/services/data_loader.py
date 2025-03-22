@@ -76,9 +76,39 @@ def save_nodes_data(updated_nodes):
         print(f"Error saving nodes data: {e}")  # Debugging output
 
 def reset_nodes_data():
-    """Resets `Nodes_Complete.json` from backup."""
+    # Resets `Nodes_Complete.json` from backup.
     try:
         shutil.copy(os.path.join(BACKUP_PATH, "Nodes_Complete.json"), os.path.join(DATA_PATH, "Nodes_Complete.json"))
         print("Nodes reset to backup.")
     except Exception as e:
         print(f"Error restoring backup: {e}")
+        
+
+def save_json(data, filename):
+    # Saves data to a JSON file in the data/json/ directory.
+    try:
+        filepath = os.path.join(DATA_PATH, filename)
+        with open(filepath, "w") as f:
+            json.dump(data, f, indent=4)
+    except Exception as e:
+        print(f"Error saving {filename}: {e}")  # Debugging output
+
+def get_software_cves():
+    # Loads the software_cves.json file.
+    filepath = os.path.join(DATA_PATH, "software_cves.json")
+    if not os.path.exists(filepath):
+        return {}
+    
+    with open(filepath, "r") as f:
+        return json.load(f)
+
+def get_next_software_id():
+    # Generate the next available software ID.
+    software_cves = get_software_cves()
+
+    if not software_cves:
+        return "SW001"
+
+    existing_ids = sorted(int(k[2:]) for k in software_cves.keys() if k.startswith("SW"))
+    next_id = f"SW{existing_ids[-1] + 1:03d}"  # Format as "SWXXX"
+    return next_id
