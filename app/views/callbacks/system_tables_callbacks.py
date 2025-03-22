@@ -110,6 +110,8 @@ def register_system_tables_callbacks(app):
                 return cve_data, "", "", "⚠️ CVE already exists on all nodes."
 
             save_nodes_data(nodes_data)
+            requests.get("http://localhost:8000/api/resilience")
+
             return cve_data, "", "", f"✅ CVE added to {updates} node(s)."
 
         elif triggered_id == "cves-table":
@@ -131,8 +133,9 @@ def register_system_tables_callbacks(app):
             save_nodes_data(nodes_data)
             
             # re-run the whole script
-            subprocess.run(["python", "app/services/resilience_score_calculator.py"])
-            
+            # subprocess.run(["python", "app/services/resilience_score_calculator.py"])
+            requests.get("http://localhost:8000/api/resilience")
+
             cve_data = [entry for entry in cve_data if entry["CVE ID"] != cve_to_remove or entry["Node ID"] != node_id_to_remove]
             return cve_data, "", "", f"{cve_to_remove} removed from {node_id_to_remove}!"
 
