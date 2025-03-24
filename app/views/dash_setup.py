@@ -13,6 +13,7 @@ from app.views.pages.system_tables import system_tables_layout
 from app.views.pages.cves_table import cves_table_layout
 from app.views.pages.nodes_table import nodes_table_layout
 from app.views.pages.software_table import software_table_layout
+from app.views.pages.hardware_table import hardware_table_layout
 from app.views.pages.critical_functions_table import critical_function_layout
 from app.views.pages.export_layout import export_layout
 from app.views.pages.environmental_factors import environmental_factors_layout
@@ -47,6 +48,8 @@ def render_page_content(pathname, session_user):
         return nodes_table_layout()
     elif pathname == "/system-tables/software-nodes":
         return software_table_layout()
+    elif pathname == "/system-tables/hardware-nodes":
+        return hardware_table_layout()
     elif pathname == "/system-tables/critical-functions":
         return critical_function_layout()
     elif pathname == "/export":

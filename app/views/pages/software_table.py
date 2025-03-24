@@ -67,6 +67,86 @@ def software_table_layout():
             page_size=15,
             style_table={"overflowX": "auto"},
             style_cell={"textAlign": "left"},
+        ),
+
+        html.Br(),
+
+        # Display error messages
+        html.Div(id="error-message", className="text-danger mt-2 text-center"),
+
+        dbc.Row([
+    # Category Dropdown (Rack or Workstation)
+    dbc.Col([
+        html.Label("Category:", className="fw-bold"),
+        dcc.Dropdown(
+            id="new-software-category",
+            options=[
+                {"label": "Rack", "value": "rack"},
+                {"label": "Workstation", "value": "workstation"}
+            ],
+            placeholder="Select Category"
         )
+    ], width=3),
+
+    # Rack Type Dropdown
+    dbc.Col([
+        html.Label("Rack Type:", className="fw-bold"),
+        dcc.Dropdown(
+            id="new-rack-type",
+            options=[
+                {"label": "Boundary Defense Rack", "value": "boundary_defense_rack"},
+                {"label": "Bulk Data Storage Rack", "value": "bulk_data_storage_rack"},
+                {"label": "Server Rack", "value": "server_rack"},
+                {"label": "Not a Rack", "value": "not_a_rack"}
+            ],
+            placeholder="Select Rack Type"
+        )
+    ], width=3),
+
+    # Node ID 
+    dbc.Col([
+        html.Label("Node ID:", className="fw-bold"),
+        dcc.Input(id="new-node-id", type="text", placeholder="Enter Node ID")
+    ], width=2),
+
+    # Is In Use 
+    dbc.Col([
+        html.Label("Is In Use:", className="fw-bold"),
+        dcc.Dropdown(
+            id="new-is-in-use",
+            options=[
+                {"label": "True", "value": "true"},
+                {"label": "False", "value": "false"}
+            ],
+            placeholder="Select Status"
+        )
+    ], width=2),
+
+    # Software ID 
+    dbc.Col([
+        html.Label("Software ID:", className="fw-bold"),
+        dcc.Input(id="new-software-id", type="text", placeholder="Enter Software ID")
+    ], width=2),
+], className="mt-2"),
+
+dbc.Row([
+    # Software Make 
+    dbc.Col([
+        html.Label("Software Make:", className="fw-bold"),
+        dcc.Input(id="new-software-make", type="text", placeholder="Enter Software Make")
+    ], width=3),
+
+    # Software Description
+    dbc.Col([
+        html.Label("Software Description:", className="fw-bold"),
+        dcc.Input(id="new-software-description", type="text", placeholder="Enter Software Description")
+    ], width=4),
+
+    # Add Software Button
+    dbc.Col([
+        html.Label(" ", className="fw-bold"),  
+        dbc.Button("Add Software", id="add-software-btn", color="success")
+    ], width=2),
+], className="mt-2"),
     ], fluid=True)
     
