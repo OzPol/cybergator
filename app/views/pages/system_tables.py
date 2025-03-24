@@ -32,7 +32,7 @@ def system_tables_layout():
             ),
         ], className="justify-content-center"),
 
-         dbc.Row([
+        dbc.Row([
             dbc.Col(
                 dbc.Card(
                     dbc.CardBody([
@@ -56,5 +56,34 @@ def system_tables_layout():
                 ), width=6, className="mb-3"
             ),
         ], className="justify-content-center"),
+        
+        # Unique Software Table (Not with Nodes)
+        dbc.Row([
+            dbc.Col(
+                dbc.Card(
+                    dbc.CardBody([
+                        html.H5("Unique Software", className="card-title"),
+                        html.P("View and manage all unique software entries.", className="card-text"),
+                        dbc.Button("View Table", href="/system-tables/software-unique", color="primary"),
+                    ]),
+                    className="shadow-sm p-3 mb-4 bg-white rounded",
+                    style={"width": "100%", "textAlign": "center"}
+                ), width=6, className="mb-3"
+            ),
+            # PLACE HOLDER FOR FUTURE TABLE Management
+            dbc.Col(
+                dbc.Card(
+                    dbc.CardBody([
+                        html.H5("Coming Soon", className="card-title"),
+                        html.P("Reserved for future software management tools.", className="card-text"),
+                        dbc.Button("View Table", href="#", color="secondary", disabled=True),
+                    ]),
+                    className="shadow-sm p-3 mb-4 bg-white rounded",
+                    style={"width": "100%", "textAlign": "center"}
+                ), width=6, className="mb-3"
+            ),
+        ], className="justify-content-center"),
+
+
     ], fluid=True) 
 

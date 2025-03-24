@@ -16,6 +16,9 @@ from app.views.pages.software_table import software_table_layout
 from app.views.pages.critical_functions_table import critical_function_layout
 from app.views.pages.export_layout import export_layout
 from app.views.pages.environmental_factors import environmental_factors_layout
+from app.views.pages.software_unique_table import software_unique_table_layout
+from app.views.pages.neo4j_graph_layout import neo4j_graph_layout
+
 
 def render_page_content(pathname, session_user):
     """Dynamically updates the content area based on the session"""
@@ -47,16 +50,18 @@ def render_page_content(pathname, session_user):
         return nodes_table_layout()
     elif pathname == "/system-tables/software-nodes":
         return software_table_layout()
+    elif pathname == "/system-tables/software-unique":
+        return software_unique_table_layout()
     elif pathname == "/system-tables/critical-functions":
         return critical_function_layout()
     elif pathname == "/export":
         return export_layout()
     elif pathname == "/environmental-factors":
         return environmental_factors_layout()
-
-    
+    elif pathname == "/neo4j-graph":
+        return neo4j_graph_layout()
+        
     return html.H1("404 - Page Not Found", className="text-center")
-
 
 def get_main_layout():
     return html.Div([
