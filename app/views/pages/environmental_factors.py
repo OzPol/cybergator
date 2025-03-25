@@ -29,13 +29,29 @@ def create_risk_factor(index, value=50):
 def environmental_factors_layout():
     """Defines the Environmental Factors page layout"""
     return dbc.Container([
-        html.H2("Environmental Risk Factors", className="section-title"),
-        html.P("Add/Remove/Change Impact of Environmental Risk Factors", className="section-subtitle"),
-        html.P(
-            "This section gives a brief explanation to why we considered Env Risks, and allows a user to "
-            "change their impact level/add new ones",
-            className="description-text"
-        ),
+        dbc.Row([
+            dbc.Col([
+                html.H2("Environmental Risk Factors", className="text-center mb-3"),
+            ], width=12)
+        ]),
+
+        dbc.Row([
+            dbc.Col([
+                html.P("Cyber threats are influenced by more than just software vulnerabilities—physical and operational conditions also play "
+                "a critical role.", className="mb-3"),
+                
+                html.H5("Environmental Risk Factors Include:", className="mt-3"),
+                html.Ul([
+                    html.Li("Untrained staff members who may fall victim to social engineering attacks."),
+                    html.Li("Unlocked doors that allow unauthorized personnel access to critical infrastructure."),
+                    html.Li("Unattended rooms where sensitive hardware or documentation is left vulnerable."),
+                    html.Li("Server stacks stored on the floor in flood-prone buildings, increasing the risk of data loss during natural disasters."),
+                ], className="mb-3"),
+
+                html.P("Users can modify these factors and assign risk levels to determine their impact on the overall Resilience Score. "
+                "Addressing environmental risks is a key step in improving cybersecurity posture.", className="mb-5"),
+            ], width=10, className="offset-1")  # Centers the column on the page
+        ]),
 
         # Store for slider values (hidden component)
         dcc.Store(id="slider-values-store", data=slider_values),

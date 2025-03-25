@@ -5,7 +5,7 @@ def system_tables_layout():
     """Render the System Tables Overview Page dynamically."""
     
     return dbc.Container([
-        html.H3("System Tables", className="text-center mt-4"),
+        html.H2("System Tables", className="text-center mt-4"),
 
         # New Introductory Text Block
         dbc.Row([

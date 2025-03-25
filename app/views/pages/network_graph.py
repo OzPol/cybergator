@@ -15,7 +15,7 @@ def cytoscape_graph(graph_data):
 def graph_layout():
     # Graph Layout Page
     return html.Div([
-        html.H3("System Graph", className="text-center mb-4"),
+        html.H2("System Graph", className="text-center mb-4"),
 
         # Descriptive body copy
         dbc.Container([
