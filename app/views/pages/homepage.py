@@ -48,7 +48,7 @@ def homepage_layout():
                             dbc.Card([
                                 dbc.CardImg(src="assets/Samson_Carter.jpg", top=True, className="team-card-img"),
                                 dbc.CardBody([
-                                    html.H4("Samson carter - Project Manager", className="card-title"),
+                                    html.H4("Samson Carter - Project Manager", className="card-title"),
                                     html.P("Body text for whatever you'd like to say.", className="card-text")
                                 ])
                             ], className="h-100"),
