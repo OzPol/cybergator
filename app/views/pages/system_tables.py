@@ -5,7 +5,15 @@ def system_tables_layout():
     """Render the System Tables Overview Page dynamically."""
     
     return dbc.Container([
-        html.H3("System Tables", className="text-center mt-4"),
+        html.H2("System Tables", className="text-center mt-4"),
+
+        # New Introductory Text Block
+        dbc.Row([
+            dbc.Col([
+                html.P("System Tables store and organize essential data related to the system’s cyber resilience.", className="mb-3"),
+                html.P("Users can view, add, update, and remove entries, ensuring system configurations are accurately reflected for analysis.", className="mb-4"),
+            ], width=12)
+        ]),
 
         dbc.Row([
             dbc.Col(
