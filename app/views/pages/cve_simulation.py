@@ -19,7 +19,7 @@ def load_cve_data():
             })
     return cve_list
 
-def cve_simulation_layout():
+def cve_simulation_layout(session_user=None, resilience_score=None):
     # Render the CVEs Table Page with Add Functionality.
     cve_data = load_cve_data()  # Fetch CVEs from Nodes_Complete.json
     software_options = get_all_software()  # Get software list for dropdown
@@ -28,7 +28,13 @@ def cve_simulation_layout():
 
     return dbc.Container([
         html.H3("Common Vulnerabilities and Exposures Simulation", className="text-center mt-4"),
+        html.Div(
+            f"Current Resilience Score: {resilience_score if resilience_score is not None else 'N/A'}",
+            id="system-resilience-score",
+            style={'textAlign': 'center', 'marginTop': '20px', 'fontSize': '1.2rem'}
+        ),
 
+    
         html.Div(
             dcc.Link(
                 dbc.Button("CVE Refresh", color="primary", className="mb-3"),
@@ -60,7 +66,7 @@ def cve_simulation_layout():
 
             derived_viewport_data=cve_data,
         ),
-
+        
         html.Br(),
 
         # Display error messages

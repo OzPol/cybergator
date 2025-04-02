@@ -5,7 +5,7 @@ import pandas as pd
 
 # Path to JSON files
 DATA_PATH = os.path.join(os.path.dirname(__file__), "../data/json/")
-BACKUP_PATH = os.path.join(DATA_PATH, "../data/backup/")
+BACKUP_PATH = os.path.join(os.path.dirname(__file__), "../data/backup/")
 CSV_PATH = os.path.join(os.path.dirname(__file__), "../data/csv/")
 
 def load_json(filename):
