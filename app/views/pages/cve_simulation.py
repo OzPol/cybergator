@@ -1,9 +1,10 @@
 from dash import html, dcc, dash_table
 import dash_bootstrap_components as dbc
-from app.services.data_loader import get_nodes, get_all_software
+from app.services.data_loader import get_nodes, get_all_software, reset_nodes_data
 
 def load_cve_data():
     """Extract CVEs, their NVD scores, and affected nodes, fully flattened."""
+    reset_nodes_data()
     nodes_data = get_nodes()  # Load nodes from JSON
     cve_list = []
 
@@ -26,12 +27,13 @@ def cve_simulation_layout():
     software_make_options = [{"label": make, "value": make} for make in software_options.keys()]
 
     return dbc.Container([
-        html.H3("CVEs Table", className="text-center mt-4"),
+        html.H3("Common Vulnerabilities and Exposures Simulation", className="text-center mt-4"),
 
         html.Div(
             dcc.Link(
                 dbc.Button("CVE Refresh", color="primary", className="mb-3"),
-                href="/system-tables"
+                href="/cve-simulation",
+                refresh=True
             )
         ),
 
