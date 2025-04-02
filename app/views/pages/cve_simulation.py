@@ -30,7 +30,7 @@ def cve_simulation_layout():
 
         html.Div(
             dcc.Link(
-                dbc.Button("Go to System Tables", color="primary", className="mb-3"),
+                dbc.Button("CVE Refresh", color="primary", className="mb-3"),
                 href="/system-tables"
             )
         ),
