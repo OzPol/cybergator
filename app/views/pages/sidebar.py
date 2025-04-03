@@ -55,6 +55,7 @@ def sidebar(session_user=None):
                 children=[
                     dbc.DropdownMenuItem("Reset All", id="reset-all", n_clicks=0),
                     dbc.DropdownMenuItem("Reset Nodes", id="reset-nodes", n_clicks=0),
+                    dbc.DropdownMenuItem("Reset CVEs", id="reset-cves", n_clicks=0),
                     dbc.DropdownMenuItem("Reset Software Inventory", id="reset-software", n_clicks=0),
                     dbc.DropdownMenuItem("Reset Attack Tree", id="reset-attack", n_clicks=0),
                     dbc.DropdownMenuItem("Reset Risk Factors", id="reset-risk", n_clicks=0),
