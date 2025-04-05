@@ -156,7 +156,6 @@ def update_button_selection(n_clicks, ids):
     status_msg = f"{change_count} Change{'s' if change_count != 1 else ''} saved ✅" if changes_made else "No changes made"
     return status_msg, change_log, updated_colors, updated_outlines
 
-
 @callback(
     Output("update-status", "children", allow_duplicate=True),
     Output("change-log", "children", allow_duplicate=True),
@@ -185,18 +184,27 @@ def reset_work_area(n_clicks, reset_ids, button_ids):
     if not backup_entry or not current_entry:
         return f"Error: Work area not found", change_log, dash.no_update, dash.no_update
 
-    new_logs = []
+    # Reset all values for this work area to defaults
+    changes_made = 0
     for factor, default_value in backup_entry["Risk_Factors"].items():
         if current_entry["Risk_Factors"].get(factor) != default_value:
-            new_logs.append(html.Li(f"{triggered_area.replace('_', ' ')}: '{factor.replace('_', ' ')}' reset to '{default_value}'"))
+            changes_made += 1
             current_entry["Risk_Factors"][factor] = default_value
 
+    # Save changes to the current data file
     with open(risk_data_path, "w") as f:
         json.dump(current_data, f, indent=4)
 
-    change_count += len(new_logs)
-    change_log[:0] = new_logs
+    # Remove all change log entries for this specific work area
+    filtered_log = [log for log in change_log if not log.children.startswith(triggered_area.replace('_', ' '))]
+    
+    # Update change count
+    change_count = len(filtered_log)
+    
+    # Update the change log
+    change_log = filtered_log
 
+    # Update button colors and outlines
     latest = {wa["Work_Area"]: wa["Risk_Factors"] for wa in current_data["work_areas"]}
     colors, outlines = [], []
     for btn in button_ids:
@@ -205,4 +213,62 @@ def reset_work_area(n_clicks, reset_ids, button_ids):
         colors.append("primary" if current_val == v else "secondary")
         outlines.append(current_val != v)
 
-    return f"{change_count} Change{'s' if change_count != 1 else ''} saved ✅", change_log, colors, outlines
+    status_msg = f"{triggered_area.replace('_', ' ')} reset to default values ✅"
+    
+    return status_msg, change_log, colors, outlines
+
+@callback(
+    Output("update-status", "children", allow_duplicate=True),
+    Output("change-log", "children", allow_duplicate=True),
+    Output({"type": "btn-option", "area": ALL, "factor": ALL, "value": ALL}, "color", allow_duplicate=True),
+    Output({"type": "btn-option", "area": ALL, "factor": ALL, "value": ALL}, "outline", allow_duplicate=True),
+    Output("change-counter", "children", allow_duplicate=True),
+    Input("reset-work-areas", "n_clicks"),
+    State({"type": "btn-option", "area": ALL, "factor": ALL, "value": ALL}, "id"),
+    prevent_initial_call=True
+)
+def reset_all_work_areas(n_clicks, button_ids):
+    global change_log, change_count
+    if not n_clicks:
+        return dash.no_update, dash.no_update, dash.no_update, dash.no_update, dash.no_update
+
+    # Load backup data
+    with open(backup_data_path, "r") as f:
+        backup_data = json.load(f)
+    # Load current data
+    with open(risk_data_path, "r") as f:
+        current_data = json.load(f)
+
+    # For each work area in backup data
+    for backup_area in backup_data["work_areas"]:
+        area_name = backup_area["Work_Area"]
+        # Find corresponding current area
+        current_area = next((wa for wa in current_data["work_areas"] if wa["Work_Area"] == area_name), None)
+        
+        if current_area:
+            # For each risk factor in this area
+            for factor, default_value in backup_area["Risk_Factors"].items():
+                current_area["Risk_Factors"][factor] = default_value
+
+    # Save changes to the current data file
+    with open(risk_data_path, "w") as f:
+        json.dump(current_data, f, indent=4)
+
+    # Reset the change count and log
+    change_count = 0
+    change_log = []
+
+    # Update button colors and outlines
+    latest = {wa["Work_Area"]: wa["Risk_Factors"] for wa in current_data["work_areas"]}
+    colors, outlines = [], []
+    for btn in button_ids:
+        a, f_, v = btn["area"], btn["factor"], btn["value"]
+        current_val = latest[a][f_]
+        colors.append("primary" if current_val == v else "secondary")
+        outlines.append(current_val != v)
+
+    status_msg = "All work areas reset to default values ✅"
+    # Clear the change counter text
+    counter_msg = ""
+    
+    return status_msg, [], colors, outlines, counter_msg
