@@ -17,7 +17,6 @@ risk_factors_matrix = risk_data["Risk_Factors_Matrix"]
 change_log = []
 change_count = 0
 
-# Layout
 def workstation_cards():
     cards = []
 
@@ -32,16 +31,16 @@ def workstation_cards():
                 dbc.Row([
                     dbc.Col(html.Div(factor.replace("_", " ").capitalize(), className="fw-bold"), width=6),
                     dbc.Col(
-                        dbc.ButtonGroup([
+                        html.Div([
                             dbc.Button(
                                 opt,
                                 id={"type": "btn-option", "area": work_area, "factor": factor, "value": opt},
                                 color="primary" if opt == value else "secondary",
                                 outline=opt != value,
                                 size="sm",
-                                className="me-1"
+                                className="me-1 mb-1 d-inline-block"
                             ) for opt in options
-                        ], size="sm"),
+                        ], style={"display": "flex", "flexWrap": "wrap"}),
                         width=6
                     )
                 ], className="mb-2")
@@ -54,27 +53,47 @@ def workstation_cards():
         card = dbc.Card([
             dbc.CardHeader(
                 dbc.Row([
-                    dbc.Col(html.H5(work_area.replace("_", " "), className="mb-0"), width=10),
+                    dbc.Col(
+                        html.H5(work_area.replace("_", " "), className="mb-0"),
+                        xs=12, md=8, className="d-flex align-items-center"
+                    ),
                     dbc.Col(
                         dbc.Button("View Risk Factors", id={"type": "toggle-button", "index": idx},
-                                   color="primary", size="sm", className="float-end"),
-                        width=2, style={"textAlign": "right"}
+                                color="primary", size="sm", className="w-100"),
+                        xs=12, md=4, className="mt-2 mt-md-0"
                     )
-                ], align="center")
+                ], className="g-1")
             ),
             dbc.Collapse(
                 dbc.CardBody(factor_controls, className="bg-light rounded shadow-sm p-3"),
                 id={"type": "collapse", "index": idx},
                 is_open=False
             )
-        ], className="mb-4 shadow-sm rounded")
+        ], className="shadow-sm rounded")  # Removed h-100 class
 
-        cards.append(card)
-
+        # Wrap each card in its own column that will maintain its own layout
+        card_col = dbc.Col(
+            card,
+            width=12, md=6, lg=4, 
+            className="mb-4",
+            style={"display": "flex", "flex-direction": "column"}
+        )
+        
+        cards.append(card_col)
+    
+    # Create rows with 3 cards each
+    card_rows = []
+    for i in range(0, len(cards), 3):
+        card_row = dbc.Row(
+            cards[i:i+3],
+            className="g-3",  # Add gutter spacing between cards
+        )
+        card_rows.append(card_row)
+    
     return dbc.Container([
         html.H2("Work Stations", className="text-center mt-4"),
         html.P("Explore and modify risk factors by work area.", className="text-center mb-4"),
-        dbc.Row(dbc.Col(cards, width=12)),
+        html.Div(card_rows),  # Use the new card rows layout
         html.Div(id="update-status", className="text-success text-center mt-2"),
         html.Div(id="change-counter", className="text-center text-info mt-2 fw-bold"),
         html.Details([
