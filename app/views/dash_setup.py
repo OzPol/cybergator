@@ -18,6 +18,7 @@ from app.views.pages.export_layout import export_layout
 from app.views.pages.environmental_factors import environmental_factors_layout
 from app.views.pages.software_unique_table import software_unique_table_layout
 from app.views.pages.neo4j_graph_layout import neo4j_graph_layout
+from app.views.pages.workstations_layout import workstation_cards
 
 
 def render_page_content(pathname, session_user):
@@ -60,6 +61,8 @@ def render_page_content(pathname, session_user):
         return environmental_factors_layout()
     elif pathname == "/neo4j-graph":
         return neo4j_graph_layout()
+    elif pathname == "/work-stations":
+        return workstation_cards()
         
     return html.H1("404 - Page Not Found", className="text-center")
 
