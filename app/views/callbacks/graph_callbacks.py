@@ -1,6 +1,8 @@
 from dash import Input, Output, State
 import requests
 from app.views.pages.network_graph import cytoscape_graph
+from dash.dependencies import Input, Output, State
+
 
 def register_graph_callbacks(app):
     @app.callback(
@@ -22,3 +24,13 @@ def register_graph_callbacks(app):
                     return updated_graph
                 return []  # Empty graph if no data
         return current_elements  # Keeps existing graph if no new data
+
+    @app.callback(
+        Output("collapse-system-info", "is_open"),
+        Input("toggle-system-info", "n_clicks"),
+        State("collapse-system-info", "is_open"),
+    )
+    def toggle_system_info(n_clicks, is_open):
+        if n_clicks:
+            return not is_open
+        return is_open
