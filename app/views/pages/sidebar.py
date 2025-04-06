@@ -58,6 +58,7 @@ def sidebar(session_user=None):
                     dbc.DropdownMenuItem("Reset Software Inventory", id="reset-software", n_clicks=0),
                     dbc.DropdownMenuItem("Reset Attack Tree", id="reset-attack", n_clicks=0),
                     dbc.DropdownMenuItem("Reset Risk Factors", id="reset-risk", n_clicks=0),
+                    dbc.DropdownMenuItem("Reset Work Areas", id="reset-work-areas", n_clicks=0),
                 ],
                 color="primary", className="mt-2", style={"position": "absolute", "bottom": "280px","width": "100%"}
             )
