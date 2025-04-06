@@ -118,26 +118,21 @@ def get_node_types():
     return sorted(set(node.get("node_type", "Unknown") for node in nodes))
 
 def get_software_dropdown_options():
-    filepath = os.path.join(CSV_PATH, "software_inventory.csv")
-    df = pd.read_csv(filepath)
+    df = pd.read_csv(os.path.join(CSV_PATH, "software_inventory.csv"))
+    df = df[['software_make', 'software_version']].drop_duplicates()
 
-    dropdown_dict = {}
+    software_dict = {}
     for _, row in df.iterrows():
         make = row["software_make"]
         version = row["software_version"]
-        software_id = row["software_id"]
 
-        if make not in dropdown_dict:
-            dropdown_dict[make] = []
+        if make not in software_dict:
+            software_dict[make] = []
 
-        dropdown_dict[make].append({
-            "label": version,
-            "value": software_id,
-            "version": version
-        })
+        software_dict[make].append({"label": version, "value": version})
 
-    make_options = [{"label": make, "value": make} for make in dropdown_dict]
-    return make_options, dropdown_dict
+    make_options = [{"label": make, "value": make} for make in software_dict]
+    return make_options, software_dict
 
 def append_software_entry(node_id, software_id, software_version):
     filepath = os.path.join(CSV_PATH, "software_inventory.csv")
@@ -165,3 +160,7 @@ def append_software_entry(node_id, software_id, software_version):
 
     df = pd.concat([df, pd.DataFrame([new_entry])], ignore_index=True)
     df.to_csv(filepath, index=False)
+
+def get_critical_function_keys():
+    data = get_critical_functions()
+    return [item["Function_Number"] for item in data.get("System_Critical_Functions", [])]

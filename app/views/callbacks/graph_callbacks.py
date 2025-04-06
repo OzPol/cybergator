@@ -8,7 +8,7 @@ from app.views.pages.network_graph import cytoscape_graph
 from app.services.graph_service import add_node_to_system_graph
 from app.services.data_loader import (
     get_software_dropdown_options, get_node_types, get_critical_functions,
-    get_all_nodes, get_software_cves, append_software_entry
+    get_all_nodes, get_software_cves, append_software_entry, get_critical_function_keys
 )
 
 def register_graph_callbacks(app):
@@ -50,3 +50,42 @@ def register_graph_callbacks(app):
     )
     def toggle_add_node_form(n_clicks, is_open):
         return not is_open
+    
+    @app.callback(
+        Output("node-type-selector", "options"),
+        Input("system-graph", "elements")
+    )
+    def populate_node_types(_):
+        return [{"label": t, "value": t} for t in get_node_types()]
+    
+    @app.callback(
+        Output("critical-function-selector", "options"),
+        Input("system-graph", "elements")
+    )
+    def populate_critical_functions(_):
+        return [{"label": fn, "value": fn} for fn in get_critical_function_keys()]
+
+
+    @app.callback(
+        Output("connected-nodes-selector", "options"),
+        Input("system-graph", "elements")
+    )
+    def populate_connected_nodes(_):
+        return get_all_nodes()
+
+    @app.callback(
+        Output("software-make-selector", "options"),
+        Input("system-graph", "elements")
+    )
+    def populate_software_makes(_):
+        make_options, _ = get_software_dropdown_options()
+        return make_options
+    
+    @app.callback(
+        Output("software-version-selector", "options"),
+        Input("software-make-selector", "value"),
+        prevent_initial_call=True
+    )
+    def update_versions_for_make(selected_make):
+        _, software_dict = get_software_dropdown_options()
+        return software_dict.get(selected_make, [])

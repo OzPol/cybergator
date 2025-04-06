@@ -67,6 +67,7 @@ def graph_layout():
                                 {"label": "Medium", "value": "Medium"},
                                 {"label": "High", "value": "High"}], placeholder="Risk", className="mb-2"),
                             dbc.Checkbox(id="switch-dependency", label="Depends on Switch?", className="mb-2"),
+                            dbc.Label("Resilience Penalty (0.0 - 1.0)", className="mb-1"),
                             dbc.Input(id="resilience-penalty", placeholder="Resilience Penalty", type="number", value=0.1, className="mb-2"),
                             html.Hr(),
                             dbc.Checkbox(id="no-software-checkbox", label="No Software Installed", className="mb-2"),
