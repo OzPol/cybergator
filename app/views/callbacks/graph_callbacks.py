@@ -1,15 +1,15 @@
-from dash import Input, Output, State
+from dash import Input, Output, State, ctx
 import requests
 from app.views.pages.network_graph import cytoscape_graph
 from dash.dependencies import Input, Output, State
-from dash import ctx
-import requests
+from dash.exceptions import PreventUpdate
 from app.views.pages.network_graph import cytoscape_graph
-from app.services.graph_service import add_node_to_system_graph
+from app.services.graph_service import load_graph_data, add_node_to_system_graph
 from app.services.data_loader import (
-    get_software_dropdown_options, get_node_types, get_critical_functions,
-    get_all_nodes, get_software_cves, append_software_entry, get_critical_function_keys
+    get_software_dropdown_options, get_software_cves, get_node_types, get_all_nodes, 
+    append_software_entry, get_critical_function_keys
 )
+
 
 def register_graph_callbacks(app):
     @app.callback(
@@ -89,3 +89,21 @@ def register_graph_callbacks(app):
     def update_versions_for_make(selected_make):
         _, software_dict = get_software_dropdown_options()
         return software_dict.get(selected_make, [])
+
+    @app.callback(
+        Output("backup-role", "options"),
+        Input("node-type-selector", "value"),
+        prevent_initial_call=True
+    )
+    def update_backup_role_options(node_type):
+        if node_type == "SAN Archive":
+            return [{"label": "Primary", "value": "Primary"}]
+        elif node_type == "SAN Archive Backup":
+            return [{"label": "Secondary", "value": "Secondary"}]
+        else:
+            return [{"label": "None", "value": "null"}]
+        
+
+
+
+

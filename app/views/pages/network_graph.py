@@ -5,20 +5,23 @@ from app.views.ui_text.system_graph_text import system_graph_description
 
 def cytoscape_graph(graph_data):
     # Creates Cytoscape graph elements from JSON data
-    elements = [
-        {"data": {"id": node["data"]["id"], "label": node["data"]["label"]}} for node in graph_data["nodes"]
-    ] + [
-        {"data": {"source": edge["data"]["source"], "target": edge["data"]["target"]}} for edge in graph_data["edges"]
-    ]
-    return elements
-
+    try: 
+        elements = [
+            {"data": {"id": node["data"]["id"], "label": node["data"]["label"]}} for node in graph_data["nodes"]
+        ] + [
+            {"data": {"source": edge["data"]["source"], "target": edge["data"]["target"]}} for edge in graph_data["edges"]
+        ]
+        return elements
+    except Exception as e:
+        print("ERROR IN cytoscape_graph():", e)
+        return []
 
 def graph_layout():
     # Graph Layout Page
     return html.Div([
         html.H3("System Graph", className="text-center mb-4"),
         system_graph_description(),
-        html.Button("Refresh Graph", id="refresh-graph-btn", n_clicks=1, className="btn btn-primary mb-3"),
+        html.Button("Refresh Graph", id="refresh-graph-btn", n_clicks=0, className="btn btn-primary mb-3"),
         dbc.Row([
             # Left: Graph
             dbc.Col([
@@ -59,7 +62,14 @@ def graph_layout():
                             dcc.Dropdown(id="critical-function-selector", options=[], multi=True, placeholder="Critical Functions", className="mb-2"),
                             dcc.Dropdown(id="connected-nodes-selector", options=[], multi=True, placeholder="Connect To", className="mb-2"),
                             dbc.Checkbox(id="critical-data-stored", label="Critical Data Stored?", className="mb-2"),
-                            dbc.Input(id="backup-role", placeholder="Backup Role", className="mb-2"),
+                            dcc.Dropdown(
+                                id="backup-role",
+                                options=[],  # will be populated dynamically using def update_backup_role_options(node_type):
+                                value=None,  # Sets default selection
+                                placeholder="Backup Role",
+                                className="mb-2",
+                                clearable=False
+                            ),
                             dcc.Dropdown(id="data-redundancy", options=[{"label": "Yes", "value": "Yes"}, {"label": "No", "value": "No"}], placeholder="Data Redundancy", className="mb-2"),
                             dbc.Checkbox(id="redundancy", label="Redundancy Present?", className="mb-2"),
                             dcc.Dropdown(id="risk-factor", options=[
