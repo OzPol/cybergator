@@ -17,9 +17,9 @@
                 "vulnerability_scanner_up_to_date": "No",
                 "end_of_life_components": "Yes",
                 "shared_building_foot_traffic": "No",
-                "smart_lock_pro_installed": "No",  
+                "smart_lock_pro_installed": "No",
                 "access_via_other_room": "Yes",
-                "it_staff_count": "NA" 
+                "it_staff_count": "NA"
             }
         },
         {
@@ -39,9 +39,9 @@
                 "vulnerability_scanner_up_to_date": "NA",
                 "end_of_life_components": "Yes",
                 "shared_building_foot_traffic": "No",
-                "smart_lock_pro_installed": "No",  
+                "smart_lock_pro_installed": "No",
                 "access_via_other_room": "Yes",
-                "it_staff_count": "Low" 
+                "it_staff_count": "Low"
             }
         },
         {
@@ -61,9 +61,9 @@
                 "vulnerability_scanner_up_to_date": "NA",
                 "end_of_life_components": "Yes",
                 "shared_building_foot_traffic": "No",
-                "smart_lock_pro_installed": "No",  
+                "smart_lock_pro_installed": "No",
                 "access_via_other_room": "Yes",
-                "it_staff_count": "NA" 
+                "it_staff_count": "NA"
             }
         },
         {
@@ -83,9 +83,9 @@
                 "vulnerability_scanner_up_to_date": "NA",
                 "end_of_life_components": "Yes",
                 "shared_building_foot_traffic": "No",
-                "smart_lock_pro_installed": "No",  
+                "smart_lock_pro_installed": "No",
                 "access_via_other_room": "Yes",
-                "it_staff_count": "NA" 
+                "it_staff_count": "NA"
             }
         }
     ],
@@ -93,56 +93,56 @@
         "flood_risk": {
             "Yes": 2.0,
             "No": 0,
-            "NA": 0 
+            "NA": 0
         },
         "unlocked_doors": {
             "Yes": 0.5,
             "No": 0,
-            "NA": 0 
+            "NA": 0
         },
         "security_guard_present": {
             "Part-time": 0.5,
             "Full-time": 0,
             "No": 1.0,
-            "NA": 0 
+            "NA": 0
         },
         "alarm_coverage": {
             "None": 0.8,
             "Limited": 0.5,
             "Full": 0.1,
-            "NA": 0 
+            "NA": 0
         },
         "access_control": {
             "Low": 1.5,
             "Medium": 0.5,
             "High": 0.1,
-            "NA": 0 
+            "NA": 0
         },
         "key_lock_usage": {
             "Yes": 0.1,
             "No": 1.5,
-            "NA": 0 
+            "NA": 0
         },
         "outdated_components": {
             "Yes": 1.0,
             "No": 0,
-            "NA": 0 
+            "NA": 0
         },
         "patching_delays": {
             "Yes": 1.0,
             "No": 0,
-            "NA": 0 
+            "NA": 0
         },
         "proprietary_software": {
             "Yes": 1.0,
             "No": 0,
-            "NA": 0 
+            "NA": 0
         },
         "training_level": {
             "Low": 2.0,
             "Medium": 0.6,
             "High": 0.1,
-            "NA": 0 
+            "NA": 0
         },
         "firewall_up_to_date": {
             "Yes": 0,
@@ -157,28 +157,28 @@
         "end_of_life_components": {
             "Yes": 0,
             "No": 1.0,
-            "NA": 0 
+            "NA": 0
         },
-        "shared_building_foot_traffic": { 
+        "shared_building_foot_traffic": {
             "Yes": 1.0,
             "No": 0,
-            "NA": 0 
+            "NA": 0
         },
         "smart_lock_pro_installed": {
-            "Yes": 0, 
+            "Yes": 0,
             "No": 0.3,
-            "NA": 0 
+            "NA": 0
         },
         "access_via_other_room": {
             "Yes": 0.3,
             "No": 0,
-            "NA": 0 
+            "NA": 0
         },
-        "it_staff_count": { 
+        "it_staff_count": {
             "Low": 1.0,
             "Medium": 0.5,
             "High": 0.1,
-            "NA": 0 
+            "NA": 0
         }
     }
 }
