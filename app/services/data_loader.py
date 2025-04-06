@@ -112,3 +112,55 @@ def get_next_software_id():
     existing_ids = sorted(int(k[2:]) for k in software_cves.keys() if k.startswith("SW"))
     next_id = f"SW{existing_ids[-1] + 1:03d}"  # Format as "SWXXX"
     return next_id
+
+def get_node_types():
+    nodes = get_nodes()
+    return sorted(set(node.get("node_type", "Unknown") for node in nodes))
+
+def get_software_dropdown_options():
+    df = pd.read_csv(os.path.join(CSV_PATH, "software_inventory.csv"))
+    df = df[['software_make', 'software_version']].drop_duplicates()
+
+    software_dict = {}
+    for _, row in df.iterrows():
+        make = row["software_make"]
+        version = row["software_version"]
+
+        if make not in software_dict:
+            software_dict[make] = []
+
+        software_dict[make].append({"label": version, "value": version})
+
+    make_options = [{"label": make, "value": make} for make in software_dict]
+    return make_options, software_dict
+
+def append_software_entry(node_id, software_id, software_version):
+    filepath = os.path.join(CSV_PATH, "software_inventory.csv")
+    df = pd.read_csv(filepath)
+
+    if node_id in df["node_id"].values:
+        return
+
+    match = df[(df["software_id"] == software_id) & (df["software_version"] == software_version)]
+    if match.empty:
+        return
+
+    row = match.iloc[0]
+    new_entry = {
+        "rack": row["rack"],
+        "rack_group": row["rack_group"],
+        "node_id": node_id,
+        "node_name": f"Linked_{node_id}",
+        "critical": row["critical"],
+        "software_id": row["software_id"],
+        "software_make": row["software_make"],
+        "software_description": row["software_description"],
+        "software_version": row["software_version"]
+    }
+
+    df = pd.concat([df, pd.DataFrame([new_entry])], ignore_index=True)
+    df.to_csv(filepath, index=False)
+
+def get_critical_function_keys():
+    data = get_critical_functions()
+    return [item["Function_Number"] for item in data.get("System_Critical_Functions", [])]
