@@ -1,4 +1,5 @@
 import json
+from app.services.data_loader import get_nodes, save_nodes_data
 
 def load_graph_data():
     """Load nodes and edges from JSON file"""
@@ -16,3 +17,15 @@ def load_graph_data():
         return {"nodes": nodes, "edges": edges}
     except Exception as e:
         return {"error": str(e)}
+
+def add_node_to_system_graph(node_data, software_id=None, software_cves=None):
+    nodes = get_nodes() 
+    if software_id and software_cves:
+        node_data["CVE"] = software_cves.get(software_id, [])
+        node_data["CVE_NVD"] = {}
+    else:
+        node_data["CVE"] = []
+        node_data["CVE_NVD"] = {}
+
+    nodes.append(node_data)
+    save_nodes_data(nodes)

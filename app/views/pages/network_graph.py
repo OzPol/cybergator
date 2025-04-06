@@ -3,7 +3,6 @@ import dash_cytoscape as cyto
 import dash_bootstrap_components as dbc
 from app.views.ui_text.system_graph_text import system_graph_description
 
-
 def cytoscape_graph(graph_data):
     # Creates Cytoscape graph elements from JSON data
     elements = [
@@ -17,29 +16,66 @@ def cytoscape_graph(graph_data):
 def graph_layout():
     # Graph Layout Page
     return html.Div([
-        
         html.H3("System Graph", className="text-center mb-4"),
-        system_graph_description(),    # body copy function from system_graph_text.py
-        html.Button("Refresh Graph", id="refresh-graph-btn", n_clicks=1, className="btn btn-primary mb-3"), # className="btn btn-primary mb-3 d-block mx-auto" moves to middle
-        html.Div (
-            children=[
-                cyto.Cytoscape(
-                    id="system-graph",
-                    layout={"name": "breadthfirst"}, # auto-layout: "cose" or "breadthfirst" 
-                    style={"width": "100%", "height": "900px"},
-                    elements=[], # Initially empty, updated by callback
-                    minZoom=0.4,
-                    maxZoom=1.3,
-                    zoomingEnabled=True,
-                )
-            ],
-            style={
-                "border": "2px solid #007BFF",
-                "borderRadius": "10px",
-                "padding": "10px",
-                "marginTop": "10px",
-                "marginBottom": "40px",
-                "backgroundColor": "#f9f9f9"
-            }
-        ),
+        system_graph_description(),
+        html.Button("Refresh Graph", id="refresh-graph-btn", n_clicks=1, className="btn btn-primary mb-3"),
+        dbc.Row([
+            # Left: Graph
+            dbc.Col([
+                html.Div([
+                    cyto.Cytoscape(
+                        id="system-graph",
+                        layout={"name": "breadthfirst"}, # auto-layout: "cose" or "breadthfirst" 
+                        style={"width": "100%", "height": "600px"},
+                        elements=[], # Initially empty, updated by callback
+                        minZoom=0.4,
+                        maxZoom=1.3,
+                        zoomingEnabled=True,
+                    )
+                ], style={
+                    "border": "2px solid #007BFF",
+                    "borderRadius": "10px",
+                    "padding": "10px",
+                    "marginTop": "10px",
+                    "marginBottom": "40px",
+                    "backgroundColor": "#f9f9f9"
+                })
+            ], width=9),
+
+            # Right: Controls
+            dbc.Col([
+                html.H5("Graph Controls"),
+                # html.Button("Refresh Graph", id="refresh-graph-btn", n_clicks=1, className="btn btn-primary mb-3"),
+
+                dbc.Button("Add New Node", id="open-add-node-form", color="primary", className="mb-3"),
+
+                dbc.Collapse([
+                    dbc.Card([
+                        dbc.CardHeader("New Node Details"),
+                        dbc.CardBody([
+                            dbc.Input(id="new-node-id", placeholder="Node ID", className="mb-2"),
+                            dbc.Input(id="new-node-name", placeholder="Node Name", className="mb-2"),
+                            dcc.Dropdown(id="node-type-selector", options=[], placeholder="Node Type", className="mb-2"),
+                            dcc.Dropdown(id="critical-function-selector", options=[], multi=True, placeholder="Critical Functions", className="mb-2"),
+                            dcc.Dropdown(id="connected-nodes-selector", options=[], multi=True, placeholder="Connect To", className="mb-2"),
+                            dbc.Checkbox(id="critical-data-stored", label="Critical Data Stored?", className="mb-2"),
+                            dbc.Input(id="backup-role", placeholder="Backup Role", className="mb-2"),
+                            dcc.Dropdown(id="data-redundancy", options=[{"label": "Yes", "value": "Yes"}, {"label": "No", "value": "No"}], placeholder="Data Redundancy", className="mb-2"),
+                            dbc.Checkbox(id="redundancy", label="Redundancy Present?", className="mb-2"),
+                            dcc.Dropdown(id="risk-factor", options=[
+                                {"label": "Low", "value": "Low"},
+                                {"label": "Medium", "value": "Medium"},
+                                {"label": "High", "value": "High"}], placeholder="Risk", className="mb-2"),
+                            dbc.Checkbox(id="switch-dependency", label="Depends on Switch?", className="mb-2"),
+                            dbc.Input(id="resilience-penalty", placeholder="Resilience Penalty", type="number", value=0.1, className="mb-2"),
+                            html.Hr(),
+                            dbc.Checkbox(id="no-software-checkbox", label="No Software Installed", className="mb-2"),
+                            dcc.Dropdown(id="software-make-selector", options=[], placeholder="Software Make", className="mb-2"),
+                            dcc.Dropdown(id="software-version-selector", options=[], placeholder="Software Version", className="mb-2"),
+                            dbc.Button("Create Node", id="submit-new-node", color="success", className="mt-3")
+                        ])
+                    ])
+                ], id="add-node-form", is_open=False)
+            ], width=3)
+        ])
     ])

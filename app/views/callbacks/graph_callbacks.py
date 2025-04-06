@@ -2,7 +2,14 @@ from dash import Input, Output, State
 import requests
 from app.views.pages.network_graph import cytoscape_graph
 from dash.dependencies import Input, Output, State
-
+from dash import ctx
+import requests
+from app.views.pages.network_graph import cytoscape_graph
+from app.services.graph_service import add_node_to_system_graph
+from app.services.data_loader import (
+    get_software_dropdown_options, get_node_types, get_critical_functions,
+    get_all_nodes, get_software_cves, append_software_entry
+)
 
 def register_graph_callbacks(app):
     @app.callback(
@@ -34,3 +41,12 @@ def register_graph_callbacks(app):
         if n_clicks:
             return not is_open
         return is_open
+
+    @app.callback(
+        Output("add-node-form", "is_open"),
+        Input("open-add-node-form", "n_clicks"),
+        State("add-node-form", "is_open"),
+        prevent_initial_call=True
+    )
+    def toggle_add_node_form(n_clicks, is_open):
+        return not is_open
