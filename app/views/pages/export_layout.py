@@ -1,4 +1,4 @@
-from dash import html
+from dash import html, dcc
 import dash_bootstrap_components as dbc
 
 # Table list that matches table pages in app/views/pages
@@ -36,12 +36,16 @@ def export_layout():
         # Checklist
         dbc.Checklist(
             options=system_tables_options,
+            value=["software-unique"],
             id="data-tables-checklist",
             inline=True,
             className="mb-4"
         ),
+        html.Div(id="hello-message", className="mb-3"),
 
         # Export button
         dbc.Button("Export Data to CSV", id="export-button", color="primary", className="w-100"),
+
+        dcc.Download(id="download-data")
 
     ], className="d-flex flex-column align-items-center mt-5")
