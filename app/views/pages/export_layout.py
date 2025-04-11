@@ -36,7 +36,7 @@ def export_layout():
         # Checklist
         dbc.Checklist(
             options=system_tables_options,
-            value=["software-unique"],
+            value=[],
             id="data-tables-checklist",
             inline=True,
             className="mb-4"
@@ -46,6 +46,10 @@ def export_layout():
         # Export button
         dbc.Button("Export Data to CSV", id="export-button", color="primary", className="w-100"),
 
-        dcc.Download(id="download-data")
+        dcc.Download(id="download-nodes"),
+        dcc.Download(id="download-cves"),
+        dcc.Download(id="download-software-nodes"),
+        dcc.Download(id="download-critical-functions"),
+        dcc.Download(id="download-software-unique"),
 
     ], className="d-flex flex-column align-items-center mt-5")
