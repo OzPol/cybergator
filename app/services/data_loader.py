@@ -117,6 +117,23 @@ def get_node_types():
     nodes = get_nodes()
     return sorted(set(node.get("node_type", "Unknown") for node in nodes))
 
+def get_software_dropdown_options_OLD():
+    df = pd.read_csv(os.path.join(CSV_PATH, "software_inventory.csv"))
+    df = df[['software_make', 'software_version']].drop_duplicates()
+
+    software_dict = {}
+    for _, row in df.iterrows():
+        make = row["software_make"]
+        version = row["software_version"]
+
+        if make not in software_dict:
+            software_dict[make] = []
+
+        software_dict[make].append({"label": version, "value": version})
+
+    make_options = [{"label": make, "value": make} for make in software_dict]
+    return make_options, software_dict
+
 def get_software_dropdown_options():
     df = pd.read_csv(os.path.join(CSV_PATH, "software_inventory.csv"))
     df = df[['software_make', 'software_version']].drop_duplicates()
@@ -134,7 +151,22 @@ def get_software_dropdown_options():
     make_options = [{"label": make, "value": make} for make in software_dict]
     return make_options, software_dict
 
-def append_software_entry(node_id, software_id, software_version):
+def get_software_metadata(make, version):
+    """Returns software_id, description, and other details from software_cves.json"""
+    data = get_software_cves()
+    for sid, entry in data.items():
+        if entry["make"] == make and entry["version"] == version:
+            return {
+                "software_id": sid,
+                "description": entry["description"],
+                "cves": entry.get("cves", {}),
+                "make": make,
+                "version": version
+            }
+    raise ValueError(f"No software match found for {make} {version}")
+
+
+def append_software_entry_OLD(node_id, software_id, software_version):
     filepath = os.path.join(CSV_PATH, "software_inventory.csv")
     df = pd.read_csv(filepath)
 
@@ -160,7 +192,66 @@ def append_software_entry(node_id, software_id, software_version):
 
     df = pd.concat([df, pd.DataFrame([new_entry])], ignore_index=True)
     df.to_csv(filepath, index=False)
+    
+def append_software_entry(node_id, node_name, software_id, software_make,
+                        software_description, software_version, rack_name, category):
+    filepath = os.path.join(CSV_PATH, "software_inventory.csv")
+    df = pd.read_csv(filepath)
+
+    # Prevent duplicate entry for same node + software
+    if ((df["node_id"] == node_id) & (df["software_id"] == software_id)).any():
+        return
+
+    new_entry = {
+        "category": category,
+        "rack_name": rack_name,
+        "node_id": node_id,
+        "node_name": node_name,
+        "is_in_use": True,
+        "software_id": software_id,
+        "software_make": software_make,
+        "software_description": software_description,
+        "software_version": software_version
+    }
+
+    df = pd.concat([df, pd.DataFrame([new_entry])], ignore_index=True)
+    df.to_csv(filepath, index=False)
+
 
 def get_critical_function_keys():
     data = get_critical_functions()
     return [item["Function_Number"] for item in data.get("System_Critical_Functions", [])]
+
+def get_rack_list():
+    path = os.path.join(DATA_PATH, "racks.json")
+    with open(path, "r") as f:
+        return json.load(f)["racks"]
+
+def get_rack_options():
+    return [{"label": r, "value": r} for r in get_rack_list()]
+
+def add_node_to_software_cves(software_id, node_id):
+    """Adds a node ID to the specified software's 'nodes' list in software_cves.json."""
+    filepath = os.path.join(DATA_PATH, "software_cves.json")
+
+    # Load the existing software CVEs data
+    try:
+        with open(filepath, "r") as f:
+            data = json.load(f)
+    except Exception as e:
+        raise RuntimeError(f"Failed to read software_cves.json: {e}")
+
+    if software_id not in data:
+        raise ValueError(f"Software ID '{software_id}' not found in software_cves.json")
+
+    # Ensure 'nodes' key exists and append if not already present
+    nodes_list = data[software_id].setdefault("nodes", [])
+    if node_id not in nodes_list:
+        nodes_list.append(node_id)
+
+    # Save updated data back to file
+    try:
+        with open(filepath, "w") as f:
+            json.dump(data, f, indent=4)
+    except Exception as e:
+        raise RuntimeError(f"Failed to write to software_cves.json: {e}")
