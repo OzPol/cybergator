@@ -13,6 +13,7 @@ from app.databases.neo4j_db import close_neo4j_connection
 from app.controllers.auth_controller import auth_bp
 from app.controllers.sue_graph_controller import sue_bp
 from app.controllers.cve_controller import cve_bp
+from app.views.callbacks.node_callbacks import register_node_callbacks
 
 from app.views.dash_setup import get_main_layout
 import app.views.callbacks.auth_callbacks
@@ -59,7 +60,7 @@ register_graph_callbacks(dash_app)
 register_system_tables_callbacks(dash_app)
 register_resilience_callbacks(dash_app)  # Register the resilience score callback
 register_neo4j_callbacks(dash_app)
-
+register_node_callbacks(dash_app)
 
 # Run Flask & Dash
 if __name__ == "__main__":
