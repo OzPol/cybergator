@@ -1,17 +1,17 @@
-from dash import html
+from dash import html, dcc
 import dash_bootstrap_components as dbc
 
 def sidebar(session_user=None):
     # Basic menu items
     nav_items = [
         dbc.NavLink("Home", href="/welcome", active="exact", style={"color": "white"}),
-        dbc.NavLink("Dashboard", href="/dashboard", active="exact", style={"color": "white"}),
+        dbc.NavLink("Dashboard", href="/dashboard", active="exact", style={"color": "white"}), 
     ]
 
     # Only add the Login/Register button if the user is not logged in
     if not session_user:
         nav_items.append(dbc.NavLink("Login/Register", href="/auth", active="exact", style={"color": "white"}))
-    
+
     # If session_user exists, add the extra links
     if session_user:        
         extra_links = [
@@ -30,13 +30,26 @@ def sidebar(session_user=None):
         # RECALCULATE RESILIENCE BUTTON
         nav_items.append(
             dbc.Button("Recalculate Resilience", id="recalculate-resilience-btn", color="primary",
-                        className="mt-2",style={"position": "absolute", "bottom": "190px","width": "80%"})
+                        className="mt-2", style={"position": "absolute", "bottom": "190px", "width": "80%"})
         )
         # Resilience recalculation feedback
         nav_items.append(
             html.Div(id="resilience-recalculate-feedback", className="text-white mt-2", style={"fontSize": "0.9rem"})
         )
-        
+
+        # Add the JavaScript to trigger the page reload and store feedback in local storage
+        nav_items.append(
+            html.Script("""
+                document.addEventListener("DOMContentLoaded", function() {
+                    var feedbackMessage = localStorage.getItem('resilienceFeedback');
+                    if (feedbackMessage) {
+                        document.getElementById('resilience-recalculate-feedback').innerText = feedbackMessage;
+                        localStorage.removeItem('resilienceFeedback');  // Clear the feedback after showing it
+                    }
+                });
+            """)
+        )
+
         # REFRESH NEO4J GRAPH BUTTON
         nav_items.append(
             dbc.Button("Refresh Neo4j Graph", id="refresh-neo4j-btn", color="primary",
@@ -63,6 +76,9 @@ def sidebar(session_user=None):
                 color="primary", className="mt-2", style={"position": "absolute", "bottom": "280px","width": "100%"}
             )
         )
+
+        # Inside your sidebar or main layout, add this Location component
+        nav_items.append(dcc.Location(id="url-refresh", refresh=True))  # This will trigger the refresh
 
     return html.Div(
         [
