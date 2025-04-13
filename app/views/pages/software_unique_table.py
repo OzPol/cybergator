@@ -59,11 +59,11 @@ def software_unique_table_layout():
 
         html.H4("Add New Software", className="text-center mt-4"),
         dbc.Row([
-            dbc.Col(dcc.Input(id="new-software-make", type="text", placeholder="Software Make"), width=3),
-            dbc.Col(dcc.Input(id="new-software-desc", type="text", placeholder="Software Description"), width=3),
-            dbc.Col(dcc.Input(id="new-software-version", type="text", placeholder="Software Version"), width=3),
+            dbc.Col(dcc.Input(id="add-new-software-make", type="text", placeholder="Software Make"), width=3),
+            dbc.Col(dcc.Input(id="add-new-software-desc", type="text", placeholder="Software Description"), width=3),
+            dbc.Col(dcc.Input(id="add-new-software-version", type="text", placeholder="Software Version"), width=3),
             dbc.Col(dbc.Button("Add Software", id="add-software-btn", color="success"), width=2),
         ], className="mt-2"),
 
-        html.Div(id="error-message", className="text-danger mt-2 text-center"),
+        html.Div(id="software-error-message", className="text-danger mt-2 text-center"),
     ], fluid=True)
