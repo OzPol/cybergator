@@ -21,7 +21,7 @@ def graph_layout():
     return html.Div([
         html.H3("System Graph", className="text-center mb-4"),
         system_graph_description(),
-        html.Button("Refresh Graph", id="refresh-graph-btn", n_clicks=0, className="btn btn-primary mb-3"),
+        html.Button("Refresh Graph", id="refresh-graph-btn", n_clicks=1, className="btn btn-primary mb-3"),
         dbc.Row([
             # Left: Graph
             dbc.Col([
