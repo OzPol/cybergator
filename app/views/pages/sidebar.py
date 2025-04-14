@@ -36,6 +36,10 @@ def sidebar(session_user=None):
         nav_items.append(
             html.Div(id="resilience-recalculate-feedback", className="text-white mt-2", style={"fontSize": "0.9rem"})
         )
+        # Hidden div for triggering resilience score updates
+        nav_items.append(
+            html.Div(id="resilience-update-trigger", style={"display": "none"})
+        )
 
         # Add the JavaScript to trigger the page reload and store feedback in local storage
         nav_items.append(
