@@ -41,19 +41,6 @@ def sidebar(session_user=None):
             html.Div(id="resilience-update-trigger", style={"display": "none"})
         )
 
-        # Add the JavaScript to trigger the page reload and store feedback in local storage
-        nav_items.append(
-            html.Script("""
-                document.addEventListener("DOMContentLoaded", function() {
-                    var feedbackMessage = localStorage.getItem('resilienceFeedback');
-                    if (feedbackMessage) {
-                        document.getElementById('resilience-recalculate-feedback').innerText = feedbackMessage;
-                        localStorage.removeItem('resilienceFeedback');  // Clear the feedback after showing it
-                    }
-                });
-            """)
-        )
-
         # REFRESH NEO4J GRAPH BUTTON
         nav_items.append(
             dbc.Button("Refresh Neo4j Graph", id="refresh-neo4j-btn", color="primary",
