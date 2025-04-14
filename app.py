@@ -26,6 +26,7 @@ from app.views.callbacks.resilience_callbacks import register_resilience_callbac
 from app.controllers.nodes_controller import nodes_bp
 from app.views.callbacks.neo4j_callbacks import register_neo4j_callbacks
 from app.views.callbacks.export_callbacks import register_export_callbacks
+from app.views.callbacks.software_unique_callbacks import register_software_unique_callbacks
 from app.controllers.neo4j_controller import neo4j_bp
 
 load_dotenv()
@@ -61,7 +62,7 @@ register_system_tables_callbacks(dash_app)
 register_resilience_callbacks(dash_app)  # Register the resilience score callback
 register_neo4j_callbacks(dash_app)
 register_export_callbacks(dash_app)
-
+register_software_unique_callbacks(dash_app)
 
 # Run Flask & Dash
 if __name__ == "__main__":
