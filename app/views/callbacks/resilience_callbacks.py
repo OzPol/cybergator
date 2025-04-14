@@ -1,4 +1,4 @@
-from dash import Input, Output, callback
+from dash import Input, Output, callback, ClientsideFunction  
 import requests
 
 def register_resilience_callbacks(app):
@@ -8,7 +8,6 @@ def register_resilience_callbacks(app):
         Output("system-resilience-score", "children"),
         Input("session-user", "data"),
     )
-    
     def update_resilience_score(session_user):
         """Fetch system resilience score when user is logged in."""
         if not session_user:
@@ -30,7 +29,6 @@ def register_resilience_callbacks(app):
         Input("recalculate-resilience-btn", "n_clicks"),
         prevent_initial_call=True
     )
-        
     def manual_recalculate(n_clicks):
         try:
             response = requests.get("http://127.0.0.1:8000/api/resilience")
@@ -39,3 +37,17 @@ def register_resilience_callbacks(app):
             return "❌ Failed to recalculate."
         except Exception as e:
             return f"⚠️ Error: {str(e)}"
+    
+    # Client-side callback for the button click event to reload the page
+    app.clientside_callback(
+        """
+        function(n_clicks) {
+            if (n_clicks) {
+                window.location.reload(); // Forces a page reload
+            }
+            return ''; // No output needed here
+        }
+        """,  # JavaScript code to trigger a full page reload
+        Output("url-refresh", "children"),  # This is just a dummy output, needed to trigger the callback
+        Input("recalculate-resilience-btn", "n_clicks")
+    )
