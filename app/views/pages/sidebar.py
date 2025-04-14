@@ -32,10 +32,12 @@ def sidebar(session_user=None):
             dbc.Button("Recalculate Resilience", id="recalculate-resilience-btn", color="primary",
                         className="mt-2", style={"position": "absolute", "bottom": "190px", "width": "80%"})
         )
+        
         # Resilience recalculation feedback
         nav_items.append(
             html.Div(id="resilience-recalculate-feedback", className="text-white mt-2", style={"fontSize": "0.9rem"})
         )
+
         # Hidden div for triggering resilience score updates
         nav_items.append(
             html.Div(id="resilience-update-trigger", style={"display": "none"})

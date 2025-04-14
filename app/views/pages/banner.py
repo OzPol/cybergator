@@ -17,12 +17,12 @@ def banner(page_title="CyberGators", session_user=None, resilience_score=None):
             # Right Column for Resilience Score
             dbc.Col(
                 html.Div(
-                    f"Resilience Score: {resilience_score}" if resilience_score else "Resilience Score: N/A",
+                    "",  # Start empty
                     id="system-resilience-score",
                     className="resilience-score-text"
                 ),
                 width=2,
-                className="resilience-score-col"  # Apply custom CSS class here
+                className="resilience-score-col"
             ),
 
             # Right Column for Logout Button
