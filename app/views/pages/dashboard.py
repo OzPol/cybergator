@@ -1,6 +1,7 @@
-from dash import html, dcc
+from dash import html, dcc, dash_table
 import dash_bootstrap_components as dbc
 import plotly.graph_objs as go
+from app.services.data_loader import get_nodes, get_all_nodes  # Load data from Nodes_Complete.json
 
 def dashboard(session_user):
     return html.Div([
@@ -60,8 +61,30 @@ def dashboard(session_user):
                 dbc.Col([
                     dbc.Card([
                         dbc.CardBody([
-                            html.H4("Card 2 Title", className="card-title"),
-                            html.P("Content for Card 2 goes here.", className="card-text"),
+                            html.H4("Top 5 Most Vulnerable CVEs", className="card-title"),
+                            html.P("This table will show the top 5 CVEs based on their NVD Score and the nodes they are associated with.", className="card-text"),
+                         # Placeholder Table to display top 5 most vulnerable CVEs
+                            dash_table.DataTable(
+                                id="top-cve-table",
+                                columns=[
+                                    {"name": "CVE ID", "id": "CVE ID"},
+                                    {"name": "NVD Score", "id": "NVD Score"},
+                                    {"name": "Node ID", "id": "Node ID"},
+                                    {"name": "Node Name", "id": "Node Name"},
+                                ],
+                                data=[  # Placeholder data for now
+                                    {"CVE ID": "CVE-2023-0001", "NVD Score": 9.8, "Node ID": "Node1", "Node Name": "Server A"},
+                                    {"CVE ID": "CVE-2023-0002", "NVD Score": 9.5, "Node ID": "Node2", "Node Name": "Server B"},
+                                    {"CVE ID": "CVE-2023-0003", "NVD Score": 8.9, "Node ID": "Node3", "Node Name": "Router C"},
+                                    {"CVE ID": "CVE-2023-0004", "NVD Score": 8.7, "Node ID": "Node4", "Node Name": "Switch D"},
+                                    {"CVE ID": "CVE-2023-0005", "NVD Score": 8.5, "Node ID": "Node5", "Node Name": "Firewall E"},
+                                ],
+                                style_table={"overflowX": "auto"},
+                                style_cell={"textAlign": "left"},
+                                page_size=5,
+                                filter_action="native",  # Allow filtering of data
+                                sort_action="native",  # Allow sorting of columns
+                            ),
                         ])
                     ], className="mb-4")
                 ], width=6),
