@@ -1,3 +1,5 @@
+# First, let's update the main critical functions page to include a button to the node manager
+
 from dash import html, dcc, dash_table, callback, State, Input, Output, no_update
 import dash_bootstrap_components as dbc
 from app.services.data_loader import get_critical_functions
@@ -10,14 +12,23 @@ def update_json_file(table_data):
     json_path = os.path.join('app', 'data', 'json', 'Critical_Functions.json')
     
     try:
-        # Format data for JSON
+        # Format data for JSON - preserve the nodes data from the original
+        functions_data = get_critical_functions()
+        nodes_mapping = {}
+        
+        if functions_data and "System_Critical_Functions" in functions_data:
+            for func in functions_data["System_Critical_Functions"]:
+                nodes_mapping[func["Function_Number"]] = func.get("Nodes", [])
+        
         json_data = {
             "System_Critical_Functions": [
                 {
                     "Function_Number": func["Function Number"],
                     "Work_Area": func["Work Area"],
                     "Criticality": func["Criticality"],
-                    "Criticality_Value": func["Criticality Value"]
+                    "Criticality_Value": func["Criticality Value"],
+                    # Keep the original node associations or default to empty list
+                    "Nodes": nodes_mapping.get(func["Function Number"], [])
                 }
                 for func in table_data
             ]
@@ -49,7 +60,8 @@ def save_to_json(function_number, work_area, criticality, criticality_value):
             "Function_Number": function_number,
             "Work_Area": work_area,
             "Criticality": criticality,
-            "Criticality_Value": criticality_value
+            "Criticality_Value": criticality_value,
+            "Nodes": []  # Initialize with empty nodes list
         }
         
         # Add to data
@@ -65,29 +77,42 @@ def save_to_json(function_number, work_area, criticality, criticality_value):
         print(f"Error saving to Critical_Functions.json: {e}")
 
 def remove_from_json(function_number):
-    """Remove a function from the Critical_Functions.json file"""
-    # Path to the Critical_Functions.json file
-    json_path = os.path.join('app', 'data', 'json', 'Critical_Functions.json')
-    
+    """Remove a function from Critical_Functions.json and from all nodes in nodes_complete.json"""
+    # File paths
+    critical_path = os.path.join('app', 'data', 'json', 'Critical_Functions.json')
+    nodes_path = os.path.join('app', 'data', 'json', 'nodes_complete.json')
+
     try:
-        # Load existing data
-        with open(json_path, 'r') as f:
-            data = json.load(f)
+        # Load and update Critical_Functions.json
+        with open(critical_path, 'r') as f:
+            critical_data = json.load(f)
         
-        # Filter out the function to remove
-        data["System_Critical_Functions"] = [
-            function for function in data["System_Critical_Functions"] 
-            if function["Function_Number"] != function_number
+        critical_data["System_Critical_Functions"] = [
+            f for f in critical_data["System_Critical_Functions"]
+            if f["Function_Number"] != function_number
         ]
-        
-        # Save back to file
-        with open(json_path, 'w') as f:
-            json.dump(data, f, indent=4)
-            
-        print(f"Successfully removed function {function_number} from Critical_Functions.json")
-        
+
+        with open(critical_path, 'w') as f:
+            json.dump(critical_data, f, indent=4)
+        print(f"✅ Removed function {function_number} from Critical_Functions.json")
+
+        # Load and update nodes_complete.json
+        with open(nodes_path, 'r') as f:
+            node_data = json.load(f)
+
+        for node in node_data:
+            if "critical_functions" in node and function_number in node["critical_functions"]:
+                node["critical_functions"] = [
+                    fn for fn in node["critical_functions"] if fn != function_number
+                ]
+
+        with open(nodes_path, 'w') as f:
+            json.dump(node_data, f, indent=4)
+        print(f"✅ Removed function {function_number} from all nodes in nodes_complete.json")
+
     except Exception as e:
-        print(f"Error removing from Critical_Functions.json: {e}")
+        print(f"❌ Error removing function: {e}")
+
 
 def load_critical_functions():
     functions_data = get_critical_functions()
@@ -208,7 +233,6 @@ def update_functions_data(timestamp, data, previous_data):
     Output("new-work-area", "options"),
     Input("functions-table", "data")  
 )
-
 def populate_work_area_dropdown(_):
     from app.services.data_loader import load_json 
     risk_data = load_json("Risk_Factors.json")
@@ -218,19 +242,30 @@ def populate_work_area_dropdown(_):
     ]
     return options
 
-
 def critical_function_layout():
     functions_data = load_critical_functions()
 
     return dbc.Container([  
         html.H3("System Critical Functions Table", className="text-center mt-4"),
 
-        html.Div(
-            dcc.Link(
-                dbc.Button("Go to System Tables", color="primary", className="mb-3"),
-                href="/system-tables"
+        # Navigation buttons
+        dbc.Row([
+            dbc.Col(
+                dcc.Link(
+                    dbc.Button("Go to System Tables", color="primary", className="me-2"),
+                    href="/system-tables"
+                ),
+                width="auto"
+            ),
+            dbc.Col(
+                dcc.Link(
+                    dbc.Button("Manage Node Associations", color="success"),
+                    href="/node-association-manager"
+                ),
+                width=True,
+                className="text-end"
             )
-        ),
+        ], className="mb-3"),
 
         # Search Bar for Live Filtering
         dcc.Input(id="function-search", type="text", placeholder="Search Functions...", debounce=True),
@@ -252,22 +287,22 @@ def critical_function_layout():
             style_table={"overflowX": "auto"},
             style_cell={"textAlign": "left"},
             style_data_conditional=[
-        {
-            "if": {"filter_query": '{Criticality} = "High"'},
-            "backgroundColor": "red",
-            "color": "white",  # Text color white for better contrast
-        },
-        {
-            "if": {"filter_query": '{Criticality} = "Medium"'},
-            "backgroundColor": "orange",
-            "color": "black",  # Text color black for better contrast
-        },
-        {
-            "if": {"filter_query": '{Criticality} = "Low"'},
-            "backgroundColor": "yellow",
-            "color": "black",  # Text color black for better contrast
-        },
-    ],
+                {
+                    "if": {"filter_query": '{Criticality} = "High"'},
+                    "backgroundColor": "red",
+                    "color": "white",  # Text color white for better contrast
+                },
+                {
+                    "if": {"filter_query": '{Criticality} = "Medium"'},
+                    "backgroundColor": "orange",
+                    "color": "black",  # Text color black for better contrast
+                },
+                {
+                    "if": {"filter_query": '{Criticality} = "Low"'},
+                    "backgroundColor": "yellow",
+                    "color": "black",  # Text color black for better contrast
+                },
+            ],
         ),
         
         # Add New Function Section
@@ -285,7 +320,7 @@ def critical_function_layout():
                         options=[],  # Populated dynamically
                         clearable=True
                     ),
-                    width={"size": 2}
+                    width={"size": 3}
                 ),
                 dbc.Col(
                     dcc.Dropdown(
