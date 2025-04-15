@@ -255,3 +255,13 @@ def add_node_to_software_cves(software_id, node_id):
             json.dump(data, f, indent=4)
     except Exception as e:
         raise RuntimeError(f"Failed to write to software_cves.json: {e}")
+
+def remove_node_from_software_inventory(node_id):
+    filepath = os.path.join(CSV_PATH, "software_inventory.csv")
+    try:
+        df = pd.read_csv(filepath)
+        df = df[df["node_id"] != node_id]
+        df.to_csv(filepath, index=False)
+        print(f"Removed node '{node_id}' from software_inventory.csv")
+    except Exception as e:
+        print(f"Error removing node from software_inventory.csv: {e}")
