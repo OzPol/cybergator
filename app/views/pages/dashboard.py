@@ -3,6 +3,7 @@ import dash_bootstrap_components as dbc
 import plotly.graph_objs as go
 import pandas as pd
 from app.services.data_loader import get_nodes # Load data from Nodes_Complete.json
+import requests
 
 # Function to load CVE data
 def load_cve_data():
@@ -55,13 +56,27 @@ def get_most_impactful_cve():
 
     return most_impactful_cve
 
+def get_resilience_score():
+    """Fetch the system resilience score from the API."""
+    try:
+        response = requests.get("http://localhost:8000/api/resilience")
+        if response.status_code == 200:
+            data = response.json()
+            return round(data["system_resilience_score"], 4)
+    except Exception as e:
+        print(f"Error fetching resilience score: {str(e)}")
+    return None
+
 def dashboard(session_user):
 
     # Get the actual top 10 most vulnerable CVEs
     top_cves = get_top_vulnerable_cves()  # Fetch the top 10 CVEs
 
     # Get the most impactful CVE
-    top_impactful_cves = get_most_impactful_cve()  # Fetch the most impactful CVE
+    top_impactful_cves = get_most_impactful_cve()  # Fetch the most impactful CVEs
+
+    # Get the system resilience score
+    resilience_score = get_resilience_score()
 
     return html.Div([
         # Welcome message
@@ -100,7 +115,7 @@ def dashboard(session_user):
                                     "data": [
                                         go.Pie(
                                             labels=["Resilient", "Vulnerable"],
-                                            values=[70, 30],  # Replace with your actual data
+                                            values=[resilience_score, 100 - resilience_score],  # Replace with your actual data
                                             hole=0.3,  # Makes it a donut chart
                                             hoverinfo="label+percent",
                                             textinfo="percent",
