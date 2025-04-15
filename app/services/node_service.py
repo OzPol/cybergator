@@ -7,7 +7,8 @@ from app.services.data_loader import (
     get_software_metadata,
     get_software_cves,
     save_json,
-    remove_node_from_software_inventory
+    remove_node_from_software_inventory,
+    remove_node_from_software_cves
 )
 
 def add_node_to_system_graph(node_id, node_name, node_type, critical_functions,
@@ -80,14 +81,8 @@ def remove_node_from_system_graph(node_id):
 
     save_nodes_data(updated_nodes)
 
-    # Remove from software_cves.json
-    software_data = get_software_cves()
-    for sw in software_data.values():
-        if "nodes" in sw and node_id in sw["nodes"]:
-            sw["nodes"].remove(node_id)
-    save_json(software_data, "software_cves.json")
-
-    # Remove from software_inventory.csv
+    # Remove from software_cves.json and inventory.csv
+    remove_node_from_software_cves(node_id)
     remove_node_from_software_inventory(node_id)
 
     return True

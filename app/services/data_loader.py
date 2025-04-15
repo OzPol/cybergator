@@ -265,3 +265,20 @@ def remove_node_from_software_inventory(node_id):
         print(f"Removed node '{node_id}' from software_inventory.csv")
     except Exception as e:
         print(f"Error removing node from software_inventory.csv: {e}")
+
+
+def remove_node_from_software_cves(node_id):
+    """Removes a node from all software entries in software_cves.json."""
+    try:
+        data = get_software_cves()
+        modified = False
+        for sw in data.values():
+            if "nodes" in sw and node_id in sw["nodes"]:
+                sw["nodes"].remove(node_id)
+                modified = True
+
+        if modified:
+            save_json(data, "software_cves.json")
+            print(f"Removed node '{node_id}' from software_cves.json")
+    except Exception as e:
+        print(f"Error updating software_cves.json: {e}")
