@@ -80,3 +80,15 @@ def register_node_callbacks(app):
             return f"Node '{node_id}' removed successfully."
         except Exception as e:
             return f"Error removing node: {str(e)}"
+    
+    # Toggle visibility of the node creation form when "Add Node" is clicked
+    @app.callback(
+        Output("node-form-container", "children"),
+        Input("add-node-toggle", "n_clicks"),
+        prevent_initial_call=True
+    )
+    def toggle_node_form(n_clicks):
+        if n_clicks:
+            from app.views.pages.node_actions import render_node_controls
+            return render_node_controls()
+        return []
