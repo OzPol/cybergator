@@ -2,10 +2,13 @@ from dash import Input, Output, State
 from dash.exceptions import PreventUpdate
 from app.services.node_service import add_node_to_system_graph
 from app.services.data_loader import get_software_metadata
+from app.services.node_service import remove_node_from_system_graph
 
 def register_node_callbacks(app):
+    
+    # CREATE NODE callback → outputs to create-node-feedback
     @app.callback(
-        Output("node-feedback", "children"),
+        Output("create-node-feedback", "children"),
         Input("submit-new-node", "n_clicks"),
         State("node-id-input", "value"),
         State("node-name-input", "value"),
@@ -25,10 +28,6 @@ def register_node_callbacks(app):
                         critical_functions, connected_to, backup_role,
                         data_redundancy, risk_factor, switch_dependency_list,
                         software_make, software_version):
-
-        from dash.exceptions import PreventUpdate
-        from app.services.node_service import add_node_to_system_graph
-        from app.services.data_loader import get_software_metadata
 
         if n_clicks == 0 or not node_id or not node_name:
             raise PreventUpdate
@@ -63,9 +62,9 @@ def register_node_callbacks(app):
         except Exception as e:
             return f"Error: {str(e)}"
     
-    # Callback to remove nodes from the system graph
+    # REMOVE NODE callback → outputs to remove-node-feedback
     @app.callback(
-        Output("node-feedback", "children"),
+        Output("remove-node-feedback", "children"),
         Input("remove-node-button", "n_clicks"),
         State("system-graph", "tapNodeData"),
         prevent_initial_call=True
@@ -73,9 +72,10 @@ def register_node_callbacks(app):
     def handle_remove_node(n_clicks, tapped_node):
         if not tapped_node or "id" not in tapped_node:
             raise PreventUpdate
+
+        node_id = tapped_node["id"]
+
         try:
-            node_id = tapped_node["id"]
-            from app.services.node_service import remove_node_from_system_graph
             remove_node_from_system_graph(node_id)
             return f"Node '{node_id}' removed successfully."
         except Exception as e:

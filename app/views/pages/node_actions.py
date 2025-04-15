@@ -138,7 +138,7 @@ def render_node_controls():
             style={"width": "100%", "marginBottom": "10px"}
         ),
 
-        html.Div(id="node-feedback", style={"color": "green", "fontSize": "12px"})
+        html.Div(id="create-node-feedback", style={"color": "green", "fontSize": "12px"})
     ], style={
         "border": "1px solid #ccc",
         "padding": "15px",
