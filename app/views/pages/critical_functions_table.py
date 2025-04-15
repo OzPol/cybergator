@@ -77,10 +77,10 @@ def save_to_json(function_number, work_area, criticality, criticality_value):
         print(f"Error saving to Critical_Functions.json: {e}")
 
 def remove_from_json(function_number):
-    """Remove a function from Critical_Functions.json and from all nodes in nodes_complete.json"""
+    """Remove a function from Critical_Functions.json and from all nodes in Nodes_Complete.json"""
     # File paths
     critical_path = os.path.join('app', 'data', 'json', 'Critical_Functions.json')
-    nodes_path = os.path.join('app', 'data', 'json', 'nodes_complete.json')
+    nodes_path = os.path.join('app', 'data', 'json', 'Nodes_Complete.json')
 
     try:
         # Load and update Critical_Functions.json
@@ -96,7 +96,7 @@ def remove_from_json(function_number):
             json.dump(critical_data, f, indent=4)
         print(f"✅ Removed function {function_number} from Critical_Functions.json")
 
-        # Load and update nodes_complete.json
+        # Load and update Nodes_Complete.json
         with open(nodes_path, 'r') as f:
             node_data = json.load(f)
 
@@ -108,7 +108,7 @@ def remove_from_json(function_number):
 
         with open(nodes_path, 'w') as f:
             json.dump(node_data, f, indent=4)
-        print(f"✅ Removed function {function_number} from all nodes in nodes_complete.json")
+        print(f"✅ Removed function {function_number} from all nodes in Nodes_Complete.json")
 
     except Exception as e:
         print(f"❌ Error removing function: {e}")

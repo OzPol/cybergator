@@ -8,7 +8,7 @@ def get_nodes_data():
     """Load the complete nodes data from JSON file"""
     try:
         # Adjust path as needed for your project structure
-        json_path = os.path.join('app', 'data', 'json', 'nodes_complete.json')
+        json_path = os.path.join('app', 'data', 'json', 'Nodes_Complete.json')
         with open(json_path, 'r') as f:
             # The file appears to contain a list of node objects
             nodes_data = json.load(f)
@@ -34,8 +34,8 @@ def get_function_node_mapping():
     return function_node_mapping
 
 def update_node_associations(function_id, node_ids):
-    """Update function associations in the nodes_complete.json file"""
-    json_path = os.path.join('app', 'data', 'json', 'nodes_complete.json')
+    """Update function associations in the Nodes_Complete.json file"""
+    json_path = os.path.join('app', 'data', 'json', 'Nodes_Complete.json')
     
     try:
         # Load existing nodes data
