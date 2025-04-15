@@ -57,7 +57,7 @@ def get_most_impactful_cve():
     return most_impactful_cve
 
 def get_resilience_score():
-    """Fetch the system resilience score from the API."""
+    # Fetch the system resilience score from the API.
     try:
         response = requests.get("http://localhost:8000/api/resilience")
         if response.status_code == 200:
@@ -66,6 +66,24 @@ def get_resilience_score():
     except Exception as e:
         print(f"Error fetching resilience score: {str(e)}")
     return None
+
+def get_endpoints():
+    # Filter out nodes that are marked as endpoints.
+    non_endpoints = [
+        "Cybersecurity_Capability_Tools_SAN",  # From non-endpoint list
+        "Firewall",
+        "Router",
+        "Ethernet_Switch_1",
+        "Ethernet_Switch_2",
+        "Ethernet_Switch_3",
+        "Ethernet_Switch_4",
+        "Ethernet_Switch_5",
+        "Ethernet_Switch_6",
+    ]
+    nodes_data = get_nodes()  # Load nodes from JSON
+    endpoint_nodes = [node for node in nodes_data if node.get('node_name') not in non_endpoints]
+    return endpoint_nodes
+
 
 def dashboard(session_user):
 
@@ -77,6 +95,9 @@ def dashboard(session_user):
 
     # Get the system resilience score
     resilience_score = get_resilience_score()
+
+    endpoint_nodes = get_endpoints()  # Get the list of endpoint nodes
+    endpoint_count = len(endpoint_nodes)  # Count the number of endpoint nodes
 
     return html.Div([
         # Welcome message
@@ -186,8 +207,16 @@ def dashboard(session_user):
                 dbc.Col([
                     dbc.Card([
                         dbc.CardBody([
-                            html.H4("Card 4 Title", className="card-title"),
-                            html.P("Content for Card 4 goes here.", className="card-text"),
+                            html.H4("Number of Endpoint Nodes", className="card-title text-center"),
+                            html.Div(str(endpoint_count),  # Display the count as text
+                                     className="endpoint-count-text",
+                                     style={
+                                         "fontSize": "48px",  # Large number
+                                         "fontWeight": "bold",
+                                         "color": "black",  # You can customize color
+                                         "textAlign": "center",  # Centered
+                                         "padding": "50px 0"  # Add padding for better spacing
+                                     })
                         ])
                     ], className="mb-4")
                 ], width=6),
