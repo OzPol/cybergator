@@ -1,0 +1,9 @@
+{
+    "racks": [
+        "boundary_defense_rack",
+        "server_rack",
+        "bulk_data_storage_rack",
+        "not_a_rack",
+        "test_rack"
+    ]
+}
