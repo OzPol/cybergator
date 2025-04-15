@@ -62,4 +62,21 @@ def register_node_callbacks(app):
 
         except Exception as e:
             return f"Error: {str(e)}"
-        
+    
+    # Callback to remove nodes from the system graph
+    @app.callback(
+        Output("node-feedback", "children"),
+        Input("remove-node-button", "n_clicks"),
+        State("system-graph", "tapNodeData"),
+        prevent_initial_call=True
+    )
+    def handle_remove_node(n_clicks, tapped_node):
+        if not tapped_node or "id" not in tapped_node:
+            raise PreventUpdate
+        try:
+            node_id = tapped_node["id"]
+            from app.services.node_service import remove_node_from_system_graph
+            remove_node_from_system_graph(node_id)
+            return f"Node '{node_id}' removed successfully."
+        except Exception as e:
+            return f"Error removing node: {str(e)}"
