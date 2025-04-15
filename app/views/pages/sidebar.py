@@ -32,22 +32,15 @@ def sidebar(session_user=None):
             dbc.Button("Recalculate Resilience", id="recalculate-resilience-btn", color="primary",
                         className="mt-2", style={"position": "absolute", "bottom": "190px", "width": "80%"})
         )
+        
         # Resilience recalculation feedback
         nav_items.append(
             html.Div(id="resilience-recalculate-feedback", className="text-white mt-2", style={"fontSize": "0.9rem"})
         )
 
-        # Add the JavaScript to trigger the page reload and store feedback in local storage
+        # Hidden div for triggering resilience score updates
         nav_items.append(
-            html.Script("""
-                document.addEventListener("DOMContentLoaded", function() {
-                    var feedbackMessage = localStorage.getItem('resilienceFeedback');
-                    if (feedbackMessage) {
-                        document.getElementById('resilience-recalculate-feedback').innerText = feedbackMessage;
-                        localStorage.removeItem('resilienceFeedback');  // Clear the feedback after showing it
-                    }
-                });
-            """)
+            html.Div(id="resilience-update-trigger", style={"display": "none"})
         )
 
         # REFRESH NEO4J GRAPH BUTTON

@@ -1,127 +1,82 @@
-from dash import html, dcc, Input, Output, State, callback, ctx, ALL, MATCH
+import json, os
+from dash import html, dcc, Input, Output, State, callback, ctx, ALL
 import dash_bootstrap_components as dbc
 
-# Store risk factors and their values
-risk_factors = [0, 1, 2, 3, 4]  # Start with 5 default factors
-slider_values = {i: 50 for i in risk_factors}  # Initialize with default values
+RISK_FACTORS_PATH = os.path.join("app", "data", "json", "Risk_Factors.json")
 
-def create_risk_factor(index, value=50):
-    """Generate a single risk factor row with preserved value"""
-    return dbc.Row([
-        dbc.Col(html.Div(f"Risk Factor #{index + 1}", className="risk-factor-title"), width=3),
-
-        # Slider & Value (Centered Below)
-        dbc.Col([
-            dcc.Slider(
-                id={"type": "risk-slider", "index": index},
-                min=0, max=100, step=1, value=value, marks={0: "0", 100: "100"}
-            ),
-            html.Div(f"Value: {value}", id={"type": "slider-value", "index": index}, className="slider-value-text text-center"),  
-        ], width=6, className="text-center"),
-
-        # Remove Button
-        dbc.Col(html.Button("❌", id={"type": "remove-factor", "index": index}, n_clicks=0, className="remove-btn"), width=2),
-
-        # Description
-        dbc.Col(html.P("Description", className="risk-factor-description"), width=12),
-    ], className="mb-3 risk-factor-row", id=f"risk-factor-{index}")
+def load_risk_matrix():
+    with open(RISK_FACTORS_PATH, "r") as f:
+        data = json.load(f)
+    return data["Risk_Factors_Matrix"]
 
 def environmental_factors_layout():
-    """Defines the Environmental Factors page layout"""
+    risk_matrix = load_risk_matrix()
+
+    matrix_inputs = []
+    for factor, levels in risk_matrix.items():
+        rows = []
+        for level, weight in levels.items():
+            rows.append(
+                dbc.Row([
+                    dbc.Col(html.Span(level, className="text-end fw-semibold"), width=4),
+                    dbc.Col(
+                        dbc.Input(
+                            type="number",
+                            value=weight,
+                            min=0, step=0.1,
+                            id={"type": "matrix-input", "factor": factor, "level": level},
+                            className="w-100"
+                        ),
+                        width=4
+                    )
+                ], className="mb-2", justify="center")
+            )
+        matrix_inputs.append(
+            dbc.Card([
+                dbc.CardHeader(html.H5(factor.replace("_", " ").capitalize(), className="mb-0")),
+                dbc.CardBody(rows)
+            ], className="mb-4 shadow-sm")
+        )
+
     return dbc.Container([
         dbc.Row([
             dbc.Col([
-                html.H2("Environmental Risk Factors", className="text-center mb-3"),
-            ], width=12)
-        ]),
-
-        dbc.Row([
-            dbc.Col([
-                html.P("Cyber threats are influenced by more than just software vulnerabilities—physical and operational conditions also play "
-                "a critical role.", className="mb-3"),
-                
-                html.H5("Environmental Risk Factors Include:", className="mt-3"),
-                html.Ul([
-                    html.Li("Untrained staff members who may fall victim to social engineering attacks."),
-                    html.Li("Unlocked doors that allow unauthorized personnel access to critical infrastructure."),
-                    html.Li("Unattended rooms where sensitive hardware or documentation is left vulnerable."),
-                    html.Li("Server stacks stored on the floor in flood-prone buildings, increasing the risk of data loss during natural disasters."),
-                ], className="mb-3"),
-
-                html.P("Users can modify these factors and assign risk levels to determine their impact on the overall Resilience Score. "
-                "Addressing environmental risks is a key step in improving cybersecurity posture.", className="mb-5"),
-            ], width=10, className="offset-1")  # Centers the column on the page
-        ]),
-
-        # Store for slider values (hidden component)
-        dcc.Store(id="slider-values-store", data=slider_values),
-
-        # Risk Factor List (Dynamic)
-        dbc.Row([
-            dbc.Col(html.Div([
-                html.H5("Risk Factors", className="risk-title"),
-                html.Div(id="risk-factors-container", children=[create_risk_factor(i, slider_values.get(i, 50)) for i in risk_factors]),  
-                dbc.Button("Add Factor", id="add-factor-btn", color="dark", className="add-factor-btn mt-3")
-            ]), width=12)
-        ], className="full-width-row")
-    ], fluid=True, className="full-page-container")
-
-# Callback to update the stored slider values
-@callback(
-    Output("slider-values-store", "data"),
-    Input({"type": "risk-slider", "index": ALL}, "value"),
-    State({"type": "risk-slider", "index": ALL}, "id"),
-    State("slider-values-store", "data")
-)
-def update_slider_values(values, ids, current_data):
-    """Store updated slider values"""
-    for i, value in enumerate(values):
-        index = ids[i]["index"]
-        current_data[str(index)] = value  # Convert index to string for JSON storage
-    return current_data
+                html.H2("Edit Environmental Risk Factor Weights", className="text-center mt-4 mb-3"),
+                html.P("Adjust the impact weight of each risk factor value on resilience scoring.", className="text-center"),
+                html.Hr(),
+                html.Div(matrix_inputs, id="risk-matrix-container"),
+                dbc.Button("💾 Save Changes", id="save-matrix-btn", color="primary", className="mt-3"),
+                html.Div(id="save-status", className="text-success mt-3 text-center")
+            ], width=12, lg=8, className="offset-lg-2")
+        ])
+    ], fluid=True)
 
 @callback(
-    Output("risk-factors-container", "children"),
-    [Input("add-factor-btn", "n_clicks"),
-     Input({"type": "remove-factor", "index": ALL}, "n_clicks")],
-    [State("risk-factors-container", "children"),
-     State("slider-values-store", "data")],
+    Output("save-status", "children"),
+    Input("save-matrix-btn", "n_clicks"),
+    State({"type": "matrix-input", "factor": ALL, "level": ALL}, "id"),
+    State({"type": "matrix-input", "factor": ALL, "level": ALL}, "value"),
     prevent_initial_call=True
 )
-def update_risk_factors(add_clicks, remove_clicks, current_factors, stored_values):
-    """Handles adding and removing risk factors dynamically while preserving values."""
-    global risk_factors
-    global slider_values
+def save_updated_matrix(n_clicks, ids, values):
+    if not ids or not values:
+        return "Nothing to save."
+    
+    try:
+        with open(RISK_FACTORS_PATH, "r") as f:
+            data = json.load(f)
+        
+        # Update weights
+        for i, id_pair in enumerate(ids):
+            factor = id_pair["factor"]
+            level = id_pair["level"]
+            new_value = values[i]
+            data["Risk_Factors_Matrix"][factor][level] = new_value
 
-    # Update slider_values from stored_values
-    for k, v in stored_values.items():
-        try:
-            slider_values[int(k)] = v  # Convert string key back to integer
-        except (ValueError, KeyError):
-            pass  # Handle potential conversion errors
+        with open(RISK_FACTORS_PATH, "w") as f:
+            json.dump(data, f, indent=4)
 
-    triggered_id = ctx.triggered_id  
-
-    if triggered_id == "add-factor-btn":
-        new_index = max(risk_factors) + 1 if risk_factors else 0  
-        risk_factors.append(new_index)
-        slider_values[new_index] = 50  # Set default value for new slider
-
-    elif isinstance(triggered_id, dict) and triggered_id.get("type") == "remove-factor":
-        index_to_remove = triggered_id["index"]
-        risk_factors = [i for i in risk_factors if i != index_to_remove]  
-        risk_factors.sort()
-        # Remove the value from slider_values (optional cleanup)
-        if index_to_remove in slider_values:
-            del slider_values[index_to_remove]
-
-    # Use the preserved values when recreating the components
-    return [create_risk_factor(i, slider_values.get(i, 50)) for i in risk_factors]
-
-# Callback to update slider values display
-@callback(
-    Output({"type": "slider-value", "index": MATCH}, "children"),
-    Input({"type": "risk-slider", "index": MATCH}, "value")
-)
-def update_slider_value(value):
-    return f"Value: {value}"
+        return "Changes saved successfully ✅"
+    
+    except Exception as e:
+        return f"Error saving data: {e}"

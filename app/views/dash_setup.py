@@ -19,6 +19,7 @@ from app.views.pages.environmental_factors import environmental_factors_layout
 from app.views.pages.software_unique_table import software_unique_table_layout
 from app.views.pages.neo4j_graph_layout import neo4j_graph_layout
 from app.views.pages.workstations_layout import workstation_cards
+from app.views.pages.node_manager import node_association_manager_layout
 
 
 def render_page_content(pathname, session_user):
@@ -63,6 +64,8 @@ def render_page_content(pathname, session_user):
         return neo4j_graph_layout()
     elif pathname == "/work-stations":
         return workstation_cards()
+    elif pathname == "/node-association-manager":
+        return node_association_manager_layout()
         
     return html.H1("404 - Page Not Found", className="text-center")
 
