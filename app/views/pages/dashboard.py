@@ -33,10 +33,35 @@ def get_top_vulnerable_cves():
     top_cves = df_sorted.head(10)
     return top_cves
 
+
+# Function to get the most impactful CVE (aggregated by node count * NVD score)
+def get_most_impactful_cve():
+    """Fetch and calculate the most impactful CVE based on node count * NVD Score."""
+    cve_data = load_cve_data()  # Fetch CVE data
+    # Convert to DataFrame for easy manipulation
+    df = pd.DataFrame(cve_data)
+
+    # Group by CVE ID and calculate the number of nodes affected by each CVE
+    cve_impact = df.groupby('CVE ID').agg(
+        nodes_affected=('Node ID', 'nunique'),
+        nvd_score=('NVD Score', 'first')
+    ).reset_index()
+
+    # Calculate the impact score as (number of nodes affected * NVD Score)
+    cve_impact['Impact Score'] = cve_impact['nodes_affected'] * cve_impact['nvd_score']
+
+    # Sort by Impact Score in descending order to get the most impactful CVE
+    most_impactful_cve = cve_impact.sort_values(by="Impact Score", ascending=False).head(3)
+
+    return most_impactful_cve
+
 def dashboard(session_user):
 
-    # Get the actual top 5 most vulnerable CVEs
-    top_cves = get_top_vulnerable_cves()  # Fetch the top 5 CVEs
+    # Get the actual top 10 most vulnerable CVEs
+    top_cves = get_top_vulnerable_cves()  # Fetch the top 10 CVEs
+
+    # Get the most impactful CVE
+    top_impactful_cves = get_most_impactful_cve()  # Fetch the most impactful CVE
 
     return html.Div([
         # Welcome message
@@ -95,7 +120,7 @@ def dashboard(session_user):
                 dbc.Col([
                     dbc.Card([
                         dbc.CardBody([
-                            html.H4("Top 10 Most Vulnerable CVEs", className="card-title"),
+                            html.H4("Top 10 Most Vulnerable Individual CVEs", className="card-title"),
                             html.P("This table will show the top 5 CVEs based on their NVD Score and the nodes they are associated with.", className="card-text"),
                          # Placeholder Table to display top 5 most vulnerable CVEs
                             dash_table.DataTable(
@@ -117,12 +142,27 @@ def dashboard(session_user):
                     ], className="mb-4")
                 ], width=6),
 
-                # Third Column
+                # Third Column: Top 3 Most Impactful CVEs Table (Aggregated by Node Count * NVD Score)
                 dbc.Col([
                     dbc.Card([
                         dbc.CardBody([
-                            html.H4("Card 3 Title", className="card-title"),
-                            html.P("Content for Card 3 goes here.", className="card-text"),
+                            html.H4("Top 3 Most Impactful CVEs", className="card-title"),
+                            html.P("This table shows the top 3 CVEs based on the aggregation of the number of nodes affected and the NVD Score.", className="card-text"),
+                            # Top 3 most impactful CVE data in the table
+                            dash_table.DataTable(
+                                id="impactful-cve-table",
+                                columns=[
+                                    {"name": "CVE ID", "id": "CVE ID"},
+                                    {"name": "Nodes Affected", "id": "nodes_affected"},
+                                    {"name": "Impact Score", "id": "Impact Score"},
+                                ],
+                                data=top_impactful_cves.to_dict("records"),
+                                style_table={"overflowX": "auto"},
+                                style_cell={"textAlign": "left"},
+                                page_size=3,  # Display top 3 impactful CVEs
+                                filter_action="native",  # Allow filtering of data
+                                sort_action="native",  # Allow sorting of columns
+                            ),
                         ])
                     ], className="mb-4")
                 ], width=6),
