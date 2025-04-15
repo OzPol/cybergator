@@ -140,6 +140,9 @@ def dashboard(session_user):
                                             hole=0.3,  # Makes it a donut chart
                                             hoverinfo="label+percent",
                                             textinfo="percent",
+                                            marker=dict(
+                                                colors=["#4CAF50", "#D32F2F"],  # Custom colors for each section (Green for Resilient, Red for Vulnerable)
+                                            ),
                                         )
                                     ],
                                     "layout": go.Layout(
@@ -211,11 +214,11 @@ def dashboard(session_user):
                             html.Div(str(endpoint_count),  # Display the count as text
                                      className="endpoint-count-text",
                                      style={
-                                         "fontSize": "48px",  # Large number
+                                         "fontSize": "72px",  # Large number
                                          "fontWeight": "bold",
                                          "color": "black",  # You can customize color
                                          "textAlign": "center",  # Centered
-                                         "padding": "50px 0"  # Add padding for better spacing
+                                         "padding": "32px 0"  # Add padding for better spacing
                                      })
                         ])
                     ], className="mb-4")
