@@ -164,3 +164,17 @@ def append_software_entry(node_id, software_id, software_version):
 def get_critical_function_keys():
     data = get_critical_functions()
     return [item["Function_Number"] for item in data.get("System_Critical_Functions", [])]
+
+def get_software_metadata(make, version):
+    """Returns software_id, description, and other details from software_cves.json"""
+    data = get_software_cves()
+    for sid, entry in data.items():
+        if entry["make"] == make and entry["version"] == version:
+            return {
+                "software_id": sid,
+                "description": entry["description"],
+                "cves": entry.get("cves", {}),
+                "make": make,
+                "version": version
+            }
+    raise ValueError(f"No software match found for {make} {version}")
