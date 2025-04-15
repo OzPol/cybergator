@@ -1,83 +1,100 @@
 from dash import html, Input, Output, State, ctx, no_update
-import dash
 import requests
-from app.services.data_loader import get_software_cves, get_next_software_id, save_json
+from app.services.data_loader import get_software_cves
 
-API_BASE_URL = "http://localhost:8000/api/software" 
+API_BASE_URL = "http://localhost:8000/api/software"
 
 def register_software_unique_callbacks(app):
     """Register callbacks for unique software table actions."""
 
     @app.callback(
-        Output("expanded-software-details", "children"),
-        Input("software-unique-table", "active_cell"),
-        State("software-unique-table", "derived_viewport_data"),
-        prevent_initial_call=True
-    )
-    def expand_software_details(active_cell, software_data):
-        """Displays nodes & CVEs when expanding a software entry."""
-        if not active_cell or active_cell["column_id"] != "Expand":
-            return no_update
-
-        row_idx = active_cell["row"]
-        selected_software = software_data[row_idx]["Software ID"]
-        software_cves = get_software_cves().get(selected_software, {})
-
-        node_list = ", ".join(software_cves.get("nodes", [])) if software_cves.get("nodes") else "No assigned nodes"
-        cve_list = ", ".join([f"{cve} (NVD: {score})" for cve, score in software_cves.get("cves", {}).items()]) if software_cves.get("cves") else "No CVEs"
-
-        return html.Div([
-            html.H5(f"Details for {selected_software}"),
-            html.P(f"Nodes: {node_list}"),
-            html.P(f"CVEs: {cve_list}"),
-        ])
-
-    @app.callback(
         [
             Output("software-unique-table", "data"),
-            Output("error-message", "children"),
-            Output("new-software-make", "value"),
-            Output("new-software-desc", "value"),
-            Output("new-software-version", "value")
+            Output("expanded-software-details", "children"),
+            Output("software-error-message", "children"),
+            Output("add-new-software-make", "value"),
+            Output("add-new-software-desc", "value"),
+            Output("add-new-software-version", "value")
         ],
-        Input("add-software-btn", "n_clicks"),
         [
-            State("new-software-make", "value"),
-            State("new-software-desc", "value"),
-            State("new-software-version", "value"),
-            State("software-unique-table", "data")
+            Input("add-software-btn", "n_clicks"),
+            Input("software-unique-table", "active_cell")
+        ],
+        [
+            State("add-new-software-make", "value"),
+            State("add-new-software-desc", "value"),
+            State("add-new-software-version", "value"),
+            State("software-unique-table", "data"),
+            State("software-unique-table", "derived_viewport_data")
         ],
         prevent_initial_call=True
     )
-    def add_new_software(n_clicks, make, description, version, current_data):
-        if not all([make, description, version]):
-            return no_update, "Missing required fields!", no_update, no_update, no_update
+    def handle_add_or_table_click(n_clicks, active_cell, make, desc, version, table_data, viewport_data):
+        triggered_id = ctx.triggered_id
 
-        # 🔻 API call instead of local file manipulation
-        payload = {
-            "make": make,
-            "description": description,
-            "version": version
-        }
+        # Handle Add btn click
+        if triggered_id == "add-software-btn":
+            if not all([make, desc, version]):
+                return no_update, no_update, "Missing required fields!", no_update, no_update, no_update
 
-        try:
-            response = requests.post(API_BASE_URL, json=payload)
-            if response.status_code != 201:
-                return no_update, "❌ Failed to add software!", no_update, no_update, no_update
-            
-            new_id = response.json().get("id")  # Get generated ID from API response
-
-            new_entry = {
-                "Software ID": new_id,
-                "Make": make,
-                "Description": description,
-                "Version": version,
-                "Expand": "➕",
-                "Remove": "❌"
+            payload = {
+                "make": make,
+                "description": desc,
+                "version": version
             }
-            current_data.append(new_entry)
 
-            return current_data, "", "", "", ""
+            try:
+                response = requests.post(API_BASE_URL, json=payload)
+                if response.status_code != 201:
+                    return no_update, no_update, "❌ Failed to add software!", no_update, no_update, no_update
 
-        except Exception as e:
-            return no_update, f"API error: {str(e)}", no_update, no_update, no_update
+                new_id = response.json().get("id")
+                new_entry = {
+                    "Software ID": new_id,
+                    "Make": make,
+                    "Description": desc,
+                    "Version": version,
+                    "Expand": "➕",
+                    "Remove": "❌"
+                }
+
+                table_data.append(new_entry)
+                return table_data, "", "", "", "", ""
+
+            except Exception as e:
+                return no_update, no_update, f"API error: {str(e)}", no_update, no_update, no_update
+
+        # Handle Remove or Expand from table clicks
+        if not active_cell:
+            return no_update, no_update, no_update, no_update, no_update, no_update
+
+        row = active_cell["row"]
+        column = active_cell["column_id"]
+        software_id = table_data[row]["Software ID"]
+
+        if column == "Remove":
+            try:
+                response = requests.delete(f"{API_BASE_URL}/{software_id}")
+                if response.status_code != 200:
+                    return no_update, no_update, "❌ Failed to remove software!", no_update, no_update, no_update
+
+                updated_data = [entry for i, entry in enumerate(table_data) if i != row]
+                return updated_data, "", "", no_update, no_update, no_update
+
+            except Exception as e:
+                return no_update, no_update, f"API error: {str(e)}", no_update, no_update, no_update
+
+        elif column == "Expand":
+            software_cves = get_software_cves().get(software_id, {})
+            node_list = ", ".join(software_cves.get("nodes", [])) or "No assigned nodes"
+            cve_list = ", ".join([f"{cve} (NVD: {score})" for cve, score in software_cves.get("cves", {}).items()]) or "No CVEs"
+
+            details = html.Div([
+                html.H5(f"Details for {software_id}"),
+                html.P(f"Nodes: {node_list}"),
+                html.P(f"CVEs: {cve_list}"),
+            ])
+
+            return no_update, details, "", no_update, no_update, no_update
+
+        return no_update, no_update, no_update, no_update, no_update, no_update
