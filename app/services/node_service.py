@@ -1,9 +1,14 @@
+import json
 from app.services.data_loader import (
     get_nodes,
     save_nodes_data,
     append_software_entry,
     add_node_to_software_cves,
     get_software_metadata,
+    get_software_cves,
+    save_json,
+    remove_node_from_software_inventory,
+    remove_node_from_software_cves
 )
 
 def add_node_to_system_graph(node_id, node_name, node_type, critical_functions,
@@ -64,3 +69,20 @@ def add_node_to_system_graph(node_id, node_name, node_type, critical_functions,
     add_node_to_software_cves(software_id, node_id)
 
     return new_node
+
+
+def remove_node_from_system_graph(node_id):
+    # Remove from Nodes_Complete.json
+    nodes = get_nodes()
+    updated_nodes = [n for n in nodes if n["node_id"] != node_id]
+
+    if len(updated_nodes) == len(nodes):
+        raise ValueError(f"Node '{node_id}' not found.")
+
+    save_nodes_data(updated_nodes)
+
+    # Remove from software_cves.json and inventory.csv
+    remove_node_from_software_cves(node_id)
+    remove_node_from_software_inventory(node_id)
+
+    return True

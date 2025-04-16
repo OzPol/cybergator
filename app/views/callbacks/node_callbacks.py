@@ -2,10 +2,16 @@ from dash import Input, Output, State
 from dash.exceptions import PreventUpdate
 from app.services.node_service import add_node_to_system_graph
 from app.services.data_loader import get_software_metadata
+from app.services.node_service import remove_node_from_system_graph
+from app.views.pages.node_actions import render_node_controls
+from app.services.graph_service import load_graph_data
+from app.views.pages.network_graph import cytoscape_graph
 
 def register_node_callbacks(app):
+    
+    # CREATE NODE callback → outputs to create-node-feedback
     @app.callback(
-        Output("node-feedback", "children"),
+        Output("create-node-feedback", "children"),
         Input("submit-new-node", "n_clicks"),
         State("node-id-input", "value"),
         State("node-name-input", "value"),
@@ -25,10 +31,6 @@ def register_node_callbacks(app):
                         critical_functions, connected_to, backup_role,
                         data_redundancy, risk_factor, switch_dependency_list,
                         software_make, software_version):
-
-        from dash.exceptions import PreventUpdate
-        from app.services.node_service import add_node_to_system_graph
-        from app.services.data_loader import get_software_metadata
 
         if n_clicks == 0 or not node_id or not node_name:
             raise PreventUpdate
@@ -62,4 +64,37 @@ def register_node_callbacks(app):
 
         except Exception as e:
             return f"Error: {str(e)}"
-        
+    
+    # REMOVE NODE callback → outputs to remove-node-feedback
+    @app.callback(
+        Output("remove-node-feedback", "children"),
+        Input("remove-node-button", "n_clicks"),
+        State("system-graph", "tapNodeData"),
+        prevent_initial_call=True
+    )
+    def handle_remove_node(n_clicks, tapped_node):
+        if not tapped_node or "id" not in tapped_node:
+            raise PreventUpdate
+
+        node_id = tapped_node["id"]
+
+        try:
+            remove_node_from_system_graph(node_id)
+            return f"Node '{node_id}' removed successfully."
+        except Exception as e:
+            return f"Error removing node: {str(e)}"
+    
+    # Toggle visibility of the node creation form when "Add Node" is clicked
+    @app.callback(
+        Output("node-form-container", "children"),
+        Output("show-node-form", "data"),
+        Input("add-node-toggle", "n_clicks"),
+        State("show-node-form", "data"),
+        prevent_initial_call=True
+    )
+    def toggle_node_form(n_clicks, currently_shown):
+        if not currently_shown:
+            return render_node_controls(), True
+        return [], False
+    
+    
