@@ -262,6 +262,10 @@ def critical_function_layout():
                     dbc.Button("Manage Node Associations", color="success"),
                     href="/node-association-manager"
                 ),
+                width="auto"
+            ),
+            dbc.Col(
+                dbc.Button("Reset Functions Table", id="reset-critical-functions", color="warning", className="me-2"),
                 width=True,
                 className="text-end"
             )
@@ -346,3 +350,38 @@ def critical_function_layout():
             ], className="g-3 mb-4 align-items-end"),
         ], className="border p-3 rounded bg-light")
     ], fluid=True)
+
+@callback(
+    Output("functions-table", "data", allow_duplicate=True),
+    Input("reset-critical-functions", "n_clicks"),
+    prevent_initial_call=True
+)
+def reset_critical_functions(n_clicks):
+    if not n_clicks:
+        return no_update
+
+    backup_path = os.path.join('app', 'data', 'backup', 'Critical_Functions.json')
+    main_path = os.path.join('app', 'data', 'json', 'Critical_Functions.json')
+
+    try:
+        # Load backup and overwrite main file
+        with open(backup_path, 'r') as f:
+            backup_data = json.load(f)
+
+        with open(main_path, 'w') as f:
+            json.dump(backup_data, f, indent=4)
+
+        # Return formatted data to update table
+        return [
+            {
+                "Function Number": f["Function_Number"],
+                "Work Area": f["Work_Area"],
+                "Criticality": f["Criticality"],
+                "Criticality Value": f["Criticality_Value"],
+                "Remove": "❎"
+            }
+            for f in backup_data.get("System_Critical_Functions", [])
+        ]
+    except Exception as e:
+        print(f"Error resetting critical functions: {e}")
+        return no_update
