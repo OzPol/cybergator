@@ -1,9 +1,11 @@
-from dash import Input, Output, State, callback
+from dash import Input, Output, State
 from dash.exceptions import PreventUpdate
 from app.services.node_service import add_node_to_system_graph
 from app.services.data_loader import get_software_metadata
 from app.services.node_service import remove_node_from_system_graph
 from app.views.pages.node_actions import render_node_controls
+from app.services.graph_service import load_graph_data
+from app.views.pages.network_graph import cytoscape_graph
 
 def register_node_callbacks(app):
     
@@ -94,3 +96,5 @@ def register_node_callbacks(app):
         if not currently_shown:
             return render_node_controls(), True
         return [], False
+    
+    

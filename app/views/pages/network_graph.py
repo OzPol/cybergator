@@ -5,18 +5,34 @@ from app.views.ui_text.system_graph_text import system_graph_description
 from app.views.pages.node_actions import render_node_controls
 from app.views.pages.graph_controls import render_graph_controls
 
+
 def cytoscape_graph(graph_data):
-    # Creates Cytoscape graph elements from JSON data
-    try: 
-        elements = [
-            {"data": {"id": node["data"]["id"], "label": node["data"]["label"]}} for node in graph_data["nodes"]
-        ] + [
-            {"data": {"source": edge["data"]["source"], "target": edge["data"]["target"]}} for edge in graph_data["edges"]
+    try:
+        node_ids = {node["data"]["id"] for node in graph_data["nodes"]}
+
+        valid_nodes = [
+            {"data": {"id": node["data"]["id"], "label": node["data"]["label"]}}
+            for node in graph_data["nodes"]
+            if "data" in node and "id" in node["data"] and "label" in node["data"]
         ]
-        return elements
+
+        valid_edges = [
+            {"data": {"source": edge["data"]["source"], "target": edge["data"]["target"]}}
+            for edge in graph_data["edges"]
+            if (
+                "data" in edge and
+                "source" in edge["data"] and
+                "target" in edge["data"] and
+                edge["data"]["source"] in node_ids and
+                edge["data"]["target"] in node_ids
+            )
+        ]
+
+        return valid_nodes + valid_edges
     except Exception as e:
         print("ERROR IN cytoscape_graph():", e)
         return []
+
 
 def graph_layout():
     # Graph Layout Page
