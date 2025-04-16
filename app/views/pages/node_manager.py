@@ -251,11 +251,10 @@ def node_association_manager_layout():
                 ),
                 width="auto"
             ),
-            dbc.Col(
-                dbc.Button("Refresh Data", id="refresh-data", color="secondary"),
-                width="auto",
-                className="ms-auto"  # Right align
-            )
+            dbc.Col([
+                dbc.Button("Refresh Data", id="refresh-data", color="secondary", className="me-2"),
+                dbc.Button("Reset Node Associations", id="reset-node-associations", color="warning"),
+            ], width="auto", className="ms-auto")  # Right align both buttons together
         ], className="mb-4"),
         
         # Node Association Section
@@ -341,3 +340,44 @@ def node_association_manager_layout():
             ])
         ], className="border p-3 rounded bg-light")
     ], fluid=True)
+
+@callback(
+    Output("node-assignment-status", "children", allow_duplicate=True),
+    Output("node-assignment-status", "color", allow_duplicate=True),
+    Output("node-assignment-status", "is_open", allow_duplicate=True),
+    Input("reset-node-associations", "n_clicks"),
+    prevent_initial_call=True
+)
+def reset_node_associations(n_clicks):
+    if not n_clicks:
+        return no_update, no_update, no_update
+
+    try:
+        backup_path = os.path.join("app", "data", "backup", "Nodes_Complete.json")
+        live_path = os.path.join("app", "data", "json", "Nodes_Complete.json")
+
+        # Load backup node data
+        with open(backup_path, "r") as f:
+            backup_data = json.load(f)
+            
+        # Get current valid function numbers
+        functions_data = get_critical_functions()
+        valid_functions = set()
+        if functions_data and "System_Critical_Functions" in functions_data:
+            valid_functions = {func["Function_Number"] for func in functions_data["System_Critical_Functions"]}
+        
+        # Filter node associations to include only existing functions
+        for node in backup_data:
+            if "critical_functions" in node:
+                node["critical_functions"] = [
+                    func_id for func_id in node["critical_functions"] 
+                    if func_id in valid_functions
+                ]
+
+        # Save filtered data back to the live file
+        with open(live_path, "w") as f:
+            json.dump(backup_data, f, indent=4)
+
+        return "✅ Node associations reset from backup (filtered to existing functions only).", "success", True
+    except Exception as e:
+        return f"❌ Failed to reset nodes: {str(e)}", "danger", True
