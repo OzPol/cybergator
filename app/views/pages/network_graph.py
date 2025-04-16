@@ -2,35 +2,59 @@ from dash import html, dcc
 import dash_cytoscape as cyto
 import dash_bootstrap_components as dbc
 from app.views.ui_text.system_graph_text import system_graph_description
+from app.views.pages.node_actions import render_node_controls
+from app.views.pages.graph_controls import render_graph_controls
+
 
 def cytoscape_graph(graph_data):
-    # Creates Cytoscape graph elements from JSON data
-    try: 
-        elements = [
-            {"data": {"id": node["data"]["id"], "label": node["data"]["label"]}} for node in graph_data["nodes"]
-        ] + [
-            {"data": {"source": edge["data"]["source"], "target": edge["data"]["target"]}} for edge in graph_data["edges"]
+    try:
+        node_ids = {node["data"]["id"] for node in graph_data["nodes"]}
+
+        valid_nodes = [
+            {"data": {"id": node["data"]["id"], "label": node["data"]["label"]}}
+            for node in graph_data["nodes"]
+            if "data" in node and "id" in node["data"] and "label" in node["data"]
         ]
-        return elements
+
+        valid_edges = [
+            {"data": {"source": edge["data"]["source"], "target": edge["data"]["target"]}}
+            for edge in graph_data["edges"]
+            if (
+                "data" in edge and
+                "source" in edge["data"] and
+                "target" in edge["data"] and
+                edge["data"]["source"] in node_ids and
+                edge["data"]["target"] in node_ids
+            )
+        ]
+
+        return valid_nodes + valid_edges
     except Exception as e:
         print("ERROR IN cytoscape_graph():", e)
         return []
 
+
 def graph_layout():
     # Graph Layout Page
     return html.Div([
+        
+        dcc.Store(id="show-node-form", data=False),
+        
         html.H3("System Graph", className="text-center mb-4"),
+
         system_graph_description(),
+
         html.Button("Refresh Graph", id="refresh-graph-btn", n_clicks=1, className="btn btn-primary mb-3"),
+
         dbc.Row([
-            # Left: Graph
+            # LEFT: Graph + buttons
             dbc.Col([
                 html.Div([
                     cyto.Cytoscape(
                         id="system-graph",
-                        layout={"name": "breadthfirst"}, # auto-layout: "cose" or "breadthfirst" 
+                        layout={"name": "breadthfirst"},
                         style={"width": "100%", "height": "600px"},
-                        elements=[], # Initially empty, updated by callback
+                        elements=[],
                         minZoom=0.4,
                         maxZoom=1.3,
                         zoomingEnabled=True,
@@ -40,53 +64,26 @@ def graph_layout():
                     "borderRadius": "10px",
                     "padding": "10px",
                     "marginTop": "10px",
-                    "marginBottom": "40px",
+                    "marginBottom": "20px",
                     "backgroundColor": "#f9f9f9"
-                })
+                }),
+
+                html.Div([
+                    dbc.Button("Add Node", id="add-node-toggle", color="primary", className="me-2"),
+                    dbc.Button("Remove Node", id="remove-node-button", color="primary", className="me-2"),
+                    dbc.Button("Add Edge", id="add-edge-button", color="primary", className="me-2"),
+                    dbc.Button("Remove Edge", id="remove-edge-button", color="primary")
+                ], className="mt-3 d-flex justify-content-start flex-wrap")
             ], width=9),
 
-            # Right: Controls
+            # RIGHT: Graph Controls tabs + form panel
             dbc.Col([
-                html.H5("Graph Controls"),
-                # html.Button("Refresh Graph", id="refresh-graph-btn", n_clicks=1, className="btn btn-primary mb-3"),
-
-                dbc.Button("Add New Node", id="open-add-node-form", color="primary", className="mb-3"),
-
-                dbc.Collapse([
-                    dbc.Card([
-                        dbc.CardHeader("New Node Details"),
-                        dbc.CardBody([
-                            dbc.Input(id="new-node-id", placeholder="Node ID", className="mb-2"),
-                            dbc.Input(id="new-node-name", placeholder="Node Name", className="mb-2"),
-                            dcc.Dropdown(id="node-type-selector", options=[], placeholder="Node Type", className="mb-2"),
-                            dcc.Dropdown(id="critical-function-selector", options=[], multi=True, placeholder="Critical Functions", className="mb-2"),
-                            dcc.Dropdown(id="connected-nodes-selector", options=[], multi=True, placeholder="Connect To", className="mb-2"),
-                            dbc.Checkbox(id="critical-data-stored", label="Critical Data Stored?", className="mb-2"),
-                            dcc.Dropdown(
-                                id="backup-role",
-                                options=[],  # will be populated dynamically using def update_backup_role_options(node_type):
-                                value=None,  # Sets default selection
-                                placeholder="Backup Role",
-                                className="mb-2",
-                                clearable=False
-                            ),
-                            dcc.Dropdown(id="data-redundancy", options=[{"label": "Yes", "value": "Yes"}, {"label": "No", "value": "No"}], placeholder="Data Redundancy", className="mb-2"),
-                            dbc.Checkbox(id="redundancy", label="Redundancy Present?", className="mb-2"),
-                            dcc.Dropdown(id="risk-factor", options=[
-                                {"label": "Low", "value": "Low"},
-                                {"label": "Medium", "value": "Medium"},
-                                {"label": "High", "value": "High"}], placeholder="Risk", className="mb-2"),
-                            dbc.Checkbox(id="switch-dependency", label="Depends on Switch?", className="mb-2"),
-                            dbc.Label("Resilience Penalty (0.0 - 1.0)", className="mb-1"),
-                            dbc.Input(id="resilience-penalty", placeholder="Resilience Penalty", type="number", value=0.1, className="mb-2"),
-                            html.Hr(),
-                            dbc.Checkbox(id="no-software-checkbox", label="No Software Installed", className="mb-2"),
-                            dcc.Dropdown(id="software-make-selector", options=[], placeholder="Software Make", className="mb-2"),
-                            dcc.Dropdown(id="software-version-selector", options=[], placeholder="Software Version", className="mb-2"),
-                            dbc.Button("Create Node", id="submit-new-node", color="success", className="mt-3")
-                        ])
-                    ])
-                ], id="add-node-form", is_open=False)
+                html.H5("Graph Controls", className="text-center mb-2"),
+                render_graph_controls(),
+                html.Div(id="node-form-container", style={"marginTop": "20px"}),
+                html.Div(id="create-node-feedback", style={"color": "green", "fontSize": "12px", "marginTop": "10px"}),
+                html.Div(id="remove-node-feedback", style={"color": "red", "fontSize": "12px"})
             ], width=3)
         ])
     ])
+    
