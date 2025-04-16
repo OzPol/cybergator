@@ -1,8 +1,9 @@
-from dash import Input, Output, State
+from dash import Input, Output, State, callback
 from dash.exceptions import PreventUpdate
 from app.services.node_service import add_node_to_system_graph
 from app.services.data_loader import get_software_metadata
 from app.services.node_service import remove_node_from_system_graph
+from app.views.pages.node_actions import render_node_controls
 
 def register_node_callbacks(app):
     
@@ -84,11 +85,12 @@ def register_node_callbacks(app):
     # Toggle visibility of the node creation form when "Add Node" is clicked
     @app.callback(
         Output("node-form-container", "children"),
+        Output("show-node-form", "data"),
         Input("add-node-toggle", "n_clicks"),
+        State("show-node-form", "data"),
         prevent_initial_call=True
     )
-    def toggle_node_form(n_clicks):
-        if n_clicks:
-            from app.views.pages.node_actions import render_node_controls
-            return render_node_controls()
-        return []
+    def toggle_node_form(n_clicks, currently_shown):
+        if not currently_shown:
+            return render_node_controls(), True
+        return [], False

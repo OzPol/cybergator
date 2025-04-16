@@ -8,8 +8,8 @@ layout_options = [
 
 def render_graph_controls():
     return html.Div([
-        html.H5("Graph Controls", className="text-center mb-3"),
-
+        # html.H5("Graph Controls", className="text-center mb-3"), # added this to network_graph.py 
+        
         dcc.Tabs(id="graph-controls-tabs", value="layout-tab", children=[
             dcc.Tab(label="Layout", value="layout-tab", children=[
                 html.Div([
