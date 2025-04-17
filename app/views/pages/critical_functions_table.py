@@ -5,6 +5,7 @@ import dash_bootstrap_components as dbc
 from app.services.data_loader import get_critical_functions
 import os
 import json
+import re
 
 def update_json_file(table_data):
     """Update the entire Critical_Functions.json file based on table data"""
@@ -12,23 +13,14 @@ def update_json_file(table_data):
     json_path = os.path.join('app', 'data', 'json', 'Critical_Functions.json')
     
     try:
-        # Format data for JSON - preserve the nodes data from the original
-        functions_data = get_critical_functions()
-        nodes_mapping = {}
-        
-        if functions_data and "System_Critical_Functions" in functions_data:
-            for func in functions_data["System_Critical_Functions"]:
-                nodes_mapping[func["Function_Number"]] = func.get("Nodes", [])
-        
+        # Format data for JSON
         json_data = {
             "System_Critical_Functions": [
                 {
                     "Function_Number": func["Function Number"],
                     "Work_Area": func["Work Area"],
                     "Criticality": func["Criticality"],
-                    "Criticality_Value": func["Criticality Value"],
-                    # Keep the original node associations or default to empty list
-                    "Nodes": nodes_mapping.get(func["Function Number"], [])
+                    "Criticality_Value": func["Criticality Value"]
                 }
                 for func in table_data
             ]
@@ -60,8 +52,7 @@ def save_to_json(function_number, work_area, criticality, criticality_value):
             "Function_Number": function_number,
             "Work_Area": work_area,
             "Criticality": criticality,
-            "Criticality_Value": criticality_value,
-            "Nodes": []  # Initialize with empty nodes list
+            "Criticality_Value": criticality_value
         }
         
         # Add to data
@@ -96,7 +87,7 @@ def remove_from_json(function_number):
             json.dump(critical_data, f, indent=4)
         print(f"✅ Removed function {function_number} from Critical_Functions.json")
 
-        # Load and update Nodes_Complete.json
+        # Load and update Nodes_Complete.json - keep this part as it's handling a different file
         with open(nodes_path, 'r') as f:
             node_data = json.load(f)
 
@@ -136,6 +127,57 @@ def load_critical_functions():
     print(f"Critical Functions Loaded: {len(formatted_data)} entries") 
     return formatted_data
 
+def get_next_function_number(current_data):
+    """Determine the next function number based on existing functions"""
+    if not current_data:
+        return "F1"  # Start with F1 if no functions exist
+    
+    # Extract all function numbers
+    function_numbers = [item["Function Number"] for item in current_data]
+    
+    # Find numeric parts and get the highest number
+    max_number = 0
+    pattern = re.compile(r'F(\d+)')
+    
+    for fn in function_numbers:
+        match = pattern.match(fn)
+        if match:
+            num = int(match.group(1))
+            max_number = max(max_number, num)
+    
+    # Return the next function number
+    return f"F{max_number + 1}"
+
+def get_criticality_mapping():
+    """Get the mapping between criticality levels and their values"""
+    functions_data = get_critical_functions()
+    
+    if not functions_data:
+        # Default mapping if no data is available
+        return {
+            "Low": 1,
+            "Medium": 2,
+            "High": 3
+        }
+    
+    # Extract unique criticality to value mappings
+    criticality_map = {}
+    for function in functions_data.get("System_Critical_Functions", []):
+        criticality = function.get("Criticality")
+        value = function.get("Criticality_Value")
+        if criticality and value is not None:
+            criticality_map[criticality] = value
+    
+    # Ensure default values are present
+    if "Low" not in criticality_map:
+        criticality_map["Low"] = 1
+    if "Medium" not in criticality_map:
+        criticality_map["Medium"] = 2
+    if "High" not in criticality_map:
+        criticality_map["High"] = 3
+    
+    return criticality_map
+
 @callback(
     Output("functions-table", "data", allow_duplicate=True),
     [Input("functions-table", "active_cell")],
@@ -168,31 +210,28 @@ def remove_function(active_cell, data):
 @callback(
     [
         Output("functions-table", "data"),
-        Output("new-function-number", "value"),
         Output("new-work-area", "value"),
         Output("new-criticality", "value"),
-        Output("new-criticality-value", "value")
     ],
     Input("add-function-btn", "n_clicks"),
     [
-        State("new-function-number", "value"),
         State("new-work-area", "value"),
         State("new-criticality", "value"),
-        State("new-criticality-value", "value"),
         State("functions-table", "data")
     ],
     prevent_initial_call=True
 )
-def add_new_function(n_clicks, function_number, work_area, criticality, criticality_value, current_data):
+def add_new_function(n_clicks, work_area, criticality, current_data):
     # Validate inputs
-    if n_clicks is None or not function_number or not work_area or not criticality:
-        return no_update, no_update, no_update, no_update, no_update
+    if n_clicks is None or not work_area or not criticality:
+        return no_update, no_update, no_update
     
-    # Convert criticality value to int
-    try:
-        criticality_value = int(criticality_value) if criticality_value else 0
-    except ValueError:
-        criticality_value = 0
+    # Get criticality value based on criticality level
+    criticality_map = get_criticality_mapping()
+    criticality_value = criticality_map.get(criticality, 0)
+    
+    # Get next function number automatically
+    function_number = get_next_function_number(current_data)
     
     # Create new function entry for the table
     new_function = {
@@ -211,7 +250,7 @@ def add_new_function(n_clicks, function_number, work_area, criticality, critical
     save_to_json(function_number, work_area, criticality, criticality_value)
     
     # Return updated data and clear input fields
-    return updated_data, "", None, None, None
+    return updated_data, None, None
 
 @callback(
     Output("functions-table", "data", allow_duplicate=True),
@@ -223,6 +262,14 @@ def add_new_function(n_clicks, function_number, work_area, criticality, critical
 def update_functions_data(timestamp, data, previous_data):
     if data == previous_data:
         return no_update
+    
+    # Check if criticality has changed and update the criticality value
+    criticality_map = get_criticality_mapping()
+    
+    for row in data:
+        criticality = row.get("Criticality")
+        if criticality in criticality_map:
+            row["Criticality Value"] = criticality_map[criticality]
     
     # Update JSON file with all changes
     update_json_file(data)
@@ -244,6 +291,13 @@ def populate_work_area_dropdown(_):
 
 def critical_function_layout():
     functions_data = load_critical_functions()
+    
+    # Get criticality options from existing data
+    criticality_map = get_criticality_mapping()
+    criticality_options = [
+        {"label": f"{level} (Value: {value})", "value": level}
+        for level, value in criticality_map.items()
+    ]
 
     return dbc.Container([  
         html.H3("System Critical Functions Table", className="text-center mt-4"),
@@ -280,7 +334,7 @@ def critical_function_layout():
                 {"name": "Function Number", "id": "Function Number"},
                 {"name": "Work Area", "id": "Work Area", "editable": True},
                 {"name": "Criticality", "id": "Criticality", "editable": True},
-                {"name": "Criticality Value", "id": "Criticality Value", "type": "numeric"},
+                {"name": "Criticality Value", "id": "Criticality Value", "type": "numeric", "editable": False},
                 {"name": "Remove", "id": "Remove", "presentation": "markdown"},
             ],
             data=functions_data,  # Load data from JSON
@@ -309,38 +363,26 @@ def critical_function_layout():
             ],
         ),
         
-        # Add New Function Section
+        # Add New Function Section - Removed function number and criticality value fields
         html.Div([
             html.H4("Add New Function", className="mt-4 mb-3"),
             dbc.Row([
                 dbc.Col(
-                    dbc.Input(id="new-function-number", type="text", placeholder="Function Number"),
-                    width={"size": 2}
-                ),
-                dbc.Col(
                     dcc.Dropdown(
-                        id="new-work-area",
+                        id="new-work-area", 
                         placeholder="Select Work Area",
                         options=[],  # Populated dynamically
                         clearable=True
                     ),
-                    width={"size": 3}
+                    width={"size": 2}
                 ),
                 dbc.Col(
                     dcc.Dropdown(
                         id="new-criticality",
                         placeholder="Select Criticality",
-                        options=[
-                            {"label": "Low", "value": "Low"},
-                            {"label": "Medium", "value": "Medium"},
-                            {"label": "High", "value": "High"},
-                        ],
+                        options=criticality_options,
                         clearable=True
                     ),
-                    width={"size": 2}
-                ),
-                dbc.Col(
-                    dbc.Input(id="new-criticality-value", type="number", placeholder="Criticality Value"),
                     width={"size": 2}
                 ),
                 dbc.Col(
