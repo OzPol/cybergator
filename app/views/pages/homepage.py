@@ -60,9 +60,12 @@ def homepage_layout():
                                 dbc.CardImg(src="assets/Jess_Lourenco.jpg", top=True, className="team-card-img"),
                                 dbc.CardBody([
                                     html.H4("Jess Lourenco - Backend Lead", className="card-title"),
-                                    html.P("Body text for whatever you'd like to say.", className="card-text")
+                                    html.P("Ex-product manager turned software engineer. Passionate about backend, open source, and building solutions that improve people's lives.", 
+                                           className="card-text"),
+                                    dbc.Button("Read Full Bio", href="/about/jess", color="primary", className="mt-2") 
                                 ])
                             ], className="h-100"),
+                            
                             width=12, lg=4, className="mb-4"
                         ),
                     ], className="justify-content-center"),  # Centers the cards in the row
