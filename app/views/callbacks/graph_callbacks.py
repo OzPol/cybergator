@@ -4,7 +4,6 @@ from app.views.pages.network_graph import cytoscape_graph
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
 from app.views.pages.network_graph import cytoscape_graph
-from app.services.graph_service import load_graph_data, add_node_to_system_graph
 from app.services.data_loader import (
     get_software_dropdown_options, get_software_cves, get_node_types, get_all_nodes, 
     append_software_entry, get_critical_function_keys
@@ -65,7 +64,6 @@ def register_graph_callbacks(app):
     def populate_critical_functions(_):
         return [{"label": fn, "value": fn} for fn in get_critical_function_keys()]
 
-
     @app.callback(
         Output("connected-nodes-selector", "options"),
         Input("system-graph", "elements")
@@ -103,6 +101,8 @@ def register_graph_callbacks(app):
         else:
             return [{"label": "None", "value": "null"}]
         
+
+
 
 
 

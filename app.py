@@ -15,11 +15,9 @@ from app.controllers.sue_graph_controller import sue_bp
 from app.controllers.cve_controller import cve_bp
 
 from app.views.dash_setup import get_main_layout
-import app.views.callbacks.auth_callbacks
 from app.controllers.graph_controller import graph_bp
 from app.views.callbacks.graph_callbacks import register_graph_callbacks
 from app.views.callbacks.system_tables_callbacks import register_system_tables_callbacks
-import app.views.callbacks.resilience_callbacks
 from app.controllers.resilience_controller import resilience_bp
 from app.controllers.software_controller import software_bp
 from app.views.callbacks.resilience_callbacks import register_resilience_callbacks
