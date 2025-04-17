@@ -1,7 +1,8 @@
 from dash import html
 import dash_bootstrap_components as dbc
 
-layout = html.Div(
+def oz_bio():
+    return html.Div(
     dbc.Container([
         html.H2("About Ozlem Polat", className="mb-4 mt-4"),
 
