@@ -19,7 +19,7 @@ def register_resilience_callbacks(app):
             if response.status_code == 200:
                 data = response.json()
                 score = round(data["system_resilience_score"], 4)
-                return f"System Resilience Score: {score}"
+                return f"System Resilience Score: {score}%"
             return "N/A"
         except Exception as e:
             return f"Error: {str(e)}"
@@ -59,7 +59,7 @@ def register_resilience_callbacks(app):
             if response.status_code == 200:
                 data = response.json()
                 new_score = round(data["system_resilience_score"], 4)
-                score_text = f"System Resilience Score: {new_score}"
+                score_text = f"System Resilience Score: {new_score}%"
 
                 return score_text, "✅ Resilience updated."
         except Exception as e:
