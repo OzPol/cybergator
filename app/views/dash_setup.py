@@ -20,6 +20,7 @@ from app.views.pages.software_unique_table import software_unique_table_layout
 from app.views.pages.neo4j_graph_layout import neo4j_graph_layout
 from app.views.pages.workstations_layout import workstation_cards
 from app.views.pages.node_manager import node_association_manager_layout
+from app.views.ui_text.jess_bio import about_me_bio
 
 
 def render_page_content(pathname, session_user):
@@ -66,6 +67,8 @@ def render_page_content(pathname, session_user):
         return workstation_cards()
     elif pathname == "/node-association-manager":
         return node_association_manager_layout()
+    elif pathname == "/about/jess":
+        return about_me_bio()
         
     return html.H1("404 - Page Not Found", className="text-center")
 
