@@ -5,32 +5,70 @@ def homepage_layout():
     return html.Div([  
         dbc.Container([  # Wrapped everything in a centered container
             # Introduction Section
-            dbc.Row([  
-                dbc.Col([  
-                    html.H2("Introduction to CyberGator", className="section-title mb-2 text-center"),
-                    html.P("CyberGator is a cyber resilience assessment tool designed to help organizations evaluate and improve "
-                    "their system security. Using a combination of attack path analysis, Bayesian modeling, and fuzzy logic-based "
-                    "risk scoring, CyberGator provides a structured way to measure vulnerabilities and simulate potential threats.",
-                           className="mb-3 text-center"),
+            dbc.Card([
+                dbc.CardBody(
+                    dbc.Row([
+                        dbc.Col([
+                            html.H2("Introduction to CyberGator", className="fw-bold mb-3"),
+                            html.H5("CyberGator is a cyber resilience platform that helps organizations assess, understand & strengthen their systems against modern threats.", className="mb-3"),
+                            html.H5("By combining attack path analysis, Bayesian inference, & fuzzy logic-based risk scoring, CyberGator simulates how threats propagate across complex environments.", className="mb-3")
+                        ], md=6, className="d-flex flex-column justify-content-center"),
+                        dbc.Col([
+                            html.Img(src="/assets/icon_intro_illustration.png", style={"width": "100%", "height": "auto", "borderRadius": "6px"})
+                        ], md=6),
+                    ])
+                )
+            ], className="mb-4 shadow-sm", style={"width": "100%"}),
+            
+            dbc.Row([
+                dbc.Col(
+                    dbc.Card(
+                        dbc.CardBody([
+                            html.Img(src="assets/icon_risk.png", height="200px", className="mb-2 d-block mx-auto"),
+                            html.P("Traditional risk assessments often fall short when adapting to new attack strategies.", className="text-center mb-0")
+                        ])
+                    ), md=4, className="mb-3"
+                ),
 
-                    html.P("Organizations face an ever-evolving cyber threat landscape, and traditional risk assessments often "
-                    "fall short in adapting to new attack strategies. CyberGator bridges this gap by offering real-time insights"
-                    " into how systems respond to different threats, allowing users to make informed security decisions.",
-                           className="mb-3 text-center"),
+                dbc.Col(
+                    dbc.Card(
+                        dbc.CardBody([
+                            html.Img(src="assets/icon_insights.png", height="200px", className="mb-2 d-block mx-auto"),
+                            html.P("CyberGator bridges that gap by providing insights into threat propagation and system response.", className="text-center mb-0")
+                        ])
+                    ), md=4, className="mb-3"
+                ),
 
-                    html.P("By uploading a System Under Evaluation (SUE), users can interact with their system data, simulate "
-                    "attacks, test environmental risk factors, and analyze resilience without making irreversible changes to "
-                    "their infrastructure. This makes CyberGator an essential tool for cybersecurity professionals looking to "
-                    "strengthen their organization's defenses.",
-                           className="mb-3 text-center"),
-                ], width=12)
-            ], className="mt-4 mb-2"),  
+                dbc.Col(
+                    dbc.Card(
+                        dbc.CardBody([
+                            html.Img(src="assets/icon_upload.png", height="200px", className="mb-2 d-block mx-auto"),
+                            html.P("Users can upload a System Under Evaluation (SUE) and safely simulate attacks and defensive actions.", className="text-center mb-0")
+                        ])
+                    ), md=4, className="mb-3"
+                )
+            ], className="mb-5"),
+
+            dbc.Card([
+                dbc.CardBody(
+                    dbc.Row([
+                        dbc.Col([
+                            html.Img(src="/assets/icon_true_risk.png", style={"width": "100%", "height": "auto", "borderRadius": "6px"})
+                        ], md=6),
+                        dbc.Col([
+                            html.H2("Report True Risk of Vulnerabilities", className="fw-bold mb-3"),
+                            html.H5("Visualize CVEs by device, software, or asset using holistic, impact-aware dashboards.", className="mb-3"),
+                            html.H5("Pivot from intrusion risk to business risk using exploitability data to prioritize real threats.", className="mb-3"),
+                            html.H5("Validate & track which vulnerabilities put critical assets in danger & confirm when mitigation works.", className="mb-3")
+                        ], md=6, className="d-flex flex-column justify-content-center"),
+                    ])
+                )
+            ], className="mb-4 shadow-sm", style={"width": "100%"}),
 
             # Meet Our Team Section
             dbc.Row([  
                 dbc.Col([  
                     html.H2("Meet Our Team", className="section-title mb-4 text-center"),
-
                     # First Row: 3 Team Cards
                     dbc.Row([  
                         dbc.Col(
@@ -105,48 +143,66 @@ def homepage_layout():
                     ], className="justify-content-center"),  
                 ], width=12)
             ], className="mb-5"),  
+            
+            # ---- Section: Rethinking Vulnerability Prioritization + Strategy Cards ----
+            dbc.Row([
+                dbc.Col(
+                    dbc.Card([
+                        dbc.CardBody([
+                            html.H2("Rethinking Vulnerability Prioritization", className="section-title text-center mt-3 mb-3"),
 
-            # How to Use the App Section (Simulation Mode Explanation)
+                            html.P("Modern systems are too complex to secure by patching everything.", className="text-center"),
+                            html.P("The critical question isn't which CVEs are most severe:", className="text-center"),
+                            html.P("it's which ones expose meaningful paths to compromise.", className="text-center"),
+                            html.P("CyberGator enables teams to model real architectures, analyze how vulnerabilities propagate, and identify the attack paths that truly threaten critical functions. It shifts focus from surface-level severity to structural risk.", className="text-center"),
+
+                            html.P("CVSS scores show isolated risk. CyberGator shows connected risk — where system structure, privilege boundaries, and software dependencies all shape exposure.", className="text-center"),
+                        ])
+                    ], className="mb-4 shadow-sm"),
+                    width=8, className="mx-auto"  
+                )
+            ]),
+
             dbc.Row([
                 dbc.Col([
-                    html.H2("How to Use the App", className="section-title mb-2 text-center"),
-                    html.P("Once users become familiar with CyberGator by exploring the preloaded System Under Evaluation, "
-                    "they can begin experimenting with the application's features in a controlled environment. The preloaded SUE "
-                    "provides a realistic simulation of a network with existing system components, allowing users to test various "
-                    "configurations, run simulations, and observe the impact of their changes without affecting any live data. This "
-                    "hands-on practice helps users understand how CyberGator functions and how different parameters influence their "
-                    "system's resilience score.", className="section-subtitle mb-3 text-center"),
+                    html.H2("Prioritize - Evaluate - Defend", className="section-title text-center mt-4 mb-4"),
 
-                    html.P("Once comfortable with the basics, users can start uploading their own system data, including "
-                    "workstations, servers, and network components. This allows for a more personalized experience as they begin "
-                    "tailoring CyberGator to evaluate their unique system configurations. Whether testing environmental factors "
-                    "or running advanced attack simulations, users can interact with their custom SUE to assess vulnerabilities "
-                    "and improve overall system security. The ability to upload and manipulate their own nodes enables users to "
-                    "apply their newfound knowledge to real-world scenarios and continue strengthening their organization's "
-                    "cybersecurity posture.", className="section-subtitle mb-3 text-center"),
-                    html.Div([
-                        html.H3("What is Simulation Mode?", className="text-center"),
-                        html.P("Simulation Mode allows users to safely test modifications to their system without affecting the "
-                        "actual database. When enabled, any changes made to system components, environmental factors, or security"
-                        " settings will only apply within the simulation environment. This allows users to experiment with "
-                        "different configurations, test responses to threats, and observe how their Resilience Score is "
-                        "impacted—without permanently altering the database.",
-                               className="mb-4 text-center"),
-                        html.P("Users can:", className="mb-1 text-center"),
-                        html.Ul([
-                            html.Li("Adjust system parameters and attack scenarios to observe outcomes."),
-                            html.Li("Analyze how different security measures affect resilience."),
-                            html.Li("Export simulation results for documentation and decision-making."),
-                        ], className="text-center mb-4"),
-                        html.P("Once Simulation Mode is toggled off, all temporary modifications are discarded, ensuring the "
-                        "integrity of the actual system remains intact.",
-                               className="text-center mb-3"),
-                        html.P("Navigation is done via the menu on the left, where users can access different sections to "
-                        "view and edit the uploaded SUE.", className="text-center"),
-                    ], className="p-4 border rounded bg-light text-center")
+                    dbc.Row([
+                        dbc.Col(
+                            dbc.Card([
+                                dbc.CardBody([
+                                    html.Img(src="assets/icon_prioritize.png", height="120px", className="mb-2 d-block mx-auto"),
+                                    html.H5("Impact-Based Risk Modeling", className="fw-bold text-center"),
+                                    html.P("Focus on vulnerabilities that affect critical functions, not just those with high CVSS scores.", className="text-center")
+                                ])
+                            ], className="h-100 shadow-sm"),
+                            md=4
+                        ),
+
+                        dbc.Col(
+                            dbc.Card([
+                                dbc.CardBody([
+                                    html.Img(src="assets/icon_attack_path.png", height="120px", className="mb-2 d-block mx-auto"),
+                                    html.H5("Attack Path Evaluation", className="fw-bold text-center"),
+                                    html.P("Trace how CVEs combine and propagate to form complete chains toward mission-critical assets.", className="text-center")
+                                ])
+                            ], className="h-100 shadow-sm"),
+                            md=4
+                        ),
+
+                        dbc.Col(
+                            dbc.Card([
+                                dbc.CardBody([
+                                    html.Img(src="assets/icon_resilience_score.png", height="120px", className="mb-2 d-block mx-auto"),
+                                    html.H5("System-Wide Defense Planning", className="fw-bold text-center"),
+                                    html.P("Use graph-based insights to identify chokepoints, misconfigurations, and strategic hardening opportunities.", className="text-center")
+                                ])
+                            ], className="h-100 shadow-sm"),
+                            md=4
+                        )
+                    ], className="g-4 justify-content-center")
                 ], width=12)
             ], className="mb-5"),
-
         ], className="d-flex flex-column align-items-center",  # Centers content in the page
         style={"maxWidth": "80%", "margin": "0 auto"})  # Adjusts width and centers
     ])
