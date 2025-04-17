@@ -37,8 +37,13 @@ def homepage_layout():
                             dbc.Card([
                                 dbc.CardImg(src="assets/Ozlem_Polat.jpg", top=True, className="team-card-img"),
                                 dbc.CardBody([
-                                    html.H4("Ozlem Polat - Project Lead and SCRUM Master", className="card-title"),
-                                    html.P("Body text for whatever you'd like to say.", className="card-text")
+                                    html.H4("Ozlem Polat", className="card-title"),
+                                    html.H6("Team Lead & Scrum Master", className="card-title"),
+                                    html.P(
+                                    "Data scientist | ML Engineer with a background in manufacturing & product development. Specializes in intelligent systems, formal methods, and complex problem-solving.",
+                                    className="card-text"
+                                ),
+                                    dbc.Button("Read Full Bio", href="/about/oz", color="primary", className="mt-2")
                                 ])
                             ], className="h-100"),
                             width=12, lg=4, className="mb-4"
@@ -48,7 +53,8 @@ def homepage_layout():
                             dbc.Card([
                                 dbc.CardImg(src="assets/Samson_Carter.jpg", top=True, className="team-card-img"),
                                 dbc.CardBody([
-                                    html.H4("Samson Carter - Project Manager", className="card-title"),
+                                    html.H4("Samson Carter", className="card-title"),
+                                    html.H6("Project Manager", className="card-title"),
                                     html.P("Body text for whatever you'd like to say.", className="card-text")
                                 ])
                             ], className="h-100"),
@@ -59,9 +65,10 @@ def homepage_layout():
                             dbc.Card([
                                 dbc.CardImg(src="assets/Jess_Lourenco.jpg", top=True, className="team-card-img"),
                                 dbc.CardBody([
-                                    html.H4("Jess Lourenco - Backend Lead", className="card-title"),
+                                    html.H4("Jess Lourenco", className="card-title"),
+                                    html.H6("Backend Lead", className="card-title"),
                                     html.P("Ex-product manager turned software engineer. Passionate about backend, open source, and building solutions that improve people's lives.", 
-                                           className="card-text"),
+                                        className="card-text"),
                                     dbc.Button("Read Full Bio", href="/about/jess", color="primary", className="mt-2") 
                                 ])
                             ], className="h-100"),
@@ -76,7 +83,8 @@ def homepage_layout():
                             dbc.Card([
                                 dbc.CardImg(src="assets/Andrew_Ballard.jpg", top=True, className="team-card-img"),
                                 dbc.CardBody([
-                                    html.H4("Andrew Ballard - Frontend Team", className="card-title"),
+                                    html.H4("Andrew Ballard", className="card-title"),
+                                    html.H6("Frontend Lead", className="card-title"),
                                     html.P("Body text for whatever you'd like to say.", className="card-text")
                                 ])
                             ], className="h-100"),
@@ -87,7 +95,8 @@ def homepage_layout():
                             dbc.Card([
                                 dbc.CardImg(src="assets/Shayan_Akhoondan.jpg", top=True, className="team-card-img"),
                                 dbc.CardBody([
-                                    html.H4("Shayan Akhoondan - Frontend Team", className="card-title"),
+                                    html.H4("Shayan Akhoondan", className="card-title"),
+                                    html.H6("Full Stack Developer", className="card-title"),
                                     html.P("Body text for whatever you'd like to say.", className="card-text")
                                 ])
                             ], className="h-100"),
@@ -97,7 +106,7 @@ def homepage_layout():
                 ], width=12)
             ], className="mb-5"),  
 
-             # How to Use the App Section (Simulation Mode Explanation)
+            # How to Use the App Section (Simulation Mode Explanation)
             dbc.Row([
                 dbc.Col([
                     html.H2("How to Use the App", className="section-title mb-2 text-center"),
@@ -106,14 +115,14 @@ def homepage_layout():
                     "provides a realistic simulation of a network with existing system components, allowing users to test various "
                     "configurations, run simulations, and observe the impact of their changes without affecting any live data. This "
                     "hands-on practice helps users understand how CyberGator functions and how different parameters influence their "
-                    "system’s resilience score.", className="section-subtitle mb-3 text-center"),
+                    "system's resilience score.", className="section-subtitle mb-3 text-center"),
 
                     html.P("Once comfortable with the basics, users can start uploading their own system data, including "
                     "workstations, servers, and network components. This allows for a more personalized experience as they begin "
                     "tailoring CyberGator to evaluate their unique system configurations. Whether testing environmental factors "
                     "or running advanced attack simulations, users can interact with their custom SUE to assess vulnerabilities "
                     "and improve overall system security. The ability to upload and manipulate their own nodes enables users to "
-                    "apply their newfound knowledge to real-world scenarios and continue strengthening their organization’s "
+                    "apply their newfound knowledge to real-world scenarios and continue strengthening their organization's "
                     "cybersecurity posture.", className="section-subtitle mb-3 text-center"),
                     html.Div([
                         html.H3("What is Simulation Mode?", className="text-center"),
