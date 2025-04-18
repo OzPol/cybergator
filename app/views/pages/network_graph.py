@@ -39,6 +39,8 @@ def graph_layout():
     return html.Div([
         
         dcc.Store(id="show-node-form", data=False),
+        dcc.Store(id="selected-edge-nodes", data=[]),
+
         
         html.H3("System Graph", className="text-center mb-4"),
 

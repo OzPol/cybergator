@@ -19,15 +19,3 @@ def load_graph_data():
         # return {"error": str(e)}
         print("ERROR IN load_graph_data():", e)
         return {"nodes": [], "edges": []}  # Return empty list, not "error"
-    
-def add_node_to_system_graph(node_data, software_id=None, software_cves=None):
-    nodes = get_nodes() 
-    if software_id and software_cves:
-        node_data["CVE"] = software_cves.get(software_id, [])
-        node_data["CVE_NVD"] = {}
-    else:
-        node_data["CVE"] = []
-        node_data["CVE_NVD"] = {}
-
-    nodes.append(node_data)
-    save_nodes_data(nodes)
