@@ -101,17 +101,23 @@ def update_table(data, patch_clicks, prev_clicks, next_clicks, patched, current_
     triggered = ctx.triggered_id
     status_msg = ""
 
-    if isinstance(triggered, dict) and triggered.get("type") == "patch-btn":
-        index = triggered["index"]
-        cve_id = data[index]["CVE ID"]
-        if cve_id not in patched:
-            patched.append(cve_id)
-            patch_cve(cve_id)
-            status_msg = f"Patched {cve_id}."
-
-    # Filter out patched CVEs
     filtered = [cve for cve in data if cve["CVE ID"] not in patched]
     total_pages = max((len(filtered) - 1) // page_size + 1, 1)
+
+    # Handle patch
+    if isinstance(triggered, dict) and triggered.get("type") == "patch-btn":
+        index = triggered["index"]
+        global_index = current_page * page_size + index
+        if 0 <= global_index < len(filtered):
+            cve_id = filtered[global_index]["CVE ID"]
+            if cve_id not in patched:
+                patched.append(cve_id)
+                patch_cve(cve_id)
+                status_msg = f"Patched {cve_id}."
+
+        # refresh filtered list after patch
+        filtered = [cve for cve in data if cve["CVE ID"] not in patched]
+        total_pages = max((len(filtered) - 1) // page_size + 1, 1)
 
     # Pagination logic
     if triggered == "prev-page-btn" and current_page > 0:
@@ -131,7 +137,6 @@ def update_table(data, patch_clicks, prev_clicks, next_clicks, patched, current_
         current_page >= total_pages - 1,
     )
 
-# Save the new page number
 @callback(
     Output("current-page", "data"),
     Input("prev-page-btn", "n_clicks"),
