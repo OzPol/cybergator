@@ -4,6 +4,13 @@ import dash
 from dash import html, dcc, Output, Input, State, callback, ctx
 import dash_cytoscape as cyto
 import dash_bootstrap_components as dbc
+from app.services.cvss_service import (
+    extract_unique_cves,
+    fetch_cvss_metadata,
+    write_cvss_cache,
+    CVSS_CACHE_PATH
+)
+
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -131,6 +138,14 @@ def simulation_apt_layout():
         ),
         html.Div(id="sim-node-hover-info", style={"marginTop": "20px"}),
         
+        dbc.Button(
+            "Fetch CVSS Metadata",
+            id="fetch-cvss-btn",
+            color="primary",
+            className="mb-3"
+        ),
+        html.Div(id="fetch-cvss-status", style={"marginBottom": "20px"}),
+
         html.Div([
             html.Label("Select a CVE to simulate attack propagation:", style={"fontWeight": "bold"}),
             dcc.Dropdown(id="sim-cve-selector", options=[], placeholder="Select CVE...", style={"width": "100%"}),
@@ -183,3 +198,18 @@ def populate_cve_dropdown(graph_data):
                     seen.add(cve)
                     options.append({"label": cve, "value": cve})
     return sorted(options, key=lambda x: x["label"])
+
+# Callback to fetch and store the CVSS data
+@callback(
+    Output("fetch-cvss-status", "children"),
+    Input("fetch-cvss-btn", "n_clicks"),
+    prevent_initial_call=True
+)
+def handle_fetch_cvss(n_clicks):
+    try:
+        cve_list = extract_unique_cves(NODES_DATA)
+        results = fetch_cvss_metadata(cve_list)
+        write_cvss_cache(CVSS_CACHE_PATH, results)
+        return f"Fetched metadata for {len(results)} CVEs. Data saved to {CVSS_CACHE_PATH}"
+    except Exception as e:
+        return f"Error: {str(e)}"

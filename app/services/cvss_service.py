@@ -7,16 +7,19 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # API Setup
-NVD_API_KEY = os.getenv("NVD_API_KEY")
+NVD_API_KEY = os.getenv("NVD_API_KEY", "").strip()
 NVD_API_URL = "https://services.nvd.nist.gov/rest/json/cves/2.0"
 
+# Fallback if key is blank
 HEADERS = {
-    "User-Agent": "CyberResilienceResearchTool/1.0",
-    "apiKey": NVD_API_KEY
-} if NVD_API_KEY else {"User-Agent": "CyberResilienceResearchTool/1.0"}
+    "User-Agent": "CyberResilienceResearchTool/1.0"
+}
+if NVD_API_KEY:
+    HEADERS["apiKey"] = NVD_API_KEY
 
 # Where to save CVSS results
-CVSS_CACHE_PATH = os.path.join("app", "data", "nvd_results.json")
+CVSS_CACHE_PATH = os.path.join("app", "data", "json", "nvd_results.json")
+NODES_PATH = os.path.join("app", "data", "json", "Nodes_Complete.json")
 
 # Extract unique CVEs from system nodes
 def extract_unique_cves(nodes):
@@ -83,8 +86,14 @@ def write_cvss_cache(cache_path, data):
         json.dump(data, f, indent=4)
 
 
+def update_cvss_metadata():
+    with open(NODES_PATH, "r") as f:
+        nodes = json.load(f)
 
-
+    cve_list = extract_unique_cves(nodes)
+    results = fetch_cvss_metadata(cve_list)
+    write_cvss_cache(CVSS_CACHE_PATH, results)
+    return results
 
 """
 cvss_service.py
