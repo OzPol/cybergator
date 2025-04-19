@@ -20,7 +20,7 @@ def sidebar(session_user=None):
             dbc.NavLink("Environmental Factors", href="/environmental-factors", active="exact", style={"color": "white"}),
             dbc.NavLink("Work Stations", href="/work-stations", active="exact", style={"color": "white"}),
             dbc.NavLink("APT Simulation", href="/apt-simulation", active="exact", style={"color": "white"}),
-            dbc.NavLink("CVE Simulations", href="/cve-simulations", active="exact", style={"color": "white"}),
+            dbc.NavLink("CVE Simulation", href="/cve-simulation", active="exact", style={"color": "white"}),
             dbc.NavLink("FSM Simulation", href="/fsm-simulation", active="exact", style={"color": "white"}),
             dbc.NavLink("Neo4j Graph", href="/neo4j-graph", active="exact", style={"color": "white"}),
         ]
@@ -29,18 +29,21 @@ def sidebar(session_user=None):
         
         # RECALCULATE RESILIENCE BUTTON
         nav_items.append(
-            dbc.Button("Recalculate Resilience", id="recalculate-resilience-btn", color="primary",
-                        className="mt-2", style={"position": "absolute", "bottom": "190px", "width": "80%"})
-        )
-        
-        # Resilience recalculation feedback
-        nav_items.append(
-            html.Div(id="resilience-recalculate-feedback", className="text-white mt-2", style={"fontSize": "0.9rem"})
+            html.Div([
+                dbc.Button("Recalculate Resilience", id="recalculate-resilience-btn", color="primary",
+                        className="mt-2", style={"width": "100%"}),
+                html.Div(id="resilience-recalculate-feedback", className="text-white mt-2", style={"fontSize": "0.9rem"})
+            ], style={"position": "absolute", "bottom": "190px", "width": "80%"})
         )
 
         # Hidden div for triggering resilience score updates
         nav_items.append(
             html.Div(id="resilience-update-trigger", style={"display": "none"})
+        )
+        
+        # Timer to auto-clear the feedback message
+        nav_items.append(
+            dcc.Interval(id="resilience-feedback-clear-timer", interval=4000, n_intervals=0, disabled=True)
         )
 
         # REFRESH NEO4J GRAPH BUTTON
