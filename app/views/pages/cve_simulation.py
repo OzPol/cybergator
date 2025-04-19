@@ -40,13 +40,28 @@ def patch_cve(cve_id):
             node.get("CVE_NVD", {}).pop(cve_id, None)
     save_nodes_data(nodes_data)
 
+shared_cell_style = {
+    "border": "1px solid #dee2e6",
+    "padding": "10px",
+    "height": "45px",
+    "display": "flex",
+    "alignItems": "center",
+    "backgroundColor": "white"
+}
+
 def build_cve_row(cve, index):
     return dbc.Row([
-        dbc.Col(html.P(cve["CVE ID"]), width=4),
-        dbc.Col(html.P(cve["Nodes Affected"]), width=3),
-        dbc.Col(html.P(cve["Impact Score"]), width=3),
-        dbc.Col(dbc.Button("Patch", id={"type": "patch-btn", "index": index}, size="sm", color="success"), width=2),
-    ], align="center", className="mb-2")
+        dbc.Col(html.Div(cve["CVE ID"], style=shared_cell_style), width=4),
+        dbc.Col(html.Div(cve["Nodes Affected"], style=shared_cell_style), width=3),
+        dbc.Col(html.Div(cve["Impact Score"], style=shared_cell_style), width=3),
+        dbc.Col(
+            html.Div(
+                dbc.Button("Patch", id={"type": "patch-btn", "index": index}, size="sm", color="success"),
+                style={**shared_cell_style, "border": "none", "justifyContent": "flex-start"}
+            ),
+            width=2,
+        ),
+    ], className="g-0")  # No gutter between columns
 
 # ----------------------------
 # Layout
@@ -54,6 +69,7 @@ def build_cve_row(cve, index):
 
 def cve_simulation_layout():
     df = get_unique_cves()
+
     return dbc.Container([
         dcc.Store(id="patched-cves-store", data=[]),
         dcc.Store(id="all-cves-data", data=df.to_dict("records")),
@@ -61,16 +77,18 @@ def cve_simulation_layout():
 
         html.H4("CVE Patch Simulation", className="mb-4"),
 
+        # Header Row
         dbc.Row([
-            dbc.Col(html.Strong("CVE ID"), width=4),
-            dbc.Col(html.Strong("Nodes Affected"), width=3),
-            dbc.Col(html.Strong("Impact Score"), width=3),
-            dbc.Col(html.Strong("Action"), width=2),
-        ], className="border-bottom pb-2 mb-3"),
+            dbc.Col(html.Div("CVE ID", style={**shared_cell_style, "fontWeight": "bold", "backgroundColor": "#f8f9fa"}), width=4),
+            dbc.Col(html.Div("Nodes Affected", style={**shared_cell_style, "fontWeight": "bold", "backgroundColor": "#f8f9fa"}), width=3),
+            dbc.Col(html.Div("Impact Score", style={**shared_cell_style, "fontWeight": "bold", "backgroundColor": "#f8f9fa"}), width=3),
+            dbc.Col(html.Div("", style={**shared_cell_style, "border": "none", "backgroundColor": "transparent"}), width=2),
+        ], className="g-0 mb-0"),
 
         html.Div(id="cve-sim-table-body"),
         html.Div(id="patched-status-msg", className="mt-2 text-success"),
 
+        # Pagination controls
         dbc.Row([
             dbc.Col(dbc.Button("Previous", id="prev-page-btn", color="secondary"), width="auto"),
             dbc.Col(html.Div(id="page-indicator", className="px-3"), width="auto"),
@@ -79,7 +97,7 @@ def cve_simulation_layout():
     ], fluid=True)
 
 # ----------------------------
-# Callback
+# Callbacks
 # ----------------------------
 
 @callback(
@@ -115,11 +133,10 @@ def update_table(data, patch_clicks, prev_clicks, next_clicks, patched, current_
                 patch_cve(cve_id)
                 status_msg = f"Patched {cve_id}."
 
-        # refresh filtered list after patch
         filtered = [cve for cve in data if cve["CVE ID"] not in patched]
         total_pages = max((len(filtered) - 1) // page_size + 1, 1)
 
-    # Pagination logic
+    # Pagination
     if triggered == "prev-page-btn" and current_page > 0:
         current_page -= 1
     elif triggered == "next-page-btn" and current_page < total_pages - 1:
