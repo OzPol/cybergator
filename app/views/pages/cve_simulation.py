@@ -1,6 +1,6 @@
 import pandas as pd
 from collections import defaultdict
-from dash import html, dcc, Input, Output, State, callback, ctx, ALL
+from dash import html, dcc
 import dash_bootstrap_components as dbc
 from app.services.data_loader import get_nodes, save_nodes_data
 
@@ -61,7 +61,7 @@ def build_cve_row(cve, index):
             ),
             width=2,
         ),
-    ], className="g-0")  # No gutter between columns
+    ], className="g-0")
 
 # ----------------------------
 # Layout
@@ -77,7 +77,7 @@ def cve_simulation_layout():
 
         html.H4("CVE Patch Simulation", className="mb-4"),
 
-        # Header Row
+        # Table Header
         dbc.Row([
             dbc.Col(html.Div("CVE ID", style={**shared_cell_style, "fontWeight": "bold", "backgroundColor": "#f8f9fa"}), width=4),
             dbc.Col(html.Div("Nodes Affected", style={**shared_cell_style, "fontWeight": "bold", "backgroundColor": "#f8f9fa"}), width=3),
@@ -88,83 +88,10 @@ def cve_simulation_layout():
         html.Div(id="cve-sim-table-body"),
         html.Div(id="patched-status-msg", className="mt-2 text-success"),
 
-        # Pagination controls
+        # Pagination Controls
         dbc.Row([
             dbc.Col(dbc.Button("Previous", id="prev-page-btn", color="secondary"), width="auto"),
             dbc.Col(html.Div(id="page-indicator", className="px-3"), width="auto"),
             dbc.Col(dbc.Button("Next", id="next-page-btn", color="secondary"), width="auto"),
         ], className="mt-4 align-items-center"),
     ], fluid=True)
-
-# ----------------------------
-# Callbacks
-# ----------------------------
-
-@callback(
-    Output("cve-sim-table-body", "children"),
-    Output("patched-status-msg", "children"),
-    Output("patched-cves-store", "data"),
-    Output("page-indicator", "children"),
-    Output("prev-page-btn", "disabled"),
-    Output("next-page-btn", "disabled"),
-    Input("all-cves-data", "data"),
-    Input({"type": "patch-btn", "index": ALL}, "n_clicks"),
-    Input("prev-page-btn", "n_clicks"),
-    Input("next-page-btn", "n_clicks"),
-    State("patched-cves-store", "data"),
-    State("current-page", "data"),
-)
-def update_table(data, patch_clicks, prev_clicks, next_clicks, patched, current_page):
-    page_size = 10
-    triggered = ctx.triggered_id
-    status_msg = ""
-
-    filtered = [cve for cve in data if cve["CVE ID"] not in patched]
-    total_pages = max((len(filtered) - 1) // page_size + 1, 1)
-
-    # Handle patch
-    if isinstance(triggered, dict) and triggered.get("type") == "patch-btn":
-        index = triggered["index"]
-        global_index = current_page * page_size + index
-        if 0 <= global_index < len(filtered):
-            cve_id = filtered[global_index]["CVE ID"]
-            if cve_id not in patched:
-                patched.append(cve_id)
-                patch_cve(cve_id)
-                status_msg = f"Patched {cve_id}."
-
-        filtered = [cve for cve in data if cve["CVE ID"] not in patched]
-        total_pages = max((len(filtered) - 1) // page_size + 1, 1)
-
-    # Pagination
-    if triggered == "prev-page-btn" and current_page > 0:
-        current_page -= 1
-    elif triggered == "next-page-btn" and current_page < total_pages - 1:
-        current_page += 1
-
-    paginated = filtered[current_page * page_size: (current_page + 1) * page_size]
-    rows = [build_cve_row(cve, i) for i, cve in enumerate(paginated)]
-
-    return (
-        rows,
-        status_msg,
-        patched,
-        f"Page {current_page + 1} of {total_pages}",
-        current_page == 0,
-        current_page >= total_pages - 1,
-    )
-
-@callback(
-    Output("current-page", "data"),
-    Input("prev-page-btn", "n_clicks"),
-    Input("next-page-btn", "n_clicks"),
-    State("current-page", "data"),
-    prevent_initial_call=True
-)
-def update_page_store(prev_clicks, next_clicks, page):
-    triggered = ctx.triggered_id
-    if triggered == "prev-page-btn" and page > 0:
-        return page - 1
-    elif triggered == "next-page-btn":
-        return page + 1
-    return page
