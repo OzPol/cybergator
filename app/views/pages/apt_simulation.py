@@ -88,6 +88,13 @@ def handle_fetch_cvss(n_clicks):
     prevent_initial_call=True
 )
 def mark_entry_nodes(selected_cve, graph_data):
+    """
+    Highlight nodes that contain the CVE
+    Scan node["CVE"]
+    If it contains the selected CVE → it's a candidate entry node
+    Apply a visual style: red colored node in this case
+    but later can be pulsing animation, bigger size, etc.
+    """
     if not selected_cve:
         return graph_data
 
@@ -102,8 +109,66 @@ def mark_entry_nodes(selected_cve, graph_data):
                 "data": node,
                 "classes": classes
             })
-
     return updated
+
+
+# Load CVSS metadata once at the top of apt_simulation.py
+with open(CVSS_CACHE_PATH, "r") as f:
+    CVSS_METADATA = json.load(f)
+    
+def extract_cvss_filter_options(cvss_metadata):
+    av_set = set()
+    pr_set = set()
+    ui_set = set()
+    vector_set = set()      #  To enable vector string & score-based logic later
+
+    for data in cvss_metadata.values():
+        if isinstance(data, dict) and not data.get("error"):
+            av = data.get("attack_vector")
+            pr = data.get("privileges_required")
+            ui = data.get("user_interaction")
+            vector = data.get("vector_string")
+
+            if av: av_set.add(av)
+            if pr: pr_set.add(pr)
+            if ui: ui_set.add(ui)
+            if vector: vector_set.add(vector)
+
+    return {
+        "av_options": [{"label": val, "value": val} for val in sorted(av_set)],
+        "pr_options": [{"label": val, "value": val} for val in sorted(pr_set)],
+        "ui_options": [{"label": val, "value": val} for val in sorted(ui_set)],
+        "vector_options": sorted(vector_set),
+    }
+
+# defining controls:
+CVSS_FILTER_OPTIONS = extract_cvss_filter_options(CVSS_METADATA)
+
+
+
+""" 
+# We can tokenize vector_string like this:
+
+# def parse_cvss_vector(vector):
+#    return dict(item.split(":") for item in vector.split("/") if ":" in item)
+
+This turns:
+    "AV:L/AC:L/Au:N/C:C/I:C/A:C"
+into:
+    {
+        "AV": "L",
+        "AC": "L",
+        "Au": "N",
+        "C": "C",
+        "I": "C",
+        "A": "C"
+    }
+Can be used for:
+Scoring formulas
+Heatmaps
+Probabilistic impact modeling
+Condition-based traversal rules
+"""
 
 
 
@@ -173,7 +238,7 @@ def generate_sim_system_graph_elements(nodes_data):
 
     return elements
 
-# Layout (Top Half of Page)
+# Layout 
 def simulation_apt_layout():
     return html.Div([
         dcc.Store(id="sim-system-graph-data"),
@@ -181,7 +246,34 @@ def simulation_apt_layout():
         dcc.Store(id="sim-cve-metadata"),
 
         html.H3("System Graph View", style={"marginTop": "20px"}),
-
+        
+        # Fetch CVSS Metadata Button API CALL to NVD
+        dbc.Button(
+            "Fetch CVSS Metadata",
+            id="fetch-cvss-btn",
+            color="primary",
+            className="mb-3"
+        ),
+        html.Div(id="fetch-cvss-status", style={"marginBottom": "20px"}),
+        
+        # CVE Selection Section
+        dbc.Row([
+            dbc.Card([
+                dbc.CardHeader("Select CVE for Attack Simulation"),
+                dbc.CardBody([
+                    html.Label("Select a CVE to simulate attack propagation:", style={"fontWeight": "bold"}),
+                    dcc.Dropdown(
+                        id="sim-cve-selector",
+                        options=[],
+                        placeholder="Select CVE...",
+                        style={"width": "100%", "zIndex": 1000}  # Boost z-index here
+                    ),
+                    html.Div(id="sim-cve-description", style={"marginTop": "10px", "fontStyle": "italic", "color": "#555"})
+                ])
+            ], className="mb-4", style={"width": "30%", "marginBottom": "40px", "zIndex": 999}, color="light")
+        ]),
+        
+        # Graph Section
         cyto.Cytoscape(
             id="sim-system-graph",
             layout={
@@ -233,19 +325,58 @@ def simulation_apt_layout():
                 }
             ]
         ),
-        html.Div(id="sim-node-hover-info", style={"marginTop": "20px"}),
         
-        dbc.Button(
-            "Fetch CVSS Metadata",
-            id="fetch-cvss-btn",
-            color="primary",
-            className="mb-3"
-        ),
-        html.Div(id="fetch-cvss-status", style={"marginBottom": "20px"}),
-
+        # Node Hover Info Panel
         html.Div([
-            html.Label("Select a CVE to simulate attack propagation:", style={"fontWeight": "bold"}),
-            dcc.Dropdown(id="sim-cve-selector", options=[], placeholder="Select CVE...", style={"width": "50%"}),
-            html.Div(id="sim-cve-description", style={"marginTop": "10px", "fontStyle": "italic", "color": "#555"}),
-        ], style={"marginBottom": "50px"}),
+            dbc.Card([
+                    dbc.CardBody(id="sim-node-hover-info")
+                ], style={"width": "30%", "marginBottom": "20px"}, color="light")
+            ], style={"marginTop": "40px"}),
+        
+        # CVSS Filtering Controls Section
+        dbc.Card([
+            dbc.CardHeader("CVSS Filtering Controls"),
+            dbc.CardBody([
+                dbc.Row([
+                    dbc.Col([
+                        html.Label("Attack Vector"),
+                        dcc.Dropdown(
+                            id="sim-filter-av",
+                            options=CVSS_FILTER_OPTIONS["av_options"],
+                            multi=True,
+                            value=[opt["value"] for opt in CVSS_FILTER_OPTIONS["av_options"] if opt["value"] in ["NETWORK", "ADJACENT_NETWORK"]]
+                        )
+                    ]),
+                    dbc.Col([
+                        html.Label("Privileges Required"),
+                        dcc.Dropdown(
+                            id="sim-filter-pr",
+                            options=CVSS_FILTER_OPTIONS["pr_options"],
+                            multi=True,
+                            value=[opt["value"] for opt in CVSS_FILTER_OPTIONS["pr_options"] if opt["value"] in ["NONE", "LOW", "NA"]]
+                        )
+                    ]),
+                    dbc.Col([
+                        html.Label("User Interaction"),
+                        dcc.Dropdown(
+                            id="sim-filter-ui",
+                            options=CVSS_FILTER_OPTIONS["ui_options"],
+                            multi=True,
+                            value=[opt["value"] for opt in CVSS_FILTER_OPTIONS["ui_options"] if opt["value"] in ["NONE", "NA"]]
+                        )
+                    ]),
+                ])
+            ])
+        ], className="mb-4"),
+
+        # Run Simulation Button Section
+        html.Div([
+            dbc.Button("Run Simulation", id="sim-run-btn", color="primary", className="mb-3"),
+        ], style={"textAlign": "left"}),
+
+        # Simulation Results Card
+        dbc.Card([
+            dbc.CardHeader("Simulation Results"),
+            dbc.CardBody(html.Div(id="sim-results-table"))
+        ], style={"marginBottom": "50px"})
     ])
