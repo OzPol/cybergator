@@ -296,8 +296,8 @@ for node in nodes_data:
 resilience_scores = calculate_resilience_scores(nodes_data, G, environmental_risk_scores_fuzzy, critical_function_weights)
 
 # Output the resilience scores
-for score in resilience_scores:
-    print(f"Node: {score['node_name']}, Resilience Score: {score['resilience_score']}")
+# for score in resilience_scores:
+    # print(f"Node: {score['node_name']}, Resilience Score: {score['resilience_score']}")
 
 # Save the resilience scores to a file
 output_file_path = os.path.join(OUTPUT_PATH, "Resilience_Scores.json")
@@ -334,7 +334,7 @@ def save_resilience_scores_to_file(resilience_scores, system_resilience_score, o
     with open(output_file, 'w') as outfile:
         json.dump(output_data, outfile, indent=4)
     
-    print(f"System and individual resilience scores saved to {output_file} after running resilience_score_calculator.py.")
+    # print(f"System and individual resilience scores saved to {output_file} after running resilience_score_calculator.py.")
 
 # Step 3: Function to calculate and save individual metrics
 def calculate_and_save_individual_metrics(nodes_data, graph, fuzzy_scores, critical_function_weights, output_file):
@@ -389,11 +389,11 @@ resilience_scores = calculate_resilience_scores(nodes_data, G, environmental_ris
 system_resilience_score = calculate_system_resilience(resilience_scores)
 
 # Print individual node resilience scores and system resilience score to the console
-print("=== Individual Node Resilience Scores ===")
-for score in resilience_scores:
-    print(f"Node: {score['node_name']}, Resilience Score: {score['resilience_score']}")
+# print("=== Individual Node Resilience Scores ===")
+# for score in resilience_scores:
+#    print(f"Node: {score['node_name']}, Resilience Score: {score['resilience_score']}")
 
-print(f"\nOverall System Resilience Score: {system_resilience_score}")
+# print(f"\nOverall System Resilience Score: {system_resilience_score}")
 
 # Define the output file paths for saving results
 # system_output_file = os.path.join("src", "maindata_copy", "System_Resilience_Scores.json")

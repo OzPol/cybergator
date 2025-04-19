@@ -21,7 +21,7 @@ from app.views.pages.workstations_layout import workstation_cards
 from app.views.pages.node_manager import node_association_manager_layout
 from app.views.ui_text.jess_bio import about_me_bio
 from app.views.ui_text.oz_bio import oz_bio
-
+from app.views.pages.apt_simulation import simulation_apt_layout
 
 def render_page_content(pathname, session_user):
     """Dynamically updates the content area based on the session"""
@@ -71,7 +71,8 @@ def render_page_content(pathname, session_user):
         return about_me_bio()
     elif pathname == "/about/oz":
         return oz_bio()
-        
+    elif pathname == "/apt-simulation":
+        return simulation_apt_layout()
     return html.H1("404 - Page Not Found", className="text-center")
 
 def get_main_layout():
