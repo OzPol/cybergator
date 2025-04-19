@@ -3,10 +3,6 @@ import dash_bootstrap_components as dbc
 from app.services.cve_service import CVEService
 import pandas as pd
 
-# ----------------------------
-# Style
-# ----------------------------
-
 shared_cell_style = {
     "border": "1px solid #dee2e6",
     "padding": "10px",
@@ -15,10 +11,6 @@ shared_cell_style = {
     "alignItems": "center",
     "backgroundColor": "white"
 }
-
-# ----------------------------
-# UI Row Builder
-# ----------------------------
 
 def build_cve_row(cve, index):
     return dbc.Row([
@@ -33,10 +25,6 @@ def build_cve_row(cve, index):
             width=2,
         ),
     ], className="g-0")
-
-# ----------------------------
-# Layout
-# ----------------------------
 
 def cve_simulation_layout():
     df = CVEService.get_unique_cves()
