@@ -140,18 +140,13 @@ def extract_cvss_filter_options(cvss_metadata):
         "ui_options": [{"label": val, "value": val} for val in sorted(ui_set)],
         "vector_options": sorted(vector_set),
     }
-
 # defining controls:
 CVSS_FILTER_OPTIONS = extract_cvss_filter_options(CVSS_METADATA)
 
-
-
-""" 
-# We can tokenize vector_string like this:
-
-# def parse_cvss_vector(vector):
-#    return dict(item.split(":") for item in vector.split("/") if ":" in item)
-
+"""
+We can tokenize vector_string like this:
+    def parse_cvss_vector(vector):
+        return dict(item.split(":") for item in vector.split("/") if ":" in item)
 This turns:
     "AV:L/AC:L/Au:N/C:C/I:C/A:C"
 into:
@@ -171,6 +166,56 @@ Condition-based traversal rules
 """
 
 
+@callback(
+    Output("sim-results-table", "children"),
+    Input("sim-run-btn", "n_clicks"),
+    State("sim-cve-selector", "value"),
+    State("sim-system-graph-data", "data"),
+    State("sim-filter-av", "value"),
+    State("sim-filter-pr", "value"),
+    State("sim-filter-ui", "value"),
+    prevent_initial_call=True
+)
+def run_cve_simulation(n_clicks, selected_cve, graph_data, av_choices, pr_choices, ui_choices):
+    if not selected_cve:
+        return html.Div("Please select a CVE to run the simulation.")
+
+    # Load CVSS Metadata
+    with open(CVSS_CACHE_PATH, "r") as f:
+        metadata = json.load(f)
+
+    passing_nodes = []
+    for item in graph_data:
+        data = item.get("data", {})
+        if selected_cve in data.get("CVE", []):
+            cve_meta = metadata.get(selected_cve, {})
+            av = cve_meta.get("attack_vector")
+            pr = cve_meta.get("privileges_required")
+            ui = cve_meta.get("user_interaction")
+            if av in av_choices and pr in pr_choices and ui in ui_choices:
+                passing_nodes.append({
+                    "Node ID": data["id"],
+                    "Type": data.get("node_type", "Unknown"),
+                    "CVEs": ", ".join(data.get("CVE", [])),
+                    "Score": data.get("cve_score", 0),
+                    "Attack Vector": av,
+                    "Privileges Required": pr,
+                    "User Interaction": ui,
+                    "Vector String": cve_meta.get("vector_string")
+                })
+
+    if not passing_nodes:
+        return html.Div("No entry nodes passed the CVSS filter.", style={"color": "red"})
+
+    # Build Table
+    table = dbc.Table([
+        html.Thead(html.Tr([html.Th(k) for k in passing_nodes[0].keys()])),
+        html.Tbody([
+            html.Tr([html.Td(row[k]) for k in row]) for row in passing_nodes
+        ])
+    ], bordered=True, striped=True, hover=True)
+
+    return table
 
 # Helper to Generate Cytoscape Elements from Node Data
 def generate_sim_system_graph_elements(nodes_data):
@@ -235,7 +280,6 @@ def generate_sim_system_graph_elements(nodes_data):
                     "target": target
                 }
             })
-
     return elements
 
 # Layout 
