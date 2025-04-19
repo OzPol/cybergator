@@ -1,0 +1,398 @@
+{
+    "CVE-2007-2152": {
+        "base_score": 7.9,
+        "attack_vector": "ADJACENT_NETWORK",
+        "privileges_required": "NA",
+        "user_interaction": "NA",
+        "vector_string": "AV:A/AC:M/Au:N/C:C/I:C/A:C",
+        "cvss_version": "CVSS V2",
+        "error": null
+    },
+    "CVE-2009-5118": {
+        "base_score": 9.3,
+        "attack_vector": "NETWORK",
+        "privileges_required": "NA",
+        "user_interaction": "NA",
+        "vector_string": "AV:N/AC:M/Au:N/C:C/I:C/A:C",
+        "cvss_version": "CVSS V2",
+        "error": null
+    },
+    "CVE-2010-0727": {
+        "base_score": 4.9,
+        "attack_vector": "LOCAL",
+        "privileges_required": "NA",
+        "user_interaction": "NA",
+        "vector_string": "AV:L/AC:L/Au:N/C:N/I:N/A:C",
+        "cvss_version": "CVSS V2",
+        "error": null
+    },
+    "CVE-2012-2697": {
+        "base_score": 4.9,
+        "attack_vector": "LOCAL",
+        "privileges_required": "NA",
+        "user_interaction": "NA",
+        "vector_string": "AV:L/AC:L/Au:N/C:N/I:N/A:C",
+        "cvss_version": "CVSS V2",
+        "error": null
+    },
+    "CVE-2012-3440": {
+        "base_score": 5.6,
+        "attack_vector": "LOCAL",
+        "privileges_required": "NA",
+        "user_interaction": "NA",
+        "vector_string": "AV:L/AC:H/Au:N/C:N/I:C/A:C",
+        "cvss_version": "CVSS V2",
+        "error": null
+    },
+    "CVE-2013-1935": {
+        "base_score": 5.7,
+        "attack_vector": "ADJACENT_NETWORK",
+        "privileges_required": "NA",
+        "user_interaction": "NA",
+        "vector_string": "AV:A/AC:M/Au:N/C:N/I:N/A:C",
+        "cvss_version": "CVSS V2",
+        "error": null
+    },
+    "CVE-2013-2188": {
+        "base_score": 4.7,
+        "attack_vector": "LOCAL",
+        "privileges_required": "NA",
+        "user_interaction": "NA",
+        "vector_string": "AV:L/AC:M/Au:N/C:N/I:N/A:C",
+        "cvss_version": "CVSS V2",
+        "error": null
+    },
+    "CVE-2013-2224": {
+        "base_score": 6.9,
+        "attack_vector": "LOCAL",
+        "privileges_required": "NA",
+        "user_interaction": "NA",
+        "vector_string": "AV:L/AC:M/Au:N/C:C/I:C/A:C",
+        "cvss_version": "CVSS V2",
+        "error": null
+    },
+    "CVE-2013-5056": {
+        "base_score": 9.3,
+        "attack_vector": "NETWORK",
+        "privileges_required": "NA",
+        "user_interaction": "NA",
+        "vector_string": "AV:N/AC:M/Au:N/C:C/I:C/A:C",
+        "cvss_version": "CVSS V2",
+        "error": null
+    },
+    "CVE-2013-5058": {
+        "base_score": 6.9,
+        "attack_vector": "LOCAL",
+        "privileges_required": "NA",
+        "user_interaction": "NA",
+        "vector_string": "AV:L/AC:M/Au:N/C:C/I:C/A:C",
+        "cvss_version": "CVSS V2",
+        "error": null
+    },
+    "CVE-2014-0301": {
+        "base_score": 9.3,
+        "attack_vector": "NETWORK",
+        "privileges_required": "NA",
+        "user_interaction": "NA",
+        "vector_string": "AV:N/AC:M/Au:N/C:C/I:C/A:C",
+        "cvss_version": "CVSS V2",
+        "error": null
+    },
+    "CVE-2014-0315": {
+        "base_score": 6.9,
+        "attack_vector": "LOCAL",
+        "privileges_required": "NA",
+        "user_interaction": "NA",
+        "vector_string": "AV:L/AC:M/Au:N/C:C/I:C/A:C",
+        "cvss_version": "CVSS V2",
+        "error": null
+    },
+    "CVE-2014-0323": {
+        "base_score": 6.6,
+        "attack_vector": "LOCAL",
+        "privileges_required": "NA",
+        "user_interaction": "NA",
+        "vector_string": "AV:L/AC:L/Au:N/C:C/I:N/A:C",
+        "cvss_version": "CVSS V2",
+        "error": null
+    },
+    "CVE-2014-7993": {
+        "base_score": 3.3,
+        "attack_vector": "ADJACENT_NETWORK",
+        "privileges_required": "NA",
+        "user_interaction": "NA",
+        "vector_string": "AV:A/AC:L/Au:N/C:P/I:N/A:N",
+        "cvss_version": "CVSS V2",
+        "error": null
+    },
+    "CVE-2014-7994": {
+        "base_score": 5.4,
+        "attack_vector": "ADJACENT_NETWORK",
+        "privileges_required": "NA",
+        "user_interaction": "NA",
+        "vector_string": "AV:A/AC:M/Au:N/C:P/I:P/A:P",
+        "cvss_version": "CVSS V2",
+        "error": null
+    },
+    "CVE-2014-7995": {
+        "base_score": 7.2,
+        "attack_vector": "LOCAL",
+        "privileges_required": "NA",
+        "user_interaction": "NA",
+        "vector_string": "AV:L/AC:L/Au:N/C:C/I:C/A:C",
+        "cvss_version": "CVSS V2",
+        "error": null
+    },
+    "CVE-2014-7999": {
+        "base_score": 7.7,
+        "attack_vector": "ADJACENT_NETWORK",
+        "privileges_required": "NA",
+        "user_interaction": "NA",
+        "vector_string": "AV:A/AC:L/Au:S/C:C/I:C/A:C",
+        "cvss_version": "CVSS V2",
+        "error": null
+    },
+    "CVE-2015-7833": {
+        "base_score": 4.9,
+        "attack_vector": "LOCAL",
+        "privileges_required": "NA",
+        "user_interaction": "NA",
+        "vector_string": "AV:L/AC:L/Au:N/C:N/I:N/A:C",
+        "cvss_version": "CVSS V2",
+        "error": null
+    },
+    "CVE-2016-1425": {
+        "base_score": 6.5,
+        "attack_vector": "ADJACENT_NETWORK",
+        "privileges_required": "NONE",
+        "user_interaction": "NONE",
+        "vector_string": "CVSS:3.0/AV:A/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+        "cvss_version": "CVSS V30",
+        "error": null
+    },
+    "CVE-2016-6473": {
+        "base_score": 6.5,
+        "attack_vector": "ADJACENT_NETWORK",
+        "privileges_required": "NONE",
+        "user_interaction": "NONE",
+        "vector_string": "CVSS:3.0/AV:A/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+        "cvss_version": "CVSS V30",
+        "error": null
+    },
+    "CVE-2017-12607": {
+        "base_score": 7.8,
+        "attack_vector": "LOCAL",
+        "privileges_required": "NONE",
+        "user_interaction": "REQUIRED",
+        "vector_string": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+        "cvss_version": "CVSS V31",
+        "error": null
+    },
+    "CVE-2017-3803": {
+        "base_score": 4.7,
+        "attack_vector": "ADJACENT_NETWORK",
+        "privileges_required": "NONE",
+        "user_interaction": "NONE",
+        "vector_string": "CVSS:3.0/AV:A/AC:L/PR:N/UI:N/S:C/C:N/I:N/A:L",
+        "cvss_version": "CVSS V30",
+        "error": null
+    },
+    "CVE-2017-6606": {
+        "base_score": 6.4,
+        "attack_vector": "PHYSICAL",
+        "privileges_required": "NONE",
+        "user_interaction": "NONE",
+        "vector_string": "CVSS:3.0/AV:P/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H",
+        "cvss_version": "CVSS V30",
+        "error": null
+    },
+    "CVE-2017-8543": {
+        "base_score": 9.8,
+        "attack_vector": "NETWORK",
+        "privileges_required": "NONE",
+        "user_interaction": "NONE",
+        "vector_string": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+        "cvss_version": "CVSS V31",
+        "error": null
+    },
+    "CVE-2018-0284": {
+        "base_score": 6.5,
+        "attack_vector": "NETWORK",
+        "privileges_required": "LOW",
+        "user_interaction": "NONE",
+        "vector_string": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:N",
+        "cvss_version": "CVSS V30",
+        "error": null
+    },
+    "CVE-2020-13958": {
+        "base_score": 7.8,
+        "attack_vector": "LOCAL",
+        "privileges_required": "NONE",
+        "user_interaction": "REQUIRED",
+        "vector_string": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+        "cvss_version": "CVSS V31",
+        "error": null
+    },
+    "CVE-2020-5765": {
+        "base_score": 5.4,
+        "attack_vector": "NETWORK",
+        "privileges_required": "LOW",
+        "user_interaction": "REQUIRED",
+        "vector_string": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:N",
+        "cvss_version": "CVSS V31",
+        "error": null
+    },
+    "CVE-2020-7337": {
+        "base_score": 6.5,
+        "attack_vector": "LOCAL",
+        "privileges_required": "HIGH",
+        "user_interaction": "REQUIRED",
+        "vector_string": "CVSS:3.1/AV:L/AC:L/PR:H/UI:R/S:U/C:H/I:H/A:H",
+        "cvss_version": "CVSS V31",
+        "error": null
+    },
+    "CVE-2021-20135": {
+        "base_score": 6.7,
+        "attack_vector": "LOCAL",
+        "privileges_required": "HIGH",
+        "user_interaction": "NONE",
+        "vector_string": "CVSS:3.1/AV:L/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H",
+        "cvss_version": "CVSS V31",
+        "error": null
+    },
+    "CVE-2021-33035": {
+        "base_score": 7.8,
+        "attack_vector": "LOCAL",
+        "privileges_required": "NONE",
+        "user_interaction": "REQUIRED",
+        "vector_string": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+        "cvss_version": "CVSS V31",
+        "error": null
+    },
+    "CVE-2022-37401": {
+        "base_score": 8.8,
+        "attack_vector": "NETWORK",
+        "privileges_required": "LOW",
+        "user_interaction": "NONE",
+        "vector_string": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
+        "cvss_version": "CVSS V31",
+        "error": null
+    },
+    "CVE-2023-0101": {
+        "base_score": 8.8,
+        "attack_vector": "NETWORK",
+        "privileges_required": "LOW",
+        "user_interaction": "NONE",
+        "vector_string": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
+        "cvss_version": "CVSS V31",
+        "error": null
+    },
+    "CVE-2023-20015": {
+        "base_score": 6.0,
+        "attack_vector": "LOCAL",
+        "privileges_required": "HIGH",
+        "user_interaction": "NONE",
+        "vector_string": "CVSS:3.1/AV:L/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:N",
+        "cvss_version": "CVSS V31",
+        "error": null
+    },
+    "CVE-2023-20095": {
+        "base_score": 8.6,
+        "attack_vector": "NETWORK",
+        "privileges_required": "NONE",
+        "user_interaction": "NONE",
+        "vector_string": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:N/I:N/A:H",
+        "cvss_version": "CVSS V31",
+        "error": null
+    },
+    "CVE-2023-20200": {
+        "base_score": 7.7,
+        "attack_vector": "NETWORK",
+        "privileges_required": "LOW",
+        "user_interaction": "NONE",
+        "vector_string": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:N/I:N/A:H",
+        "cvss_version": "CVSS V31",
+        "error": null
+    },
+    "CVE-2023-20247": {
+        "base_score": 5.0,
+        "attack_vector": "NETWORK",
+        "privileges_required": "LOW",
+        "user_interaction": "NONE",
+        "vector_string": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:N/I:L/A:N",
+        "cvss_version": "CVSS V31",
+        "error": null
+    },
+    "CVE-2023-20256": {
+        "base_score": 5.0,
+        "attack_vector": "NETWORK",
+        "privileges_required": "LOW",
+        "user_interaction": "NONE",
+        "vector_string": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:N/I:L/A:N",
+        "cvss_version": "CVSS V31",
+        "error": null
+    },
+    "CVE-2023-20269": {
+        "base_score": 5.0,
+        "attack_vector": "NETWORK",
+        "privileges_required": "LOW",
+        "user_interaction": "NONE",
+        "vector_string": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:N/I:L/A:N",
+        "cvss_version": "CVSS V31",
+        "error": null
+    },
+    "CVE-2023-20934": {
+        "base_score": 7.8,
+        "attack_vector": "LOCAL",
+        "privileges_required": "LOW",
+        "user_interaction": "NONE",
+        "vector_string": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
+        "cvss_version": "CVSS V31",
+        "error": null
+    },
+    "CVE-2023-40592": {
+        "base_score": 8.4,
+        "attack_vector": "NETWORK",
+        "privileges_required": "HIGH",
+        "user_interaction": "REQUIRED",
+        "vector_string": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:H/I:H/A:H",
+        "cvss_version": "CVSS V31",
+        "error": null
+    },
+    "CVE-2023-40593": {
+        "base_score": 6.3,
+        "attack_vector": "NETWORK",
+        "privileges_required": "LOW",
+        "user_interaction": "NONE",
+        "vector_string": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:C/C:N/I:N/A:H",
+        "cvss_version": "CVSS V31",
+        "error": null
+    },
+    "CVE-2023-47804": {
+        "base_score": 8.8,
+        "attack_vector": "NETWORK",
+        "privileges_required": "NONE",
+        "user_interaction": "REQUIRED",
+        "vector_string": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+        "cvss_version": "CVSS V31",
+        "error": null
+    },
+    "CVE-2024-23675": {
+        "base_score": 6.5,
+        "attack_vector": "NETWORK",
+        "privileges_required": "LOW",
+        "user_interaction": "NONE",
+        "vector_string": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:N",
+        "cvss_version": "CVSS V31",
+        "error": null
+    },
+    "CVE-2024-23676": {
+        "base_score": 4.6,
+        "attack_vector": "NETWORK",
+        "privileges_required": "LOW",
+        "user_interaction": "REQUIRED",
+        "vector_string": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:L/I:L/A:N",
+        "cvss_version": "CVSS V31",
+        "error": null
+    }
+}
