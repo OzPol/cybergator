@@ -1,6 +1,7 @@
 from dash import Input, Output, State, ctx, ALL
 from dash.exceptions import PreventUpdate
-from app.views.pages.cve_simulation import get_unique_cves, patch_cve, build_cve_row
+from app.services.cve_service import CVEService
+from app.views.pages.cve_simulation import build_cve_row
 
 def register_cve_simulation_callbacks(app):
     @app.callback(
@@ -33,7 +34,7 @@ def register_cve_simulation_callbacks(app):
                 cve_id = filtered[global_index]["CVE ID"]
                 if cve_id not in patched:
                     patched.append(cve_id)
-                    patch_cve(cve_id)
+                    CVEService.patch_cve(cve_id)
                     status_msg = f"Patched {cve_id}."
             filtered = [cve for cve in data if cve["CVE ID"] not in patched]
             total_pages = max((len(filtered) - 1) // page_size + 1, 1)
