@@ -3,7 +3,7 @@ from collections import defaultdict
 
 from dash import html, dcc, Input, Output, State, callback, ctx, ALL
 import dash_bootstrap_components as dbc
-from app.services.data_loader import get_nodes
+from app.services.data_loader import get_nodes, save_nodes_data
 
 # ----------------------------
 # Data + Helpers
@@ -34,7 +34,16 @@ def get_unique_cves():
     df = pd.DataFrame(records)
     df.sort_values("Impact Score", ascending=False, inplace=True)
     return df
+
+def patch_cve(cve_id):
+    nodes_data = get_nodes()
+    
+    for node in nodes_data:
+        if cve_id in node.get("CVE", []):
+            node["CVE"].remove(cve_id)
+            node.get("CVE_NVD", {}).pop(cve_id, None)
             
+    save_nodes_data(nodes_data)
 
 def build_cve_row(cve, index):
     return dbc.Row([
@@ -95,6 +104,7 @@ def update_cve_table(cve_data, patch_clicks, patched_ids):
         cve_id = cve_data[index]["CVE ID"]
         if cve_id not in patched_ids:
             patched_ids.append(cve_id)
+            patch_cve(cve_id)
             status_msg = f"Patched {cve_id}"
 
     # Updated table after patch
