@@ -11,7 +11,6 @@ from app.services.cvss_service import (
     CVSS_CACHE_PATH
 )
 
-
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -151,7 +150,7 @@ def simulation_apt_layout():
             dcc.Dropdown(id="sim-cve-selector", options=[], placeholder="Select CVE...", style={"width": "100%"}),
             html.Div(id="sim-cve-description", style={"marginTop": "10px", "fontStyle": "italic", "color": "#555"}),
         ], style={"marginBottom": "50px"}),
-    ])
+    ], fluid=True)
 
 
 # Callback to Load Graph on Page Load
@@ -202,6 +201,7 @@ def populate_cve_dropdown(graph_data):
 # Callback to fetch and store the CVSS data
 @callback(
     Output("fetch-cvss-status", "children"),
+    Output("fetch-cvss-btn", "disabled"),
     Input("fetch-cvss-btn", "n_clicks"),
     prevent_initial_call=True
 )
@@ -210,6 +210,7 @@ def handle_fetch_cvss(n_clicks):
         cve_list = extract_unique_cves(NODES_DATA)
         results = fetch_cvss_metadata(cve_list)
         write_cvss_cache(CVSS_CACHE_PATH, results)
-        return f"Fetched metadata for {len(results)} CVEs. Data saved to {CVSS_CACHE_PATH}"
+        msg = f"Fetched metadata for {len(results)} CVEs. Data saved to {CVSS_CACHE_PATH}"
+        return msg, False
     except Exception as e:
-        return f"Error: {str(e)}"
+        return f"Error: {str(e)}", False

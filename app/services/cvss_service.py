@@ -31,7 +31,7 @@ def extract_unique_cves(nodes):
     return sorted(cve_set)
 
 # Query NVD API for metadata
-def fetch_cvss_metadata(cve_list, delay=0.3):
+def fetch_cvss_metadata(cve_list, delay=0.2):
     results = {}
 
     for cve_id in cve_list:
