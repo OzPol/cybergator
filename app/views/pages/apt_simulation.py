@@ -123,3 +123,20 @@ def load_sim_system_graph(_):
     elements = generate_sim_system_graph_elements(NODES_DATA)
     return elements, elements
 
+
+# Callback to Hover Info Panel
+@callback(
+    Output("sim-node-hover-info", "children"),
+    Input("sim-system-graph", "mouseoverNodeData")
+)
+def show_node_hover_info(data):
+    if not data:
+        return html.Div("Hover over a node to see its metadata.")
+    
+    return html.Div([
+        html.H5(f"Node ID: {data['id']}"),
+        html.P(f"Node Type: {data.get('node_type', 'N/A')}"),
+        html.P(f"Critical Functions: {data.get('critical_functions', 'None')}"),
+        html.P(f"CVE Count: {data.get('cve_count', 0)}"),
+        html.P(f"Total NVD Score: {data.get('cve_score', 0)}")
+    ])
