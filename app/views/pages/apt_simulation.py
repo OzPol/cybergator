@@ -28,20 +28,39 @@ def generate_sim_system_graph_elements(nodes_data):
     }
 
     for node in nodes_data:
-        node_id = node["node_id"]
-        label = node["node_name"]
+        node_id = node.get("node_id")
+        label = node.get("node_name", node_id)
         node_type = node.get("node_type", "unknown").lower()
-        functions = ", ".join(node.get("critical_functions", []))
-        cve_count = len(node.get("CVE", []))
-        cve_score_total = sum(node.get("CVE_NVD", {}).values())
+        functions = node.get("critical_functions", [])
+        connected = node.get("connected_to", [])
+        cves = node.get("CVE", [])
+        cve_scores = node.get("CVE_NVD", {})
+        risk = node.get("risk_factor", "Unknown")
+        backup_role = node.get("backup_role")
+        redundancy = node.get("redundancy", False)
+        switch_dependency = node.get("switch_dependency", False)
+        critical_data = node.get("critical_data_stored", False)
+        data_redundancy = node.get("data_redundancy", "Unknown")
+        penalty = node.get("resilience_penalty", 0.0)
 
         node_data = {
             "id": node_id,
-            "label": f"{label}\nCVEs: {cve_count}",
+            "label": f"{label}\nCVEs: {len(cves)}",
+            "node_name": label,
             "node_type": node_type,
             "critical_functions": functions,
-            "cve_count": cve_count,
-            "cve_score": cve_score_total,
+            "cve_count": len(cves),
+            "cve_score": sum(cve_scores.values()),
+            "CVE": cves,
+            "CVE_NVD": cve_scores,
+            "connected_to": connected,
+            "risk_factor": risk,
+            "backup_role": backup_role,
+            "redundancy": redundancy,
+            "switch_dependency": switch_dependency,
+            "critical_data_stored": critical_data,
+            "data_redundancy": data_redundancy,
+            "resilience_penalty": penalty,
             "color": color_map.get(node_type, "gray")
         }
 
@@ -64,6 +83,7 @@ def simulation_apt_layout():
     return html.Div([
         dcc.Store(id="sim-system-graph-data"),
         dcc.Store(id="sim-hover-node-info"),
+        dcc.Store(id="sim-cve-metadata"),
 
         html.H3("System Graph View", style={"marginTop": "20px"}),
 
@@ -109,7 +129,13 @@ def simulation_apt_layout():
                 }
             ]
         ),
-        html.Div(id="sim-node-hover-info", style={"marginTop": "20px"})
+        html.Div(id="sim-node-hover-info", style={"marginTop": "20px"}),
+        
+        html.Div([
+            html.Label("Select a CVE to simulate attack propagation:", style={"fontWeight": "bold"}),
+            dcc.Dropdown(id="sim-cve-selector", options=[], placeholder="Select CVE...", style={"width": "100%"}),
+            html.Div(id="sim-cve-description", style={"marginTop": "10px", "fontStyle": "italic", "color": "#555"}),
+        ], style={"marginBottom": "50px"}),
     ])
 
 
@@ -140,3 +166,20 @@ def show_node_hover_info(data):
         html.P(f"CVE Count: {data.get('cve_count', 0)}"),
         html.P(f"Total NVD Score: {data.get('cve_score', 0)}")
     ])
+
+# Callback to Populate Dropdown for CVE Selection
+#  will load CVE options based on what's actually in the graph data
+@callback(
+    Output("sim-cve-selector", "options"),
+    Input("sim-system-graph-data", "data")
+)
+def populate_cve_dropdown(graph_data):
+    seen = set()
+    options = []
+    for item in graph_data:
+        if "data" in item and "CVE" in item["data"]:
+            for cve in item["data"]["CVE"]:
+                if cve not in seen:
+                    seen.add(cve)
+                    options.append({"label": cve, "value": cve})
+    return sorted(options, key=lambda x: x["label"])
