@@ -70,11 +70,13 @@
         "resilience_penalty": 0.2,
         "CVE": [
             "CVE-2013-1935",
-            "CVE-2013-2224"
+            "CVE-2013-2224",
+            "CVE-2013-2188"
         ],
         "CVE_NVD": {
             "CVE-2013-1935": 5.7,
-            "CVE-2013-2224": 6.9
+            "CVE-2013-2224": 6.9,
+            "CVE-2013-2188": 4.7
         }
     },
     {
@@ -105,7 +107,8 @@
             "CVE-2020-5765",
             "CVE-2020-7337",
             "CVE-2009-5118",
-            "CVE-2007-2152"
+            "CVE-2007-2152",
+            "CVE-2015-7833"
         ],
         "CVE_NVD": {
             "CVE-2024-23675": 6.5,
@@ -117,7 +120,8 @@
             "CVE-2020-5765": 5.4,
             "CVE-2020-7337": 6.7,
             "CVE-2009-5118": 9.3,
-            "CVE-2007-2152": 7.9
+            "CVE-2007-2152": 7.9,
+            "CVE-2015-7833": 4.9
         }
     },
     {
@@ -138,8 +142,12 @@
         "risk_factor": "High",
         "switch_dependency": true,
         "resilience_penalty": 0.2,
-        "CVE": [],
-        "CVE_NVD": {}
+        "CVE": [
+            "CVE-2015-7833"
+        ],
+        "CVE_NVD": {
+            "CVE-2015-7833": 4.9
+        }
     },
     {
         "node_id": "N00302",
@@ -159,8 +167,12 @@
         "risk_factor": "Medium",
         "switch_dependency": true,
         "resilience_penalty": 0.2,
-        "CVE": [],
-        "CVE_NVD": {}
+        "CVE": [
+            "CVE-2015-7833"
+        ],
+        "CVE_NVD": {
+            "CVE-2015-7833": 4.9
+        }
     },
     {
         "node_id": "N00303",
@@ -180,8 +192,12 @@
         "risk_factor": "Medium",
         "switch_dependency": true,
         "resilience_penalty": 0.2,
-        "CVE": [],
-        "CVE_NVD": {}
+        "CVE": [
+            "CVE-2015-7833"
+        ],
+        "CVE_NVD": {
+            "CVE-2015-7833": 4.9
+        }
     },
     {
         "node_id": "N00400",
@@ -201,8 +217,12 @@
         "risk_factor": "High",
         "switch_dependency": true,
         "resilience_penalty": 0.3,
-        "CVE": [],
-        "CVE_NVD": {}
+        "CVE": [
+            "CVE-2015-7833"
+        ],
+        "CVE_NVD": {
+            "CVE-2015-7833": 4.9
+        }
     },
     {
         "node_id": "N00401",
@@ -222,8 +242,12 @@
         "risk_factor": "High",
         "switch_dependency": true,
         "resilience_penalty": 0.2,
-        "CVE": [],
-        "CVE_NVD": {}
+        "CVE": [
+            "CVE-2015-7833"
+        ],
+        "CVE_NVD": {
+            "CVE-2015-7833": 4.9
+        }
     },
     {
         "node_id": "N00501",
@@ -300,8 +324,12 @@
         "risk_factor": "High",
         "switch_dependency": true,
         "resilience_penalty": 0.3,
-        "CVE": [],
-        "CVE_NVD": {}
+        "CVE": [
+            "CVE-2015-7833"
+        ],
+        "CVE_NVD": {
+            "CVE-2015-7833": 4.9
+        }
     },
     {
         "node_id": "N00504",
@@ -322,8 +350,12 @@
         "risk_factor": "High",
         "switch_dependency": true,
         "resilience_penalty": 0.3,
-        "CVE": [],
-        "CVE_NVD": {}
+        "CVE": [
+            "CVE-2015-7833"
+        ],
+        "CVE_NVD": {
+            "CVE-2015-7833": 4.9
+        }
     },
     {
         "node_id": "N00505",
@@ -344,11 +376,13 @@
         "resilience_penalty": 0.3,
         "CVE": [
             "CVE-2013-1935",
-            "CVE-2013-2224"
+            "CVE-2013-2224",
+            "CVE-2013-2188"
         ],
         "CVE_NVD": {
             "CVE-2013-1935": 5.7,
-            "CVE-2013-2224": 6.9
+            "CVE-2013-2224": 6.9,
+            "CVE-2013-2188": 4.7
         }
     },
     {
@@ -371,11 +405,13 @@
         "resilience_penalty": 0.3,
         "CVE": [
             "CVE-2013-1935",
-            "CVE-2013-2224"
+            "CVE-2013-2224",
+            "CVE-2013-2188"
         ],
         "CVE_NVD": {
             "CVE-2013-1935": 5.7,
-            "CVE-2013-2224": 6.9
+            "CVE-2013-2224": 6.9,
+            "CVE-2013-2188": 4.7
         }
     },
     {
@@ -396,8 +432,12 @@
         "risk_factor": "High",
         "switch_dependency": true,
         "resilience_penalty": 0.3,
-        "CVE": [],
-        "CVE_NVD": {}
+        "CVE": [
+            "CVE-2015-7833"
+        ],
+        "CVE_NVD": {
+            "CVE-2015-7833": 4.9
+        }
     },
     {
         "node_id": "N00508",
@@ -416,8 +456,12 @@
         "risk_factor": "High",
         "switch_dependency": true,
         "resilience_penalty": 0.3,
-        "CVE": [],
-        "CVE_NVD": {}
+        "CVE": [
+            "CVE-2015-7833"
+        ],
+        "CVE_NVD": {
+            "CVE-2015-7833": 4.9
+        }
     },
     {
         "node_id": "N00509",
@@ -438,8 +482,12 @@
         "risk_factor": "High",
         "switch_dependency": true,
         "resilience_penalty": 0.3,
-        "CVE": [],
-        "CVE_NVD": {}
+        "CVE": [
+            "CVE-2015-7833"
+        ],
+        "CVE_NVD": {
+            "CVE-2015-7833": 4.9
+        }
     },
     {
         "node_id": "N00510",
@@ -458,8 +506,12 @@
         "risk_factor": "High",
         "switch_dependency": true,
         "resilience_penalty": 0.3,
-        "CVE": [],
-        "CVE_NVD": {}
+        "CVE": [
+            "CVE-2015-7833"
+        ],
+        "CVE_NVD": {
+            "CVE-2015-7833": 4.9
+        }
     },
     {
         "node_id": "N00511",
@@ -481,6 +533,7 @@
         "CVE": [
             "CVE-2017-8543",
             "CVE-2014-0301",
+            "CVE-2014-0323",
             "CVE-2014-0315",
             "CVE-2013-5058",
             "CVE-2013-5056"
@@ -488,6 +541,7 @@
         "CVE_NVD": {
             "CVE-2017-8543": 9.8,
             "CVE-2014-0301": 9.3,
+            "CVE-2014-0323": 6.6,
             "CVE-2014-0315": 6.9,
             "CVE-2013-5058": 6.9,
             "CVE-2013-5056": 9.3
@@ -513,6 +567,7 @@
         "CVE": [
             "CVE-2017-8543",
             "CVE-2014-0301",
+            "CVE-2014-0323",
             "CVE-2014-0315",
             "CVE-2013-5058",
             "CVE-2013-5056"
@@ -520,6 +575,7 @@
         "CVE_NVD": {
             "CVE-2017-8543": 9.8,
             "CVE-2014-0301": 9.3,
+            "CVE-2014-0323": 6.6,
             "CVE-2014-0315": 6.9,
             "CVE-2013-5058": 6.9,
             "CVE-2013-5056": 9.3
@@ -574,8 +630,12 @@
         "risk_factor": "Medium",
         "switch_dependency": true,
         "resilience_penalty": 0.2,
-        "CVE": [],
-        "CVE_NVD": {}
+        "CVE": [
+            "CVE-2015-7833"
+        ],
+        "CVE_NVD": {
+            "CVE-2015-7833": 4.9
+        }
     },
     {
         "node_id": "N00613",
@@ -594,8 +654,12 @@
         "risk_factor": "Medium",
         "switch_dependency": true,
         "resilience_penalty": 0.2,
-        "CVE": [],
-        "CVE_NVD": {}
+        "CVE": [
+            "CVE-2015-7833"
+        ],
+        "CVE_NVD": {
+            "CVE-2015-7833": 4.9
+        }
     },
     {
         "node_id": "N00621",
@@ -616,8 +680,12 @@
         "risk_factor": "Medium",
         "switch_dependency": true,
         "resilience_penalty": 0.2,
-        "CVE": [],
-        "CVE_NVD": {}
+        "CVE": [
+            "CVE-2015-7833"
+        ],
+        "CVE_NVD": {
+            "CVE-2015-7833": 4.9
+        }
     },
     {
         "node_id": "N00622",
@@ -638,8 +706,12 @@
         "risk_factor": "Medium",
         "switch_dependency": true,
         "resilience_penalty": 0.2,
-        "CVE": [],
-        "CVE_NVD": {}
+        "CVE": [
+            "CVE-2015-7833"
+        ],
+        "CVE_NVD": {
+            "CVE-2015-7833": 4.9
+        }
     },
     {
         "node_id": "N00623",
@@ -658,8 +730,12 @@
         "risk_factor": "Medium",
         "switch_dependency": true,
         "resilience_penalty": 0.2,
-        "CVE": [],
-        "CVE_NVD": {}
+        "CVE": [
+            "CVE-2015-7833"
+        ],
+        "CVE_NVD": {
+            "CVE-2015-7833": 4.9
+        }
     },
     {
         "node_id": "N00631",
@@ -678,8 +754,12 @@
         "risk_factor": "Medium",
         "switch_dependency": true,
         "resilience_penalty": 0.2,
-        "CVE": [],
-        "CVE_NVD": {}
+        "CVE": [
+            "CVE-2015-7833"
+        ],
+        "CVE_NVD": {
+            "CVE-2015-7833": 4.9
+        }
     },
     {
         "node_id": "N00701",
@@ -700,8 +780,12 @@
         "risk_factor": "Medium",
         "switch_dependency": true,
         "resilience_penalty": 0.2,
-        "CVE": [],
-        "CVE_NVD": {}
+        "CVE": [
+            "CVE-2015-7833"
+        ],
+        "CVE_NVD": {
+            "CVE-2015-7833": 4.9
+        }
     },
     {
         "node_id": "N00702",
@@ -722,8 +806,12 @@
         "risk_factor": "Medium",
         "switch_dependency": true,
         "resilience_penalty": 0.2,
-        "CVE": [],
-        "CVE_NVD": {}
+        "CVE": [
+            "CVE-2015-7833"
+        ],
+        "CVE_NVD": {
+            "CVE-2015-7833": 4.9
+        }
     },
     {
         "node_id": "N00703",
@@ -742,8 +830,12 @@
         "risk_factor": "Medium",
         "switch_dependency": true,
         "resilience_penalty": 0.2,
-        "CVE": [],
-        "CVE_NVD": {}
+        "CVE": [
+            "CVE-2015-7833"
+        ],
+        "CVE_NVD": {
+            "CVE-2015-7833": 4.9
+        }
     },
     {
         "node_id": "N00801",
@@ -796,8 +888,12 @@
         "risk_factor": "High",
         "switch_dependency": true,
         "resilience_penalty": 0.2,
-        "CVE": [],
-        "CVE_NVD": {}
+        "CVE": [
+            "CVE-2015-7833"
+        ],
+        "CVE_NVD": {
+            "CVE-2015-7833": 4.9
+        }
     },
     {
         "node_id": "N00803",
@@ -819,8 +915,12 @@
         "risk_factor": "Medium",
         "switch_dependency": true,
         "resilience_penalty": 0.2,
-        "CVE": [],
-        "CVE_NVD": {}
+        "CVE": [
+            "CVE-2015-7833"
+        ],
+        "CVE_NVD": {
+            "CVE-2015-7833": 4.9
+        }
     },
     {
         "node_id": "N10601",
@@ -841,18 +941,24 @@
         "switch_dependency": true,
         "resilience_penalty": 0.1,
         "CVE": [
+            "CVE-2023-47804",
+            "CVE-2022-37401",
             "CVE-2021-33035",
             "CVE-2020-13958",
             "CVE-2017-12607",
             "CVE-2013-1935",
-            "CVE-2013-2224"
+            "CVE-2013-2224",
+            "CVE-2013-2188"
         ],
         "CVE_NVD": {
+            "CVE-2023-47804": 8.8,
+            "CVE-2022-37401": 8.8,
             "CVE-2021-33035": 7.8,
             "CVE-2020-13958": 7.8,
             "CVE-2017-12607": 7.8,
             "CVE-2013-1935": 5.7,
-            "CVE-2013-2224": 6.9
+            "CVE-2013-2224": 6.9,
+            "CVE-2013-2188": 4.7
         }
     },
     {
@@ -873,18 +979,24 @@
         "switch_dependency": true,
         "resilience_penalty": 0.1,
         "CVE": [
+            "CVE-2023-47804",
+            "CVE-2022-37401",
             "CVE-2021-33035",
             "CVE-2020-13958",
             "CVE-2017-12607",
             "CVE-2013-1935",
-            "CVE-2013-2224"
+            "CVE-2013-2224",
+            "CVE-2013-2188"
         ],
         "CVE_NVD": {
+            "CVE-2023-47804": 8.8,
+            "CVE-2022-37401": 8.8,
             "CVE-2021-33035": 7.8,
             "CVE-2020-13958": 7.8,
             "CVE-2017-12607": 7.8,
             "CVE-2013-1935": 5.7,
-            "CVE-2013-2224": 6.9
+            "CVE-2013-2224": 6.9,
+            "CVE-2013-2188": 4.7
         }
     },
     {
@@ -906,18 +1018,24 @@
         "switch_dependency": true,
         "resilience_penalty": 0.1,
         "CVE": [
+            "CVE-2023-47804",
+            "CVE-2022-37401",
             "CVE-2021-33035",
             "CVE-2020-13958",
             "CVE-2017-12607",
             "CVE-2013-1935",
-            "CVE-2013-2224"
+            "CVE-2013-2224",
+            "CVE-2013-2188"
         ],
         "CVE_NVD": {
+            "CVE-2023-47804": 8.8,
+            "CVE-2022-37401": 8.8,
             "CVE-2021-33035": 7.8,
             "CVE-2020-13958": 7.8,
             "CVE-2017-12607": 7.8,
             "CVE-2013-1935": 5.7,
-            "CVE-2013-2224": 6.9
+            "CVE-2013-2224": 6.9,
+            "CVE-2013-2188": 4.7
         }
     },
     {
@@ -939,18 +1057,24 @@
         "switch_dependency": true,
         "resilience_penalty": 0.1,
         "CVE": [
+            "CVE-2023-47804",
+            "CVE-2022-37401",
             "CVE-2021-33035",
             "CVE-2020-13958",
             "CVE-2017-12607",
             "CVE-2013-1935",
-            "CVE-2013-2224"
+            "CVE-2013-2224",
+            "CVE-2013-2188"
         ],
         "CVE_NVD": {
+            "CVE-2023-47804": 8.8,
+            "CVE-2022-37401": 8.8,
             "CVE-2021-33035": 7.8,
             "CVE-2020-13958": 7.8,
             "CVE-2017-12607": 7.8,
             "CVE-2013-1935": 5.7,
-            "CVE-2013-2224": 6.9
+            "CVE-2013-2224": 6.9,
+            "CVE-2013-2188": 4.7
         }
     },
     {
@@ -972,18 +1096,24 @@
         "switch_dependency": true,
         "resilience_penalty": 0.1,
         "CVE": [
+            "CVE-2023-47804",
+            "CVE-2022-37401",
             "CVE-2021-33035",
             "CVE-2020-13958",
             "CVE-2017-12607",
             "CVE-2013-1935",
-            "CVE-2013-2224"
+            "CVE-2013-2224",
+            "CVE-2013-2188"
         ],
         "CVE_NVD": {
+            "CVE-2023-47804": 8.8,
+            "CVE-2022-37401": 8.8,
             "CVE-2021-33035": 7.8,
             "CVE-2020-13958": 7.8,
             "CVE-2017-12607": 7.8,
             "CVE-2013-1935": 5.7,
-            "CVE-2013-2224": 6.9
+            "CVE-2013-2224": 6.9,
+            "CVE-2013-2188": 4.7
         }
     },
     {
@@ -1007,6 +1137,8 @@
             "CVE-2012-2697",
             "CVE-2012-3440",
             "CVE-2010-0727",
+            "CVE-2023-47804",
+            "CVE-2022-37401",
             "CVE-2021-33035",
             "CVE-2020-13958",
             "CVE-2017-12607"
@@ -1015,6 +1147,8 @@
             "CVE-2012-2697": 4.9,
             "CVE-2012-3440": 5.6,
             "CVE-2010-0727": 4.9,
+            "CVE-2023-47804": 8.8,
+            "CVE-2022-37401": 8.8,
             "CVE-2021-33035": 7.8,
             "CVE-2020-13958": 7.8,
             "CVE-2017-12607": 7.8
@@ -1042,6 +1176,8 @@
             "CVE-2012-2697",
             "CVE-2012-3440",
             "CVE-2010-0727",
+            "CVE-2023-47804",
+            "CVE-2022-37401",
             "CVE-2021-33035",
             "CVE-2020-13958",
             "CVE-2017-12607"
@@ -1050,6 +1186,8 @@
             "CVE-2012-2697": 4.9,
             "CVE-2012-3440": 5.6,
             "CVE-2010-0727": 4.9,
+            "CVE-2023-47804": 8.8,
+            "CVE-2022-37401": 8.8,
             "CVE-2021-33035": 7.8,
             "CVE-2020-13958": 7.8,
             "CVE-2017-12607": 7.8
@@ -1076,18 +1214,24 @@
         "switch_dependency": true,
         "resilience_penalty": 0.1,
         "CVE": [
+            "CVE-2023-47804",
+            "CVE-2022-37401",
             "CVE-2021-33035",
             "CVE-2020-13958",
             "CVE-2017-12607",
             "CVE-2013-1935",
-            "CVE-2013-2224"
+            "CVE-2013-2224",
+            "CVE-2013-2188"
         ],
         "CVE_NVD": {
+            "CVE-2023-47804": 8.8,
+            "CVE-2022-37401": 8.8,
             "CVE-2021-33035": 7.8,
             "CVE-2020-13958": 7.8,
             "CVE-2017-12607": 7.8,
             "CVE-2013-1935": 5.7,
-            "CVE-2013-2224": 6.9
+            "CVE-2013-2224": 6.9,
+            "CVE-2013-2188": 4.7
         }
     },
     {
@@ -1108,18 +1252,24 @@
         "switch_dependency": true,
         "resilience_penalty": 0.1,
         "CVE": [
+            "CVE-2023-47804",
+            "CVE-2022-37401",
             "CVE-2021-33035",
             "CVE-2020-13958",
             "CVE-2017-12607",
             "CVE-2013-1935",
-            "CVE-2013-2224"
+            "CVE-2013-2224",
+            "CVE-2013-2188"
         ],
         "CVE_NVD": {
+            "CVE-2023-47804": 8.8,
+            "CVE-2022-37401": 8.8,
             "CVE-2021-33035": 7.8,
             "CVE-2020-13958": 7.8,
             "CVE-2017-12607": 7.8,
             "CVE-2013-1935": 5.7,
-            "CVE-2013-2224": 6.9
+            "CVE-2013-2224": 6.9,
+            "CVE-2013-2188": 4.7
         }
     },
     {
