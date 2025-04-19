@@ -20,7 +20,7 @@ def sidebar(session_user=None):
             dbc.NavLink("Environmental Factors", href="/environmental-factors", active="exact", style={"color": "white"}),
             dbc.NavLink("Work Stations", href="/work-stations", active="exact", style={"color": "white"}),
             dbc.NavLink("APT Simulation", href="/apt-simulation", active="exact", style={"color": "white"}),
-            dbc.NavLink("CVE Simulations", href="/cve-simulations", active="exact", style={"color": "white"}),
+            dbc.NavLink("CVE Simulation", href="/cve-simulation", active="exact", style={"color": "white"}),
             dbc.NavLink("FSM Simulation", href="/fsm-simulation", active="exact", style={"color": "white"}),
             dbc.NavLink("Neo4j Graph", href="/neo4j-graph", active="exact", style={"color": "white"}),
         ]
