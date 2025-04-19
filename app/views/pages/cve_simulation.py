@@ -1,44 +1,11 @@
-import pandas as pd
-from collections import defaultdict
 from dash import html, dcc
 import dash_bootstrap_components as dbc
-from app.services.data_loader import get_nodes, save_nodes_data
+from app.services.cve_service import CVEService
+import pandas as pd
 
 # ----------------------------
-# Data + Helpers
+# Style
 # ----------------------------
-
-def get_unique_cves():
-    nodes_data = get_nodes()
-    cve_summary = defaultdict(lambda: {"NVD Score": 0, "Nodes": set()})
-
-    for node in nodes_data:
-        node_id = node["node_id"]
-        for cve_id, nvd_score in node.get("CVE_NVD", {}).items():
-            cve_summary[cve_id]["NVD Score"] = nvd_score
-            cve_summary[cve_id]["Nodes"].add(node_id)
-
-    records = []
-    for cve_id, info in cve_summary.items():
-        node_count = len(info["Nodes"])
-        nvd = info["NVD Score"]
-        records.append({
-            "CVE ID": cve_id,
-            "Nodes Affected": node_count,
-            "Impact Score": round(node_count * nvd, 2),
-        })
-
-    df = pd.DataFrame(records)
-    df.sort_values("Impact Score", ascending=False, inplace=True)
-    return df
-
-def patch_cve(cve_id):
-    nodes_data = get_nodes()
-    for node in nodes_data:
-        if cve_id in node.get("CVE", []):
-            node["CVE"].remove(cve_id)
-            node.get("CVE_NVD", {}).pop(cve_id, None)
-    save_nodes_data(nodes_data)
 
 shared_cell_style = {
     "border": "1px solid #dee2e6",
@@ -48,6 +15,10 @@ shared_cell_style = {
     "alignItems": "center",
     "backgroundColor": "white"
 }
+
+# ----------------------------
+# UI Row Builder
+# ----------------------------
 
 def build_cve_row(cve, index):
     return dbc.Row([
@@ -68,7 +39,7 @@ def build_cve_row(cve, index):
 # ----------------------------
 
 def cve_simulation_layout():
-    df = get_unique_cves()
+    df = CVEService.get_unique_cves()
 
     return dbc.Container([
         dcc.Store(id="patched-cves-store", data=[]),
