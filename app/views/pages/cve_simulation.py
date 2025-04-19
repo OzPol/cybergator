@@ -1,23 +1,45 @@
 import pandas as pd
+from collections import defaultdict
+
 from dash import html, dcc, Input, Output, State, callback, ctx, ALL
 import dash_bootstrap_components as dbc
-from dash.exceptions import PreventUpdate
+from app.services.data_loader import get_nodes
 
 # ----------------------------
 # Data + Helpers
 # ----------------------------
 
-def get_top_impactful_cves():
-    return pd.DataFrame([
-        {"CVE ID": "CVE-2023-0001", "nodes_affected": 5, "Impact Score": 9.8},
-        {"CVE ID": "CVE-2023-0002", "nodes_affected": 3, "Impact Score": 8.5},
-        {"CVE ID": "CVE-2023-0003", "nodes_affected": 2, "Impact Score": 9.2},
-    ])
+def get_unique_cves():
+    nodes_data = get_nodes()  # Your JSON-based node loader
+
+    cve_summary = defaultdict(lambda: {"NVD Score": 0, "Nodes": set()})
+
+    for node in nodes_data:
+        node_id = node["node_id"]
+        for cve_id, nvd_score in node.get("CVE_NVD", {}).items():
+            cve_summary[cve_id]["NVD Score"] = nvd_score  # assumes consistent score
+            cve_summary[cve_id]["Nodes"].add(node_id)
+
+    # Convert to final DataFrame
+    records = []
+    for cve_id, info in cve_summary.items():
+        node_count = len(info["Nodes"])
+        nvd = info["NVD Score"]
+        records.append({
+            "CVE ID": cve_id,
+            "Nodes Affected": node_count,
+            "Impact Score": round(node_count * nvd, 2),
+        })
+
+    df = pd.DataFrame(records)
+    df.sort_values("Impact Score", ascending=False, inplace=True)
+    return df
+            
 
 def build_cve_row(cve, index):
     return dbc.Row([
         dbc.Col(html.P(cve["CVE ID"]), width=4),
-        dbc.Col(html.P(cve["nodes_affected"]), width=3),
+        dbc.Col(html.P(cve["Nodes Affected"]), width=3),
         dbc.Col(html.P(cve["Impact Score"]), width=3),
         dbc.Col(dbc.Button("Patch", id={"type": "patch-btn", "index": index}, size="sm", color="success"), width=2),
     ], align="center", className="mb-2")
@@ -27,7 +49,7 @@ def build_cve_row(cve, index):
 # ----------------------------
 
 def cve_simulation_layout():
-    df = get_top_impactful_cves()
+    df = get_unique_cves()
     return dbc.Container([
         dcc.Store(id="patched-cves-store", data=[]),
         dcc.Store(id="all-cves-data", data=df.to_dict("records")),
