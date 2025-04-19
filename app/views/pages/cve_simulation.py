@@ -34,7 +34,12 @@ def cve_simulation_layout():
         dcc.Store(id="all-cves-data", data=df.to_dict("records")),
         dcc.Store(id="current-page", data=0),
 
-        html.H4("CVE Patch Simulation", className="mb-4"),
+        html.H4("CVE Patch Simulation", className="mb-3 text-center"),
+        html.P(
+            "A list of all unique CVEs detected across the system. "
+            "Patching a particular vulnerability patches it for all affected nodes.",
+            className="text-center text-muted mb-4"
+        ),
 
         # Table Header
         dbc.Row([
@@ -54,3 +59,4 @@ def cve_simulation_layout():
             dbc.Col(dbc.Button("Next", id="next-page-btn", color="secondary"), width="auto"),
         ], className="mt-4 align-items-center"),
     ], fluid=True)
+
