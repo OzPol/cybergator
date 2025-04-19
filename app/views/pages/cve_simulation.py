@@ -1,6 +1,5 @@
 import pandas as pd
 from collections import defaultdict
-
 from dash import html, dcc, Input, Output, State, callback, ctx, ALL
 import dash_bootstrap_components as dbc
 from app.services.data_loader import get_nodes, save_nodes_data
@@ -10,17 +9,15 @@ from app.services.data_loader import get_nodes, save_nodes_data
 # ----------------------------
 
 def get_unique_cves():
-    nodes_data = get_nodes()  # Your JSON-based node loader
-
+    nodes_data = get_nodes()
     cve_summary = defaultdict(lambda: {"NVD Score": 0, "Nodes": set()})
 
     for node in nodes_data:
         node_id = node["node_id"]
         for cve_id, nvd_score in node.get("CVE_NVD", {}).items():
-            cve_summary[cve_id]["NVD Score"] = nvd_score  # assumes consistent score
+            cve_summary[cve_id]["NVD Score"] = nvd_score
             cve_summary[cve_id]["Nodes"].add(node_id)
 
-    # Convert to final DataFrame
     records = []
     for cve_id, info in cve_summary.items():
         node_count = len(info["Nodes"])
@@ -37,12 +34,10 @@ def get_unique_cves():
 
 def patch_cve(cve_id):
     nodes_data = get_nodes()
-    
     for node in nodes_data:
         if cve_id in node.get("CVE", []):
             node["CVE"].remove(cve_id)
             node.get("CVE_NVD", {}).pop(cve_id, None)
-            
     save_nodes_data(nodes_data)
 
 def build_cve_row(cve, index):
@@ -62,6 +57,7 @@ def cve_simulation_layout():
     return dbc.Container([
         dcc.Store(id="patched-cves-store", data=[]),
         dcc.Store(id="all-cves-data", data=df.to_dict("records")),
+        dcc.Store(id="current-page", data=0),
 
         html.H4("CVE Patch Simulation", className="mb-4"),
 
@@ -73,41 +69,80 @@ def cve_simulation_layout():
         ], className="border-bottom pb-2 mb-3"),
 
         html.Div(id="cve-sim-table-body"),
-        html.Div(id="patched-status-msg", className="mt-4 text-success")
+        html.Div(id="patched-status-msg", className="mt-2 text-success"),
+
+        dbc.Row([
+            dbc.Col(dbc.Button("Previous", id="prev-page-btn", color="secondary"), width="auto"),
+            dbc.Col(html.Div(id="page-indicator", className="px-3"), width="auto"),
+            dbc.Col(dbc.Button("Next", id="next-page-btn", color="secondary"), width="auto"),
+        ], className="mt-4 align-items-center"),
     ], fluid=True)
 
 # ----------------------------
-# Unified Callback with Initial Load Support
+# Callback
 # ----------------------------
 
 @callback(
     Output("cve-sim-table-body", "children"),
     Output("patched-status-msg", "children"),
     Output("patched-cves-store", "data"),
+    Output("page-indicator", "children"),
+    Output("prev-page-btn", "disabled"),
+    Output("next-page-btn", "disabled"),
     Input("all-cves-data", "data"),
     Input({"type": "patch-btn", "index": ALL}, "n_clicks"),
+    Input("prev-page-btn", "n_clicks"),
+    Input("next-page-btn", "n_clicks"),
     State("patched-cves-store", "data"),
+    State("current-page", "data"),
 )
-def update_cve_table(cve_data, patch_clicks, patched_ids):
-    triggered_id = ctx.triggered_id
+def update_table(data, patch_clicks, prev_clicks, next_clicks, patched, current_page):
+    page_size = 10
+    triggered = ctx.triggered_id
     status_msg = ""
 
-    if triggered_id is None:
-        # Initial load — just show table
-        filtered = [cve for cve in cve_data if cve["CVE ID"] not in patched_ids]
-        rows = [build_cve_row(cve, i) for i, cve in enumerate(filtered)]
-        return rows, "", patched_ids
-
-    # Patch button clicked
-    if isinstance(triggered_id, dict) and triggered_id.get("type") == "patch-btn":
-        index = triggered_id["index"]
-        cve_id = cve_data[index]["CVE ID"]
-        if cve_id not in patched_ids:
-            patched_ids.append(cve_id)
+    if isinstance(triggered, dict) and triggered.get("type") == "patch-btn":
+        index = triggered["index"]
+        cve_id = data[index]["CVE ID"]
+        if cve_id not in patched:
+            patched.append(cve_id)
             patch_cve(cve_id)
-            status_msg = f"Patched {cve_id}"
+            status_msg = f"Patched {cve_id}."
 
-    # Updated table after patch
-    filtered = [cve for cve in cve_data if cve["CVE ID"] not in patched_ids]
-    rows = [build_cve_row(cve, i) for i, cve in enumerate(filtered)]
-    return rows, status_msg, patched_ids
+    # Filter out patched CVEs
+    filtered = [cve for cve in data if cve["CVE ID"] not in patched]
+    total_pages = max((len(filtered) - 1) // page_size + 1, 1)
+
+    # Pagination logic
+    if triggered == "prev-page-btn" and current_page > 0:
+        current_page -= 1
+    elif triggered == "next-page-btn" and current_page < total_pages - 1:
+        current_page += 1
+
+    paginated = filtered[current_page * page_size: (current_page + 1) * page_size]
+    rows = [build_cve_row(cve, i) for i, cve in enumerate(paginated)]
+
+    return (
+        rows,
+        status_msg,
+        patched,
+        f"Page {current_page + 1} of {total_pages}",
+        current_page == 0,
+        current_page >= total_pages - 1,
+    )
+
+# Save the new page number
+@callback(
+    Output("current-page", "data"),
+    Input("prev-page-btn", "n_clicks"),
+    Input("next-page-btn", "n_clicks"),
+    State("current-page", "data"),
+    prevent_initial_call=True
+)
+def update_page_store(prev_clicks, next_clicks, page):
+    triggered = ctx.triggered_id
+    if triggered == "prev-page-btn" and page > 0:
+        return page - 1
+    elif triggered == "next-page-btn":
+        return page + 1
+    return page
