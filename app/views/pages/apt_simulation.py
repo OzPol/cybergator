@@ -165,7 +165,6 @@ Probabilistic impact modeling
 Condition-based traversal rules
 """
 
-
 @callback(
     Output("sim-results-table", "children"),
     Input("sim-run-btn", "n_clicks"),
@@ -174,9 +173,10 @@ Condition-based traversal rules
     State("sim-filter-av", "value"),
     State("sim-filter-pr", "value"),
     State("sim-filter-ui", "value"),
+    State("sim-filter-score", "value"),
     prevent_initial_call=True
 )
-def run_cve_simulation(n_clicks, selected_cve, graph_data, av_choices, pr_choices, ui_choices):
+def run_cve_simulation(n_clicks, selected_cve, graph_data, av_choices, pr_choices, ui_choices, score_thresh):
     if not selected_cve:
         return html.Div("Please select a CVE to run the simulation.")
 
@@ -197,7 +197,7 @@ def run_cve_simulation(n_clicks, selected_cve, graph_data, av_choices, pr_choice
                     "Node ID": data["id"],
                     "Type": data.get("node_type", "Unknown"),
                     "CVEs": ", ".join(data.get("CVE", [])),
-                    "Score": data.get("cve_score", 0),
+                    "Total Score": data.get("cve_score", 0),
                     "Attack Vector": av,
                     "Privileges Required": pr,
                     "User Interaction": ui,
@@ -407,6 +407,18 @@ def simulation_apt_layout():
                             options=CVSS_FILTER_OPTIONS["ui_options"],
                             multi=True,
                             value=[opt["value"] for opt in CVSS_FILTER_OPTIONS["ui_options"] if opt["value"] in ["NONE", "NA"]]
+                        )
+                    ]),
+                    dbc.Col([
+                        html.Label("Minimum CVSS Score"),
+                        dcc.Input(
+                            id="sim-filter-score",
+                            type="number",
+                            min=0.1,
+                            max=10.0,
+                            step=0.1,
+                            value=0.1,
+                            style={"width": "100%"}
                         )
                     ]),
                 ])
