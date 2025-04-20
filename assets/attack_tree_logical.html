@@ -1,0 +1,258 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 1600px;
+                 background-color: #222222;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+             #loadingBar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width: 100%;
+                 height: 1600px;
+                 background-color:rgba(200,200,200,0.8);
+                 -webkit-transition: all 0.5s ease;
+                 -moz-transition: all 0.5s ease;
+                 -ms-transition: all 0.5s ease;
+                 -o-transition: all 0.5s ease;
+                 transition: all 0.5s ease;
+                 opacity:1;
+             }
+
+             #bar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width:20px;
+                 height:20px;
+                 margin:auto auto auto auto;
+                 border-radius:11px;
+                 border:2px solid rgba(30,30,30,0.05);
+                 background: rgb(0, 173, 246); /* Old browsers */
+                 box-shadow: 2px 0px 4px rgba(0,0,0,0.4);
+             }
+
+             #border {
+                 position:absolute;
+                 top:10px;
+                 left:10px;
+                 width:500px;
+                 height:23px;
+                 margin:auto auto auto auto;
+                 box-shadow: 0px 0px 4px rgba(0,0,0,0.2);
+                 border-radius:10px;
+             }
+
+             #text {
+                 position:absolute;
+                 top:8px;
+                 left:530px;
+                 width:30px;
+                 height:50px;
+                 margin:auto auto auto auto;
+                 font-size:22px;
+                 color: #000000;
+             }
+
+             div.outerBorder {
+                 position:relative;
+                 top:400px;
+                 width:600px;
+                 height:44px;
+                 margin:auto auto auto auto;
+                 border:8px solid rgba(0,0,0,0.1);
+                 background: rgb(252,252,252); /* Old browsers */
+                 background: -moz-linear-gradient(top,  rgba(252,252,252,1) 0%, rgba(237,237,237,1) 100%); /* FF3.6+ */
+                 background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(252,252,252,1)), color-stop(100%,rgba(237,237,237,1))); /* Chrome,Safari4+ */
+                 background: -webkit-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Chrome10+,Safari5.1+ */
+                 background: -o-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Opera 11.10+ */
+                 background: -ms-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* IE10+ */
+                 background: linear-gradient(to bottom,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* W3C */
+                 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */
+                 border-radius:72px;
+                 box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+             }
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+            <div id="loadingBar">
+              <div class="outerBorder">
+                <div id="text">0%</div>
+                <div id="border">
+                  <div id="bar"></div>
+                </div>
+              </div>
+            </div>
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "red", "font": {"color": "white"}, "id": "G001", "label": "Code Execution via Buffer Overflow", "shape": "dot", "size": 22, "title": "Attack Goal: Code Execution via Buffer Overflow (G001)"}, {"color": "orange", "font": {"color": "white"}, "id": "S001", "label": "Execution\n(CVE-2007-2152)", "shape": "dot", "size": 20, "title": "Step: Execution\nCVE: CVE-2007-2152\nTactic: Execution\nTechnique: T1203: Exploitation for Client Execution\nProbability: 0.5"}, {"color": "blue", "font": {"color": "white"}, "id": "F01", "label": "CF F01", "shape": "dot", "size": 30, "title": "Critical Function ID: F01"}, {"color": "blue", "font": {"color": "white"}, "id": "F02", "label": "CF F02", "shape": "dot", "size": 30, "title": "Critical Function ID: F02"}, {"color": "red", "font": {"color": "white"}, "id": "G002", "label": "Privilege Escalation via DLL Injection", "shape": "dot", "size": 22, "title": "Attack Goal: Privilege Escalation via DLL Injection (G002)"}, {"color": "orange", "font": {"color": "white"}, "id": "S002", "label": "Privilege Escalation\n(CVE-2009-5118)", "shape": "dot", "size": 20, "title": "Step: Privilege Escalation\nCVE: CVE-2009-5118\nTactic: Privilege Escalation\nTechnique: T1055: Process Injection\nProbability: 0.6"}, {"color": "blue", "font": {"color": "white"}, "id": "F03", "label": "CF F03", "shape": "dot", "size": 30, "title": "Critical Function ID: F03"}, {"color": "blue", "font": {"color": "white"}, "id": "F04", "label": "CF F04", "shape": "dot", "size": 30, "title": "Critical Function ID: F04"}, {"color": "red", "font": {"color": "white"}, "id": "G003", "label": "Denial of Service via Kernel Exploit", "shape": "dot", "size": 22, "title": "Attack Goal: Denial of Service via Kernel Exploit (G003)"}, {"color": "orange", "font": {"color": "white"}, "id": "S003", "label": "Denial of Service\n(CVE-2010-0727)", "shape": "dot", "size": 20, "title": "Step: Denial of Service\nCVE: CVE-2010-0727\nTactic: Impact\nTechnique: T1499: Endpoint Denial of Service\nProbability: 0.7"}, {"color": "blue", "font": {"color": "white"}, "id": "F05", "label": "CF F05", "shape": "dot", "size": 30, "title": "Critical Function ID: F05"}, {"color": "blue", "font": {"color": "white"}, "id": "F06", "label": "CF F06", "shape": "dot", "size": 30, "title": "Critical Function ID: F06"}, {"color": "red", "font": {"color": "white"}, "id": "G004", "label": "Denial of Service via LDAP-based Automount", "shape": "dot", "size": 22, "title": "Attack Goal: Denial of Service via LDAP-based Automount (G004)"}, {"color": "orange", "font": {"color": "white"}, "id": "S004", "label": "Denial of Service\n(CVE-2012-2697)", "shape": "dot", "size": 20, "title": "Step: Denial of Service\nCVE: CVE-2012-2697\nTactic: Impact\nTechnique: T1499: Endpoint Denial of Service\nProbability: 0.4"}, {"color": "red", "font": {"color": "white"}, "id": "G005", "label": "Privilege Escalation via Symlink Attack", "shape": "dot", "size": 22, "title": "Attack Goal: Privilege Escalation via Symlink Attack (G005)"}, {"color": "orange", "font": {"color": "white"}, "id": "S005", "label": "Privilege Escalation\n(CVE-2012-3440)", "shape": "dot", "size": 20, "title": "Step: Privilege Escalation\nCVE: CVE-2012-3440\nTactic: Privilege Escalation\nTechnique: T1546: Event Triggered Execution\nProbability: 0.5"}, {"color": "red", "font": {"color": "white"}, "id": "G006", "label": "Denial of Service via KVM Subsystem", "shape": "dot", "size": 22, "title": "Attack Goal: Denial of Service via KVM Subsystem (G006)"}, {"color": "orange", "font": {"color": "white"}, "id": "S006", "label": "Denial of Service\n(CVE-2013-1935)", "shape": "dot", "size": 20, "title": "Step: Denial of Service\nCVE: CVE-2013-1935\nTactic: Impact\nTechnique: T1499: Endpoint Denial of Service\nProbability: 0.6"}, {"color": "red", "font": {"color": "white"}, "id": "G007", "label": "Privilege Escalation via sendmsg System Call", "shape": "dot", "size": 22, "title": "Attack Goal: Privilege Escalation via sendmsg System Call (G007)"}, {"color": "orange", "font": {"color": "white"}, "id": "S007", "label": "Privilege Escalation\n(CVE-2013-2224)", "shape": "dot", "size": 20, "title": "Step: Privilege Escalation\nCVE: CVE-2013-2224\nTactic: Privilege Escalation\nTechnique: T1068: Exploitation for Privilege Escalation\nProbability: 0.7"}, {"color": "red", "font": {"color": "white"}, "id": "G008", "label": "Denial of Service via IP Race Condition", "shape": "dot", "size": 22, "title": "Attack Goal: Denial of Service via IP Race Condition (G008)"}, {"color": "orange", "font": {"color": "white"}, "id": "S008", "label": "Denial of Service\n(CVE-2012-3552)", "shape": "dot", "size": 20, "title": "Step: Denial of Service\nCVE: CVE-2012-3552\nTactic: Impact\nTechnique: T1499: Endpoint Denial of Service\nProbability: 0.5"}, {"color": "red", "font": {"color": "white"}, "id": "G009", "label": "Denial of Service via Red Hat Filesystem Access", "shape": "dot", "size": 22, "title": "Attack Goal: Denial of Service via Red Hat Filesystem Access (G009)"}, {"color": "orange", "font": {"color": "white"}, "id": "S009", "label": "Denial of Service\n(CVE-2013-2188)", "shape": "dot", "size": 20, "title": "Step: Denial of Service\nCVE: CVE-2013-2188\nTactic: Impact\nTechnique: T1499: Endpoint Denial of Service\nProbability: 0.4"}, {"color": "blue", "font": {"color": "white"}, "id": "F07", "label": "CF F07", "shape": "dot", "size": 30, "title": "Critical Function ID: F07"}, {"color": "red", "font": {"color": "white"}, "id": "G010", "label": "Privilege Escalation via Integer Overflow", "shape": "dot", "size": 22, "title": "Attack Goal: Privilege Escalation via Integer Overflow (G010)"}, {"color": "orange", "font": {"color": "white"}, "id": "S010", "label": "Privilege Escalation\n(CVE-2013-5058)", "shape": "dot", "size": 20, "title": "Step: Privilege Escalation\nCVE: CVE-2013-5058\nTactic: Privilege Escalation\nTechnique: T1068: Exploitation for Privilege Escalation\nProbability: 0.6"}, {"color": "red", "font": {"color": "white"}, "id": "G011", "label": "Remote Code Execution via Use-After-Free", "shape": "dot", "size": 22, "title": "Attack Goal: Remote Code Execution via Use-After-Free (G011)"}, {"color": "orange", "font": {"color": "white"}, "id": "S011", "label": "Code Execution\n(CVE-2013-5056)", "shape": "dot", "size": 20, "title": "Step: Code Execution\nCVE: CVE-2013-5056\nTactic: Execution\nTechnique: T1203: Exploitation for Client Execution\nProbability: 0.7"}, {"color": "blue", "font": {"color": "white"}, "id": "F10", "label": "CF F10", "shape": "dot", "size": 30, "title": "Critical Function ID: F10"}, {"color": "red", "font": {"color": "white"}, "id": "G012", "label": "Remote Command Execution via Cross-Device Secret", "shape": "dot", "size": 22, "title": "Attack Goal: Remote Command Execution via Cross-Device Secret (G012)"}, {"color": "orange", "font": {"color": "white"}, "id": "S012", "label": "Remote Command Execution\n(CVE-2014-7994)", "shape": "dot", "size": 20, "title": "Step: Remote Command Execution\nCVE: CVE-2014-7994\nTactic: Execution\nTechnique: T1059: Command and Scripting Interpreter\nProbability: 0.6"}, {"color": "red", "font": {"color": "white"}, "id": "G013", "label": "Privilege Escalation via Physical Access", "shape": "dot", "size": 22, "title": "Attack Goal: Privilege Escalation via Physical Access (G013)"}, {"color": "orange", "font": {"color": "white"}, "id": "S013", "label": "Shell Access via Physical Connection\n(CVE-2014-7995)", "shape": "dot", "size": 20, "title": "Step: Shell Access via Physical Connection\nCVE: CVE-2014-7995\nTactic: Privilege Escalation\nTechnique: T1068: Exploitation for Privilege Escalation\nProbability: 0.4"}, {"color": "red", "font": {"color": "white"}, "id": "G014", "label": "Remote Code Execution via JPEG Exploit", "shape": "dot", "size": 22, "title": "Attack Goal: Remote Code Execution via JPEG Exploit (G014)"}, {"color": "orange", "font": {"color": "white"}, "id": "S014", "label": "Code Execution via JPEG\n(CVE-2014-0301)", "shape": "dot", "size": 20, "title": "Step: Code Execution via JPEG\nCVE: CVE-2014-0301\nTactic: Execution\nTechnique: T1203: Exploitation for Client Execution\nProbability: 0.7"}, {"color": "blue", "font": {"color": "white"}, "id": "F08", "label": "CF F08", "shape": "dot", "size": 30, "title": "Critical Function ID: F08"}, {"color": "blue", "font": {"color": "white"}, "id": "F09", "label": "CF F09", "shape": "dot", "size": 30, "title": "Critical Function ID: F09"}, {"color": "red", "font": {"color": "white"}, "id": "G015", "label": "Information Disclosure or Denial of Service via Kernel Exploit", "shape": "dot", "size": 22, "title": "Attack Goal: Information Disclosure or Denial of Service via Kernel Exploit (G015)"}, {"color": "orange", "font": {"color": "white"}, "id": "S015A", "label": "Information Disclosure via Kernel Memory\n(CVE-2014-0323)", "shape": "dot", "size": 20, "title": "Step: Information Disclosure via Kernel Memory\nCVE: CVE-2014-0323\nTactic: Collection\nTechnique: T1005: Data from Local System\nProbability: 0.5"}, {"color": "orange", "font": {"color": "white"}, "id": "S015B", "label": "Denial of Service via System Hang\n(CVE-2014-0323)", "shape": "dot", "size": 20, "title": "Step: Denial of Service via System Hang\nCVE: CVE-2014-0323\nTactic: Impact\nTechnique: T1499: Endpoint Denial of Service\nProbability: 0.6"}, {"color": "red", "font": {"color": "white"}, "id": "G016", "label": "Privilege Escalation via Search Path Exploit", "shape": "dot", "size": 22, "title": "Attack Goal: Privilege Escalation via Search Path Exploit (G016)"}, {"color": "orange", "font": {"color": "white"}, "id": "S016", "label": "Privilege Escalation via Search Path\n(CVE-2014-0315)", "shape": "dot", "size": 20, "title": "Step: Privilege Escalation via Search Path\nCVE: CVE-2014-0315\nTactic: Privilege Escalation\nTechnique: T1203: Exploitation for Privilege Escalation\nProbability: 0.5"}, {"color": "red", "font": {"color": "white"}, "id": "G017", "label": "Denial of Service via USB Interface", "shape": "dot", "size": 22, "title": "Attack Goal: Denial of Service via USB Interface (G017)"}, {"color": "orange", "font": {"color": "white"}, "id": "S017", "label": "Denial of Service via USB Descriptor\n(CVE-2015-7833)", "shape": "dot", "size": 20, "title": "Step: Denial of Service via USB Descriptor\nCVE: CVE-2015-7833\nTactic: Impact\nTechnique: T1499: Endpoint Denial of Service\nProbability: 0.4"}, {"color": "red", "font": {"color": "white"}, "id": "G018", "label": "Network Storm via Layer 2 Exploit", "shape": "dot", "size": 22, "title": "Attack Goal: Network Storm via Layer 2 Exploit (G018)"}, {"color": "orange", "font": {"color": "white"}, "id": "S018", "label": "Network Storm via Layer 2\n(CVE-2016-6473)", "shape": "dot", "size": 20, "title": "Step: Network Storm via Layer 2\nCVE: CVE-2016-6473\nTactic: Impact\nTechnique: T1499: Network Denial of Service\nProbability: 0.6"}, {"color": "red", "font": {"color": "white"}, "id": "G019", "label": "Denial of Service via LLDP Packet", "shape": "dot", "size": 22, "title": "Attack Goal: Denial of Service via LLDP Packet (G019)"}, {"color": "orange", "font": {"color": "white"}, "id": "S019", "label": "Denial of Service via LLDP Packet\n(CVE-2016-1425)", "shape": "dot", "size": 20, "title": "Step: Denial of Service via LLDP Packet\nCVE: CVE-2016-1425\nTactic: Impact\nTechnique: T1499: Network Denial of Service\nProbability: 0.7"}, {"color": "red", "font": {"color": "white"}, "id": "G020", "label": "Arbitrary Command Execution via Cisco IOS XE", "shape": "dot", "size": 22, "title": "Attack Goal: Arbitrary Command Execution via Cisco IOS XE (G020)"}, {"color": "orange", "font": {"color": "white"}, "id": "S020", "label": "Command Execution via Startup Script\n(CVE-2017-6606)", "shape": "dot", "size": 20, "title": "Step: Command Execution via Startup Script\nCVE: CVE-2017-6606\nTactic: Execution\nTechnique: T1059: Command and Scripting Interpreter\nProbability: 0.6"}, {"color": "red", "font": {"color": "white"}, "id": "G021", "label": "Denial of Service via Cisco IOS Memory Leak", "shape": "dot", "size": 22, "title": "Attack Goal: Denial of Service via Cisco IOS Memory Leak (G021)"}, {"color": "orange", "font": {"color": "white"}, "id": "S021", "label": "Memory Leak via Forwarding Queue\n(CVE-2017-3803)", "shape": "dot", "size": 20, "title": "Step: Memory Leak via Forwarding Queue\nCVE: CVE-2017-3803\nTactic: Impact\nTechnique: T1499: Endpoint Denial of Service\nProbability: 0.5"}, {"color": "red", "font": {"color": "white"}, "id": "G022", "label": "Remote Code Execution via Windows Search", "shape": "dot", "size": 22, "title": "Attack Goal: Remote Code Execution via Windows Search (G022)"}, {"color": "orange", "font": {"color": "white"}, "id": "S022", "label": "Command Execution via Windows Search\n(CVE-2017-8543)", "shape": "dot", "size": 20, "title": "Step: Command Execution via Windows Search\nCVE: CVE-2017-8543\nTactic: Execution\nTechnique: T1059: Command and Scripting Interpreter\nProbability: 0.7"}, {"color": "red", "font": {"color": "white"}, "id": "G023", "label": "Code Execution via Malicious PPT File", "shape": "dot", "size": 22, "title": "Attack Goal: Code Execution via Malicious PPT File (G023)"}, {"color": "orange", "font": {"color": "white"}, "id": "S023", "label": "Execution via Malicious PPT File\n(CVE-2017-12607)", "shape": "dot", "size": 20, "title": "Step: Execution via Malicious PPT File\nCVE: CVE-2017-12607\nTactic: Execution\nTechnique: T1204: User Execution\nProbability: 0.4"}, {"color": "red", "font": {"color": "white"}, "id": "G024", "label": "Privilege Escalation via McAfee VirusScan", "shape": "dot", "size": 22, "title": "Attack Goal: Privilege Escalation via McAfee VirusScan (G024)"}, {"color": "orange", "font": {"color": "white"}, "id": "S024", "label": "Privilege Escalation via VirusScan Exploit\n(CVE-2020-7337)", "shape": "dot", "size": 20, "title": "Step: Privilege Escalation via VirusScan Exploit\nCVE: CVE-2020-7337\nTactic: Privilege Escalation\nTechnique: T1068: Exploitation for Privilege Escalation\nProbability: 0.6"}, {"color": "red", "font": {"color": "white"}, "id": "G025", "label": "XSS Vulnerability Exploitation in Nessus", "shape": "dot", "size": 22, "title": "Attack Goal: XSS Vulnerability Exploitation in Nessus (G025)"}, {"color": "orange", "font": {"color": "white"}, "id": "S025", "label": "Stored XSS Attack in Nessus\n(CVE-2020-5765)", "shape": "dot", "size": 20, "title": "Step: Stored XSS Attack in Nessus\nCVE: CVE-2020-5765\nTactic: Execution\nTechnique: T1059: Command and Scripting Interpreter\nProbability: 0.5"}, {"color": "red", "font": {"color": "white"}, "id": "G026", "label": "Document Hyperlink Execution in OpenOffice", "shape": "dot", "size": 22, "title": "Attack Goal: Document Hyperlink Execution in OpenOffice (G026)"}, {"color": "orange", "font": {"color": "white"}, "id": "S026", "label": "Script Execution via OpenOffice Hyperlink\n(CVE-2020-13958)", "shape": "dot", "size": 20, "title": "Step: Script Execution via OpenOffice Hyperlink\nCVE: CVE-2020-13958\nTactic: Execution\nTechnique: T1204: User Execution\nProbability: 0.6"}, {"color": "red", "font": {"color": "white"}, "id": "G027", "label": "Privilege Escalation in Nessus", "shape": "dot", "size": 22, "title": "Attack Goal: Privilege Escalation in Nessus (G027)"}, {"color": "orange", "font": {"color": "white"}, "id": "S027", "label": "Local Privilege Escalation in Nessus\n(CVE-2021-20135)", "shape": "dot", "size": 20, "title": "Step: Local Privilege Escalation in Nessus\nCVE: CVE-2021-20135\nTactic: Privilege Escalation\nTechnique: T1068: Exploitation for Privilege Escalation\nProbability: 0.6"}, {"color": "red", "font": {"color": "white"}, "id": "G028", "label": "Exploitation for Client Execution in Apache OpenOffice", "shape": "dot", "size": 22, "title": "Attack Goal: Exploitation for Client Execution in Apache OpenOffice (G028)"}, {"color": "orange", "font": {"color": "white"}, "id": "S028", "label": "Buffer Overflow via DBF Document in OpenOffice\n(CVE-2021-33035)", "shape": "dot", "size": 20, "title": "Step: Buffer Overflow via DBF Document in OpenOffice\nCVE: CVE-2021-33035\nTactic: Execution\nTechnique: T1203: Exploitation for Client Execution\nProbability: 0.5"}, {"color": "red", "font": {"color": "white"}, "id": "G029", "label": "Brute Force on Passwords in Apache OpenOffice", "shape": "dot", "size": 22, "title": "Attack Goal: Brute Force on Passwords in Apache OpenOffice (G029)"}, {"color": "orange", "font": {"color": "white"}, "id": "S029", "label": "Brute Force Attack on Weak Password Encryption\n(CVE-2022-37401)", "shape": "dot", "size": 20, "title": "Step: Brute Force Attack on Weak Password Encryption\nCVE: CVE-2022-37401\nTactic: Credential Access\nTechnique: T1110: Brute Force\nProbability: 0.6"}, {"color": "red", "font": {"color": "white"}, "id": "G030", "label": "Brute Force on Passwords in LibreOffice", "shape": "dot", "size": 22, "title": "Attack Goal: Brute Force on Passwords in LibreOffice (G030)"}, {"color": "orange", "font": {"color": "white"}, "id": "S030", "label": "Brute Force Attack on Weak Password Encryption\n(CVE-2022-26307)", "shape": "dot", "size": 20, "title": "Step: Brute Force Attack on Weak Password Encryption\nCVE: CVE-2022-26307\nTactic: Credential Access\nTechnique: T1110: Brute Force\nProbability: 0.6"}, {"color": "red", "font": {"color": "white"}, "id": "G031", "label": "Brute Force Attack on VPN Access", "shape": "dot", "size": 22, "title": "Attack Goal: Brute Force Attack on VPN Access (G031)"}, {"color": "orange", "font": {"color": "white"}, "id": "S031", "label": "Brute Force Attack on VPN Credentials\n(CVE-2023-20269)", "shape": "dot", "size": 20, "title": "Step: Brute Force Attack on VPN Credentials\nCVE: CVE-2023-20269\nTactic: Credential Access\nTechnique: T1110: Brute Force\nProbability: 0.5"}, {"color": "red", "font": {"color": "white"}, "id": "G032", "label": "ACL Bypass for Unauthorized Access", "shape": "dot", "size": 22, "title": "Attack Goal: ACL Bypass for Unauthorized Access (G032)"}, {"color": "orange", "font": {"color": "white"}, "id": "S032", "label": "ACL Bypass via Per-User-Override Feature\n(CVE-2023-20256)", "shape": "dot", "size": 20, "title": "Step: ACL Bypass via Per-User-Override Feature\nCVE: CVE-2023-20256\nTactic: Defense Evasion\nTechnique: T1562: Impair Defenses\nProbability: 0.4"}, {"color": "red", "font": {"color": "white"}, "id": "G033", "label": "Bypass SSL VPN Certificate Authentication", "shape": "dot", "size": 22, "title": "Attack Goal: Bypass SSL VPN Certificate Authentication (G033)"}, {"color": "orange", "font": {"color": "white"}, "id": "S033", "label": "Bypass Multiple Certificate Authentication Policy\n(CVE-2023-20247)", "shape": "dot", "size": 20, "title": "Step: Bypass Multiple Certificate Authentication Policy\nCVE: CVE-2023-20247\nTactic: Credential Access\nTechnique: T1556: Modify Authentication Process\nProbability: 0.6"}, {"color": "red", "font": {"color": "white"}, "id": "G034", "label": "SNMP-based Denial of Service", "shape": "dot", "size": 22, "title": "Attack Goal: SNMP-based Denial of Service (G034)"}, {"color": "orange", "font": {"color": "white"}, "id": "S034", "label": "Denial of Service via SNMP Request\n(CVE-2023-20200)", "shape": "dot", "size": 20, "title": "Step: Denial of Service via SNMP Request\nCVE: CVE-2023-20200\nTactic: Impact\nTechnique: T1499: Endpoint Denial of Service\nProbability: 0.7"}, {"color": "red", "font": {"color": "white"}, "id": "G035", "label": "Denial of Service via HTTPS Requests", "shape": "dot", "size": 22, "title": "Attack Goal: Denial of Service via HTTPS Requests (G035)"}, {"color": "orange", "font": {"color": "white"}, "id": "S035", "label": "Denial of Service via Crafted HTTPS Requests\n(CVE-2023-20095)", "shape": "dot", "size": 20, "title": "Step: Denial of Service via Crafted HTTPS Requests\nCVE: CVE-2023-20095\nTactic: Impact\nTechnique: T1499: Endpoint Denial of Service\nProbability: 0.7"}, {"color": "red", "font": {"color": "white"}, "id": "G036", "label": "Privilege Escalation via CLI Command Injection", "shape": "dot", "size": 22, "title": "Attack Goal: Privilege Escalation via CLI Command Injection (G036)"}, {"color": "orange", "font": {"color": "white"}, "id": "S036", "label": "Privilege Escalation via CLI Command Injection\n(CVE-2023-20015)", "shape": "dot", "size": 20, "title": "Step: Privilege Escalation via CLI Command Injection\nCVE: CVE-2023-20015\nTactic: Privilege Escalation\nTechnique: T1068: Exploitation for Privilege Escalation\nProbability: 0.6"}, {"color": "red", "font": {"color": "white"}, "id": "G037", "label": "Privilege Escalation via Android Permissions Bypass", "shape": "dot", "size": 22, "title": "Attack Goal: Privilege Escalation via Android Permissions Bypass (G037)"}, {"color": "orange", "font": {"color": "white"}, "id": "S037", "label": "Disable Microphone Privacy Indicator\n(CVE-2023-20934)", "shape": "dot", "size": 20, "title": "Step: Disable Microphone Privacy Indicator\nCVE: CVE-2023-20934\nTactic: Privilege Escalation\nTechnique: T1068: Exploitation for Privilege Escalation\nProbability: 0.5"}, {"color": "red", "font": {"color": "white"}, "id": "G038", "label": "Privilege Escalation via Nessus Host Exploit", "shape": "dot", "size": 22, "title": "Attack Goal: Privilege Escalation via Nessus Host Exploit (G038)"}, {"color": "orange", "font": {"color": "white"}, "id": "S038", "label": "Privilege Escalation via Nessus Exploit\n(CVE-2023-0101)", "shape": "dot", "size": 20, "title": "Step: Privilege Escalation via Nessus Exploit\nCVE: CVE-2023-0101\nTactic: Privilege Escalation\nTechnique: T1068: Exploitation for Privilege Escalation\nProbability: 0.6"}, {"color": "red", "font": {"color": "white"}, "id": "G039", "label": "Denial of Service via SAML Request in Splunk", "shape": "dot", "size": 22, "title": "Attack Goal: Denial of Service via SAML Request in Splunk (G039)"}, {"color": "orange", "font": {"color": "white"}, "id": "S039", "label": "Denial of Service via Malformed SAML Request\n(CVE-2023-40593)", "shape": "dot", "size": 20, "title": "Step: Denial of Service via Malformed SAML Request\nCVE: CVE-2023-40593\nTactic: Impact\nTechnique: T1499: Endpoint Denial of Service\nProbability: 0.7"}, {"color": "red", "font": {"color": "white"}, "id": "G040", "label": "Command Execution via Reflected XSS", "shape": "dot", "size": 22, "title": "Attack Goal: Command Execution via Reflected XSS (G040)"}, {"color": "orange", "font": {"color": "white"}, "id": "S040", "label": "Reflected XSS Exploit for Command Execution\n(CVE-2023-40592)", "shape": "dot", "size": 20, "title": "Step: Reflected XSS Exploit for Command Execution\nCVE: CVE-2023-40592\nTactic: Execution\nTechnique: T1059: Command and Scripting Interpreter\nProbability: 0.5"}, {"color": "red", "font": {"color": "white"}, "id": "G041", "label": "Macro Execution in OpenOffice", "shape": "dot", "size": 22, "title": "Attack Goal: Macro Execution in OpenOffice (G041)"}, {"color": "orange", "font": {"color": "white"}, "id": "S041", "label": "Automatic Macro Execution in OpenOffice\n(CVE-2023-47804)", "shape": "dot", "size": 20, "title": "Step: Automatic Macro Execution in OpenOffice\nCVE: CVE-2023-47804\nTactic: Execution\nTechnique: T1203: Exploitation for Client Execution\nProbability: 0.6"}, {"color": "red", "font": {"color": "white"}, "id": "G042", "label": "Macro Execution via Link in OpenOffice", "shape": "dot", "size": 22, "title": "Attack Goal: Macro Execution via Link in OpenOffice (G042)"}, {"color": "orange", "font": {"color": "white"}, "id": "S042", "label": "Unauthorized Macro Execution in OpenOffice\n(CVE-2022-47502)", "shape": "dot", "size": 20, "title": "Step: Unauthorized Macro Execution in OpenOffice\nCVE: CVE-2022-47502\nTactic: Execution\nTechnique: T1203: Exploitation for Client Execution\nProbability: 0.6"}, {"color": "red", "font": {"color": "white"}, "id": "G043", "label": "Data Destruction via API in Splunk KV Store", "shape": "dot", "size": 22, "title": "Attack Goal: Data Destruction via API in Splunk KV Store (G043)"}, {"color": "orange", "font": {"color": "white"}, "id": "S043", "label": "KV Store Data Destruction via API Access\n(CVE-2024-23675)", "shape": "dot", "size": 20, "title": "Step: KV Store Data Destruction via API Access\nCVE: CVE-2024-23675\nTactic: Impact\nTechnique: T1485: Data Destruction\nProbability: 0.5"}, {"color": "red", "font": {"color": "white"}, "id": "G044", "label": "Unauthorized Access to High-Privilege Metrics in Splunk", "shape": "dot", "size": 22, "title": "Attack Goal: Unauthorized Access to High-Privilege Metrics in Splunk (G044)"}, {"color": "orange", "font": {"color": "white"}, "id": "S044", "label": "Metric Access via `mrollup` Command\n(CVE-2024-23676)", "shape": "dot", "size": 20, "title": "Step: Metric Access via `mrollup` Command\nCVE: CVE-2024-23676\nTactic: Credential Access\nTechnique: T1078: Valid Accounts\nProbability: 0.4"}, {"color": "red", "font": {"color": "white"}, "id": "G046", "label": "Unauthorized Access to High-Privilege Metrics in Splunk", "shape": "dot", "size": 22, "title": "Attack Goal: Unauthorized Access to High-Privilege Metrics in Splunk (G046)"}, {"color": "orange", "font": {"color": "white"}, "id": "S046", "label": "Metric Access via `mrollup` Command\n(CVE-2024-23676)", "shape": "dot", "size": 20, "title": "Step: Metric Access via `mrollup` Command\nCVE: CVE-2024-23676\nTactic: Credential Access\nTechnique: T1078: Valid Accounts\nProbability: 0.4"}, {"color": "red", "font": {"color": "white"}, "id": "G045", "label": "Data Destruction via API in Splunk KV Store", "shape": "dot", "size": 22, "title": "Attack Goal: Data Destruction via API in Splunk KV Store (G045)"}, {"color": "orange", "font": {"color": "white"}, "id": "S045", "label": "KV Store Data Destruction via API Access\n(CVE-2024-23675)", "shape": "dot", "size": 20, "title": "Step: KV Store Data Destruction via API Access\nCVE: CVE-2024-23675\nTactic: Impact\nTechnique: T1485: Data Destruction\nProbability: 0.5"}, {"color": "red", "font": {"color": "white"}, "id": "G047", "label": "Unauthorized Firmware Installation on Cisco-Meraki Devices", "shape": "dot", "size": 22, "title": "Attack Goal: Unauthorized Firmware Installation on Cisco-Meraki Devices (G047)"}, {"color": "orange", "font": {"color": "white"}, "id": "S047", "label": "Firmware Installation via Local Status Page Exploit\n(CVE-2018-0284)", "shape": "dot", "size": 20, "title": "Step: Firmware Installation via Local Status Page Exploit\nCVE: CVE-2018-0284\nTactic: Privilege Escalation\nTechnique: T1068: Exploitation for Privilege Escalation\nProbability: 0.6"}]);
+                  edges = new vis.DataSet([{"arrows": "to", "color": "gray", "from": "G001", "to": "S001"}, {"arrows": "to", "color": "blue", "from": "S001", "to": "F01"}, {"arrows": "to", "color": "blue", "from": "S001", "to": "F02"}, {"arrows": "to", "color": "gray", "from": "G002", "to": "S002"}, {"arrows": "to", "color": "blue", "from": "S002", "to": "F03"}, {"arrows": "to", "color": "blue", "from": "S002", "to": "F04"}, {"arrows": "to", "color": "gray", "from": "G003", "to": "S003"}, {"arrows": "to", "color": "blue", "from": "S003", "to": "F05"}, {"arrows": "to", "color": "blue", "from": "S003", "to": "F06"}, {"arrows": "to", "color": "gray", "from": "G004", "to": "S004"}, {"arrows": "to", "color": "blue", "from": "S004", "to": "F01"}, {"arrows": "to", "color": "blue", "from": "S004", "to": "F05"}, {"arrows": "to", "color": "gray", "from": "G005", "to": "S005"}, {"arrows": "to", "color": "blue", "from": "S005", "to": "F03"}, {"arrows": "to", "color": "blue", "from": "S005", "to": "F04"}, {"arrows": "to", "color": "gray", "from": "G006", "to": "S006"}, {"arrows": "to", "color": "blue", "from": "S006", "to": "F02"}, {"arrows": "to", "color": "blue", "from": "S006", "to": "F06"}, {"arrows": "to", "color": "gray", "from": "G007", "to": "S007"}, {"arrows": "to", "color": "blue", "from": "S007", "to": "F03"}, {"arrows": "to", "color": "blue", "from": "S007", "to": "F04"}, {"arrows": "to", "color": "gray", "from": "G008", "to": "S008"}, {"arrows": "to", "color": "blue", "from": "S008", "to": "F04"}, {"arrows": "to", "color": "blue", "from": "S008", "to": "F05"}, {"arrows": "to", "color": "gray", "from": "G009", "to": "S009"}, {"arrows": "to", "color": "blue", "from": "S009", "to": "F06"}, {"arrows": "to", "color": "blue", "from": "S009", "to": "F07"}, {"arrows": "to", "color": "gray", "from": "G010", "to": "S010"}, {"arrows": "to", "color": "blue", "from": "S010", "to": "F03"}, {"arrows": "to", "color": "blue", "from": "S010", "to": "F04"}, {"arrows": "to", "color": "gray", "from": "G011", "to": "S011"}, {"arrows": "to", "color": "blue", "from": "S011", "to": "F10"}, {"arrows": "to", "color": "gray", "from": "G012", "to": "S012"}, {"arrows": "to", "color": "blue", "from": "S012", "to": "F02"}, {"arrows": "to", "color": "blue", "from": "S012", "to": "F03"}, {"arrows": "to", "color": "gray", "from": "G013", "to": "S013"}, {"arrows": "to", "color": "blue", "from": "S013", "to": "F05"}, {"arrows": "to", "color": "gray", "from": "G014", "to": "S014"}, {"arrows": "to", "color": "blue", "from": "S014", "to": "F08"}, {"arrows": "to", "color": "blue", "from": "S014", "to": "F09"}, {"arrows": "to", "color": "gray", "from": "G015", "to": "S015A"}, {"arrows": "to", "color": "gray", "from": "G015", "to": "S015B"}, {"arrows": "to", "color": "blue", "from": "S015A", "to": "F10"}, {"arrows": "to", "color": "blue", "from": "S015B", "to": "F08"}, {"arrows": "to", "color": "blue", "from": "S015B", "to": "F09"}, {"arrows": "to", "color": "gray", "from": "G016", "to": "S016"}, {"arrows": "to", "color": "blue", "from": "S016", "to": "F10"}, {"arrows": "to", "color": "gray", "from": "G017", "to": "S017"}, {"arrows": "to", "color": "blue", "from": "S017", "to": "F07"}, {"arrows": "to", "color": "blue", "from": "S017", "to": "F08"}, {"arrows": "to", "color": "gray", "from": "G018", "to": "S018"}, {"arrows": "to", "color": "blue", "from": "S018", "to": "F02"}, {"arrows": "to", "color": "blue", "from": "S018", "to": "F03"}, {"arrows": "to", "color": "gray", "from": "G019", "to": "S019"}, {"arrows": "to", "color": "blue", "from": "S019", "to": "F05"}, {"arrows": "to", "color": "blue", "from": "S019", "to": "F06"}, {"arrows": "to", "color": "gray", "from": "G020", "to": "S020"}, {"arrows": "to", "color": "blue", "from": "S020", "to": "F05"}, {"arrows": "to", "color": "blue", "from": "S020", "to": "F06"}, {"arrows": "to", "color": "gray", "from": "G021", "to": "S021"}, {"arrows": "to", "color": "blue", "from": "S021", "to": "F08"}, {"arrows": "to", "color": "blue", "from": "S021", "to": "F09"}, {"arrows": "to", "color": "gray", "from": "G022", "to": "S022"}, {"arrows": "to", "color": "blue", "from": "S022", "to": "F10"}, {"arrows": "to", "color": "gray", "from": "G023", "to": "S023"}, {"arrows": "to", "color": "blue", "from": "S023", "to": "F03"}, {"arrows": "to", "color": "blue", "from": "S023", "to": "F04"}, {"arrows": "to", "color": "gray", "from": "G024", "to": "S024"}, {"arrows": "to", "color": "blue", "from": "S024", "to": "F08"}, {"arrows": "to", "color": "blue", "from": "S024", "to": "F09"}, {"arrows": "to", "color": "gray", "from": "G025", "to": "S025"}, {"arrows": "to", "color": "blue", "from": "S025", "to": "F05"}, {"arrows": "to", "color": "blue", "from": "S025", "to": "F06"}, {"arrows": "to", "color": "gray", "from": "G026", "to": "S026"}, {"arrows": "to", "color": "blue", "from": "S026", "to": "F10"}, {"arrows": "to", "color": "gray", "from": "G027", "to": "S027"}, {"arrows": "to", "color": "blue", "from": "S027", "to": "F10"}, {"arrows": "to", "color": "gray", "from": "G028", "to": "S028"}, {"arrows": "to", "color": "blue", "from": "S028", "to": "F05"}, {"arrows": "to", "color": "blue", "from": "S028", "to": "F06"}, {"arrows": "to", "color": "gray", "from": "G029", "to": "S029"}, {"arrows": "to", "color": "blue", "from": "S029", "to": "F08"}, {"arrows": "to", "color": "blue", "from": "S029", "to": "F09"}, {"arrows": "to", "color": "gray", "from": "G030", "to": "S030"}, {"arrows": "to", "color": "blue", "from": "S030", "to": "F08"}, {"arrows": "to", "color": "blue", "from": "S030", "to": "F09"}, {"arrows": "to", "color": "gray", "from": "G031", "to": "S031"}, {"arrows": "to", "color": "blue", "from": "S031", "to": "F08"}, {"arrows": "to", "color": "blue", "from": "S031", "to": "F09"}, {"arrows": "to", "color": "gray", "from": "G032", "to": "S032"}, {"arrows": "to", "color": "blue", "from": "S032", "to": "F05"}, {"arrows": "to", "color": "blue", "from": "S032", "to": "F06"}, {"arrows": "to", "color": "gray", "from": "G033", "to": "S033"}, {"arrows": "to", "color": "blue", "from": "S033", "to": "F05"}, {"arrows": "to", "color": "blue", "from": "S033", "to": "F06"}, {"arrows": "to", "color": "gray", "from": "G034", "to": "S034"}, {"arrows": "to", "color": "blue", "from": "S034", "to": "F01"}, {"arrows": "to", "color": "blue", "from": "S034", "to": "F02"}, {"arrows": "to", "color": "gray", "from": "G035", "to": "S035"}, {"arrows": "to", "color": "blue", "from": "S035", "to": "F05"}, {"arrows": "to", "color": "blue", "from": "S035", "to": "F06"}, {"arrows": "to", "color": "gray", "from": "G036", "to": "S036"}, {"arrows": "to", "color": "blue", "from": "S036", "to": "F05"}, {"arrows": "to", "color": "blue", "from": "S036", "to": "F06"}, {"arrows": "to", "color": "gray", "from": "G037", "to": "S037"}, {"arrows": "to", "color": "blue", "from": "S037", "to": "F07"}, {"arrows": "to", "color": "blue", "from": "S037", "to": "F08"}, {"arrows": "to", "color": "gray", "from": "G038", "to": "S038"}, {"arrows": "to", "color": "blue", "from": "S038", "to": "F05"}, {"arrows": "to", "color": "blue", "from": "S038", "to": "F06"}, {"arrows": "to", "color": "gray", "from": "G039", "to": "S039"}, {"arrows": "to", "color": "blue", "from": "S039", "to": "F05"}, {"arrows": "to", "color": "blue", "from": "S039", "to": "F06"}, {"arrows": "to", "color": "gray", "from": "G040", "to": "S040"}, {"arrows": "to", "color": "blue", "from": "S040", "to": "F05"}, {"arrows": "to", "color": "blue", "from": "S040", "to": "F06"}, {"arrows": "to", "color": "gray", "from": "G041", "to": "S041"}, {"arrows": "to", "color": "blue", "from": "S041", "to": "F03"}, {"arrows": "to", "color": "blue", "from": "S041", "to": "F04"}, {"arrows": "to", "color": "gray", "from": "G042", "to": "S042"}, {"arrows": "to", "color": "blue", "from": "S042", "to": "F03"}, {"arrows": "to", "color": "blue", "from": "S042", "to": "F04"}, {"arrows": "to", "color": "gray", "from": "G043", "to": "S043"}, {"arrows": "to", "color": "blue", "from": "S043", "to": "F07"}, {"arrows": "to", "color": "blue", "from": "S043", "to": "F08"}, {"arrows": "to", "color": "gray", "from": "G044", "to": "S044"}, {"arrows": "to", "color": "blue", "from": "S044", "to": "F09"}, {"arrows": "to", "color": "blue", "from": "S044", "to": "F10"}, {"arrows": "to", "color": "gray", "from": "G046", "to": "S046"}, {"arrows": "to", "color": "blue", "from": "S046", "to": "F09"}, {"arrows": "to", "color": "blue", "from": "S046", "to": "F10"}, {"arrows": "to", "color": "gray", "from": "G045", "to": "S045"}, {"arrows": "to", "color": "blue", "from": "S045", "to": "F07"}, {"arrows": "to", "color": "blue", "from": "S045", "to": "F08"}, {"arrows": "to", "color": "gray", "from": "G047", "to": "S047"}, {"arrows": "to", "color": "blue", "from": "S047", "to": "F05"}, {"arrows": "to", "color": "blue", "from": "S047", "to": "F06"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "barnesHut": {
+            "avoidOverlap": 0,
+            "centralGravity": 0.2,
+            "damping": 0.09,
+            "gravitationalConstant": -2000,
+            "springConstant": 0.05,
+            "springLength": 200
+        },
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+                      network.on("stabilizationProgress", function(params) {
+                          document.getElementById('loadingBar').removeAttribute("style");
+                          var maxWidth = 496;
+                          var minWidth = 20;
+                          var widthFactor = params.iterations/params.total;
+                          var width = Math.max(minWidth,maxWidth * widthFactor);
+                          document.getElementById('bar').style.width = width + 'px';
+                          document.getElementById('text').innerHTML = Math.round(widthFactor*100) + '%';
+                      });
+                      network.once("stabilizationIterationsDone", function() {
+                          document.getElementById('text').innerHTML = '100%';
+                          document.getElementById('bar').style.width = '496px';
+                          document.getElementById('loadingBar').style.opacity = 0;
+                          // really clean the dom element
+                          setTimeout(function () {document.getElementById('loadingBar').style.display = 'none';}, 500);
+                      });
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
