@@ -1,15 +1,20 @@
 import os
 import json
 import dash
+from dash import dash_table
 from dash import html, dcc, Output, Input, State, callback, ctx
 import dash_cytoscape as cyto
 import dash_bootstrap_components as dbc
-from app.services.cvss_service import (
-    extract_unique_cves,
-    fetch_cvss_metadata,
-    write_cvss_cache,
-    CVSS_CACHE_PATH
-)
+from collections import deque
+import networkx as nx
+from app.services.cvss_service import (extract_unique_cves, fetch_cvss_metadata,
+    write_cvss_cache, CVSS_CACHE_PATH )
+from app.services.data_loader import get_software_inventory, get_software_cves, get_critical_functions
+from app.services.constraints import ( is_valid_entry_node, can_traverse_rack_boundary,
+    has_access_to_node, nodes_share_vulnerable_software, build_privilege_lookup_from_type)
+
+PRIVILEGE_LOOKUP = build_privilege_lookup_from_type()
+
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -366,7 +371,17 @@ def simulation_apt_layout():
                         "width": 70,
                         "height": 70,
                     },
-                }
+                },
+                {
+                    "selector": ".reachable",
+                    "style": {
+                        "background-color": "#FF4136",
+                        "line-color": "#FF4136",
+                        "border-width": 3,
+                        "width": 65,
+                        "height": 65
+                    }
+                },
             ]
         ),
         
@@ -434,5 +449,348 @@ def simulation_apt_layout():
         dbc.Card([
             dbc.CardHeader("Simulation Results"),
             dbc.CardBody(html.Div(id="sim-results-table"))
-        ], style={"marginBottom": "50px"})
+        ], style={"marginBottom": "50px"}),
+        
+        # Attack Log Section
+        dbc.Card([
+            dbc.CardHeader("Attack Log"),
+            dbc.CardBody([
+                dash_table.DataTable(
+                    id="sim-attack-log",
+                    columns=[
+                        {"name": "Entry Node", "id": "Entry Node"},
+                        {"name": "Reachable Nodes", "id": "Reachable Nodes"}
+                    ],
+                    style_cell={
+                        "textAlign": "left",
+                        "whiteSpace": "pre-line",
+                        "height": "auto",
+                        "fontSize": 12
+                    },
+                    style_table={"overflowX": "auto"},
+                    page_size=10
+                )
+            ])
+        ], style={"marginTop": "30px", "marginBottom": "50px"}),
+        
+        # Full Attack Graph Header 
+        dbc.Card([
+            dbc.CardHeader("CVE Based Attack Propagation Graph for All CVEs"),
+        ], style={"marginBottom": "5px", "width": "30%"}),
+        # Full Attack Graph Section
+        cyto.Cytoscape(
+            id="sim-attack-graph",
+            layout={"name": "breadthfirst",
+                    "padding": 20,
+                    "animate": True,
+                },
+            style={"width": "100%",
+                    "height": "700px", 
+                    "marginTop": "5px",
+                    "marginBottom": "50px",                     
+                    "border": "2px solid #007BFF",
+                    "borderRadius": "10px",
+                    "padding": "10px",
+                    "backgroundColor": "#f9f9f9"
+                },
+            elements=[],
+            minZoom=0.5,
+            maxZoom=1.05,
+            zoomingEnabled=True,
+            stylesheet=[
+                {
+                    "selector": "node",
+                    "style": {
+                        "background-color": "#FF4136",
+                        "label": "data(label)",
+                        "width": 60,
+                        "height": 60
+                    }
+                },
+                {
+                    "selector": "edge",
+                    "style": {
+                        "line-color": "#FF4136",
+                        "width": 2
+                    }
+                }
+            ]
+        ), 
+        dbc.Card([
+            dbc.CardBody(id="sim-attack-node-hover-info")
+        ], style={"width": "30%", "marginTop": "10px", "marginBottom": "20px"}, color="light")
+    ])
+
+
+def build_attack_graph(graph_data, entry_node_ids, score_threshold=0.0):
+    """
+    Builds an attack graph starting from filtered entry nodes.
+
+    This simulates attacker reachability by traversing the system graph topology
+    starting from nodes that match the selected CVE and CVSS filters.
+
+    For each entry node:
+    1. Start traversal from the node (BFS).
+    2. Only follow edges to connected nodes that also have at least one CVE
+        with a score above a defined threshold (i.e., exploitable).
+    3. Continue traversal recursively until no more valid nodes can be reached.
+    4. Collect all visited nodes as reachable from that entry point.
+
+    Returns:
+    - A list of all reachable node IDs (for graph coloring/labeling).
+    - A list of logs showing which nodes were reached from each entry node.
+    
+    ---
+    
+    This can be used to visualize attack paths and assess the system's resilience
+    against potential attacks.
+    It can be done using DFS or BFS. In this case, BFS is used for simplicity.
+    
+    BFS explores nodes level-by-level — simulates how attacks spread in real time 
+    (e.g., “first compromise neighbors, then neighbors of neighbors”).
+    It builds shortest-path reachability trees
+    which can be used to show minimum number of steps to compromise or
+    to assign weights/costs/delays (e.g., for probabilistic or time-aware attack models)
+    Most real-world attack propagation tools (like TVA, NetSPA)
+    use a BFS-like logic for phase-based simulation.
+
+    """
+    G = nx.DiGraph()
+    node_lookup = {}
+
+    for el in graph_data:
+        if "data" in el and "id" in el["data"]:
+            node_id = el["data"]["id"]
+            G.add_node(node_id, **el["data"])
+            node_lookup[node_id] = el["data"]
+
+    for el in graph_data:
+        d = el.get("data", {})
+        if "source" in d and "target" in d:
+            src = d["source"]
+            tgt = d["target"]
+            src_score = max(G.nodes[src].get("CVE_NVD", {}).values(), default=0)
+            tgt_score = max(G.nodes[tgt].get("CVE_NVD", {}).values(), default=0)
+            if src_score >= score_threshold and tgt_score >= score_threshold:
+                G.add_edge(src, tgt)
+
+    attack_subgraph = nx.DiGraph()
+    reachable = set()
+    attack_log = []
+
+    for entry in entry_node_ids:
+        if entry not in G:
+            continue
+
+        visited = set()
+        queue = deque([entry])
+
+        while queue:
+            current = queue.popleft()
+            if current in visited:
+                continue
+            visited.add(current)
+            reachable.add(current)
+
+            for neighbor in G.successors(current):
+                queue.append(neighbor)
+                attack_subgraph.add_edge(current, neighbor)
+
+        attack_log.append({
+            "entry": entry,
+            # "reachable": sorted(visited)
+            "reachable": [
+                f"{nid} ({data.get('node_name', '')}, {data.get('node_type', '')}, "
+                f"CVEs: {len(data.get('CVE', []))}, Score: {sum(data.get('CVE_NVD', {}).values()):.1f})"
+                for nid in sorted(visited)
+                if (data := node_lookup.get(nid))
+            ]
+        })
+
+    return list(reachable), attack_log, attack_subgraph
+
+def format_attack_log(attack_log, node_lookup):
+    """Enriches and formats the attack log for UI display."""
+    formatted = []
+    for entry in attack_log:
+        entry_id = entry["entry"]
+        reachable = entry["reachable"]
+
+        entry_node = node_lookup.get(entry_id, {})
+        entry_label = f"{entry_id} ({entry_node.get('node_name', 'N/A')}, {entry_node.get('node_type', 'N/A')}, CVEs: {len(entry_node.get('CVE', []))}, Score: {round(sum(entry_node.get('CVE_NVD', {}).values()), 1)})"
+
+        reach_labels = []
+        for nid in reachable:
+            n = node_lookup.get(nid, {})
+            label = f"{nid} ({n.get('node_name', 'N/A')}, {n.get('node_type', 'N/A')}, CVEs: {len(n.get('CVE', []))}, Score: {round(sum(n.get('CVE_NVD', {}).values()), 1)})"
+            reach_labels.append(label)
+
+        formatted.append({
+            "Entry Node": entry_label,
+            "Attack Reach": reach_labels
+        })
+
+    return formatted
+
+@callback(
+    Output("sim-attack-graph", "elements"),
+    Output("sim-attack-log", "data"),
+    Input("sim-run-btn", "n_clicks"),
+    State("sim-system-graph-data", "data"),
+    State("sim-filter-av", "value"),
+    State("sim-filter-pr", "value"),
+    State("sim-filter-ui", "value"),
+    State("sim-filter-score", "value"),
+    prevent_initial_call=True
+)
+def run_full_attack_graph_simulation(n_clicks, graph_data, av_choices, pr_choices, ui_choices, score_thresh):
+    import networkx as nx
+    from collections import deque
+    import json
+
+    # Load metadata and software info
+    with open(CVSS_CACHE_PATH, "r") as f:
+        metadata = json.load(f)
+
+    software_inventory = get_software_inventory()
+    software_map = {}
+    for row in software_inventory:
+        node_id = row["node_id"]
+        swid = row["software_id"]
+        software_map.setdefault(node_id, set()).add(swid)
+
+    PRIVILEGE_LOOKUP = build_privilege_lookup_from_type()
+
+    # Build graph
+    node_lookup = {}
+    G = nx.DiGraph()
+    for el in graph_data:
+        if "data" in el and "id" in el["data"]:
+            data = el["data"]
+            nid = data["id"]
+            node_lookup[nid] = data
+            data["software_ids"] = list(software_map.get(nid, []))
+            G.add_node(nid, **data)
+
+    for el in graph_data:
+        d = el.get("data", {})
+        if "source" in d and "target" in d:
+            G.add_edge(d["source"], d["target"])
+
+    # Step 1: Find all valid (node, CVE) entry points
+    entry_points = []
+    for nid, node in node_lookup.items():
+        for cve in node.get("CVE", []):
+            cve_meta = metadata.get(cve, {})
+            if not is_valid_entry_node(node, cve, cve_meta):
+                continue
+            if cve_meta.get("attack_vector") not in av_choices:
+                continue
+            if cve_meta.get("privileges_required") not in pr_choices:
+                continue
+            if cve_meta.get("user_interaction") not in ui_choices:
+                continue
+            score = cve_meta.get("base_score", 0)
+            if score < score_thresh:
+                continue
+            entry_points.append((nid, cve, cve_meta))
+
+    if not entry_points:
+        return [], [{"Entry Node": "None", "Reachable Nodes": "No CVEs passed the filters."}]
+
+    # Step 2: Traverse from each entry point
+    attack_graph = nx.DiGraph()
+    attack_log = []
+
+    for entry_node, cve_id, cve_meta in entry_points:
+        if entry_node not in G:
+            continue
+
+        visited = set()
+        q = deque([entry_node])
+        while q:
+            current = q.popleft()
+            if current in visited:
+                continue
+            visited.add(current)
+
+            for neighbor in G.successors(current):
+                src_node = node_lookup.get(current)
+                tgt_node = node_lookup.get(neighbor)
+                if not src_node or not tgt_node:
+                    continue
+
+                src_score = max(src_node.get("CVE_NVD", {}).values(), default=0)
+                tgt_score = max(tgt_node.get("CVE_NVD", {}).values(), default=0)
+                if src_score < score_thresh or tgt_score < score_thresh:
+                    continue
+                
+                """
+                if not can_traverse_rack_boundary(src_node, tgt_node, cve_meta):
+                    continue
+                if not has_access_to_node(PRIVILEGE_LOOKUP.get(current), neighbor):
+                    continue
+                if not nodes_share_vulnerable_software(src_node, tgt_node, software_inventory):
+                    continue
+                """
+                rack_ok = can_traverse_rack_boundary(src_node, tgt_node, cve_meta)
+                priv_ok = has_access_to_node(PRIVILEGE_LOOKUP.get(current), neighbor)
+                sw_ok = nodes_share_vulnerable_software(src_node, tgt_node, software_inventory)
+
+                if not (( rack_ok or sw_ok) and  priv_ok ):
+                    continue
+
+
+                q.append(neighbor)
+                attack_graph.add_edge(current, neighbor)
+
+        visited.discard(entry_node)  # don't self-report
+        formatted = []
+        for nid in sorted(visited):
+            data = node_lookup.get(nid, {})
+            formatted.append(f"{nid} ({data.get('node_name', 'N/A')}, {data.get('node_type', 'N/A')}, "
+                            f"CVEs: {len(data.get('CVE', []))}, Score: {round(sum(data.get('CVE_NVD', {}).values()), 1)})")
+
+        attack_log.append({
+            "Entry Node": f"{entry_node} ({node_lookup[entry_node].get('node_name', '')}) - {cve_id}",
+            "Reachable Nodes": "\n".join(formatted) if formatted else "None"
+        })
+
+    # Step 3: Format Cytoscape output
+    elements = []
+    added_nodes = set()
+    for src, tgt in attack_graph.edges():
+        for nid in [src, tgt]:
+            if nid not in added_nodes:
+                node = node_lookup[nid]
+                # elements.append({"data": node, "classes": "reachable"})
+                node_copy = node.copy()
+                node_copy["label"] = node.get("node_id", node["id"])
+                elements.append({
+                    "data": node_copy,
+                    "classes": "reachable"
+                })
+                added_nodes.add(nid)
+        elements.append({"data": {"source": src, "target": tgt}})
+        attack_log.sort(key=lambda x: x["Reachable Nodes"] == "None")
+
+    return elements, attack_log
+
+@callback(
+    Output("sim-attack-node-hover-info", "children"),
+    Input("sim-attack-graph", "mouseoverNodeData")
+)
+def show_sim_attack_hover_info(data):
+    if not data:
+        return html.Div("Hover over a node in the attack graph to see details.")
+
+    return html.Div([
+        html.H5(f"Node Name: {data.get('node_name', data['id'])}"),
+        html.P(f"Node ID: {data.get('id')}"),
+        html.P(f"Type: {data.get('node_type', 'N/A')}"),
+        html.P(f"CVEs: {len(data.get('CVE', []))}"),
+        html.P(f"Total CVE Score: {round(sum(data.get('CVE_NVD', {}).values()), 1)}"),
+        html.P(f"Critical Functions: {', '.join(data.get('critical_functions', [])) or 'None'}"),
+        html.P(f"Privilege: {data.get('privilege', 'N/A')}"),
+        html.P(f"Rack: {data.get('rack_name', 'N/A')}")
     ])

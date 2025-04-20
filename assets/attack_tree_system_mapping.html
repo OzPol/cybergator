@@ -1,0 +1,163 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 1600px;
+                 background-color: #222222;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "blue", "font": {"color": "white"}, "id": "F06", "label": "CF F06", "shape": "dot", "size": 30, "title": "Critical Function: F06"}, {"color": "blue", "font": {"color": "white"}, "id": "F03", "label": "CF F03", "shape": "dot", "size": 30, "title": "Critical Function: F03"}, {"color": "blue", "font": {"color": "white"}, "id": "F04", "label": "CF F04", "shape": "dot", "size": 30, "title": "Critical Function: F04"}, {"color": "blue", "font": {"color": "white"}, "id": "F08", "label": "CF F08", "shape": "dot", "size": 30, "title": "Critical Function: F08"}, {"color": "blue", "font": {"color": "white"}, "id": "F02", "label": "CF F02", "shape": "dot", "size": 30, "title": "Critical Function: F02"}, {"color": "blue", "font": {"color": "white"}, "id": "F10", "label": "CF F10", "shape": "dot", "size": 30, "title": "Critical Function: F10"}, {"color": "blue", "font": {"color": "white"}, "id": "F07", "label": "CF F07", "shape": "dot", "size": 30, "title": "Critical Function: F07"}, {"color": "blue", "font": {"color": "white"}, "id": "F09", "label": "CF F09", "shape": "dot", "size": 30, "title": "Critical Function: F09"}, {"color": "blue", "font": {"color": "white"}, "id": "F05", "label": "CF F05", "shape": "dot", "size": 30, "title": "Critical Function: F05"}, {"color": "blue", "font": {"color": "white"}, "id": "F01", "label": "CF F01", "shape": "dot", "size": 30, "title": "Critical Function: F01"}, {"color": "lightblue", "font": {"color": "white"}, "id": "N00100", "label": "System_Administrator_Terminal", "shape": "dot", "size": 20, "title": "System Node: System_Administrator_Terminal\nNode Type: Workstation\nCVEs: \nTotal Score: 0"}, {"color": "lightblue", "font": {"color": "white"}, "id": "N00200", "label": "Virtualization_Manager_Server", "shape": "dot", "size": 20, "title": "System Node: Virtualization_Manager_Server\nNode Type: Server\nCVEs: CVE-2012-2697, CVE-2012-3440, CVE-2010-0727\nTotal Score: 15.4"}, {"color": "lightblue", "font": {"color": "white"}, "id": "N00201", "label": "Virtualization_Manager_SAN", "shape": "dot", "size": 20, "title": "System Node: Virtualization_Manager_SAN\nNode Type: SAN\nCVEs: CVE-2013-1935, CVE-2013-2224, CVE-2013-2188\nTotal Score: 17.3"}, {"color": "lightblue", "font": {"color": "white"}, "id": "N00300", "label": "Cybersecurity_Capability_Tools_Server", "shape": "dot", "size": 20, "title": "System Node: Cybersecurity_Capability_Tools_Server\nNode Type: Server\nCVEs: CVE-2024-23675, CVE-2024-23676, CVE-2023-40593, CVE-2023-40592, CVE-2023-0101, CVE-2021-20135, CVE-2020-5765, CVE-2020-7337, CVE-2009-5118, CVE-2007-2152, CVE-2015-7833\nTotal Score: 73.3"}, {"color": "lightblue", "font": {"color": "white"}, "id": "N00301", "label": "Cybersecurity_Capability_Tools_SAN", "shape": "dot", "size": 20, "title": "System Node: Cybersecurity_Capability_Tools_SAN\nNode Type: SAN\nCVEs: CVE-2015-7833\nTotal Score: 4.9"}, {"color": "lightblue", "font": {"color": "white"}, "id": "N00302", "label": "Cybersecurity_Capability_Tools_SAN_Archive", "shape": "dot", "size": 20, "title": "System Node: Cybersecurity_Capability_Tools_SAN_Archive\nNode Type: SAN Archive\nCVEs: CVE-2015-7833\nTotal Score: 4.9"}, {"color": "lightblue", "font": {"color": "white"}, "id": "N00303", "label": "Cybersecurity_Capability_Tools_SAN_Archive_Backup", "shape": "dot", "size": 20, "title": "System Node: Cybersecurity_Capability_Tools_SAN_Archive_Backup\nNode Type: SAN Archive Backup\nCVEs: CVE-2015-7833\nTotal Score: 4.9"}, {"color": "lightblue", "font": {"color": "white"}, "id": "N00400", "label": "Audit_Log_Server", "shape": "dot", "size": 20, "title": "System Node: Audit_Log_Server\nNode Type: Server\nCVEs: CVE-2015-7833\nTotal Score: 4.9"}, {"color": "lightblue", "font": {"color": "white"}, "id": "N00401", "label": "Audit_Log_SAN", "shape": "dot", "size": 20, "title": "System Node: Audit_Log_SAN\nNode Type: SAN\nCVEs: CVE-2015-7833\nTotal Score: 4.9"}, {"color": "lightblue", "font": {"color": "white"}, "id": "N00501", "label": "Server_SR1", "shape": "dot", "size": 20, "title": "System Node: Server_SR1\nNode Type: Server\nCVEs: CVE-2012-2697, CVE-2012-3440, CVE-2010-0727\nTotal Score: 15.4"}, {"color": "lightblue", "font": {"color": "white"}, "id": "N00502", "label": "Server_SR2", "shape": "dot", "size": 20, "title": "System Node: Server_SR2\nNode Type: Server\nCVEs: CVE-2012-2697, CVE-2012-3440, CVE-2010-0727\nTotal Score: 15.4"}, {"color": "lightblue", "font": {"color": "white"}, "id": "N00503", "label": "Server_SR3", "shape": "dot", "size": 20, "title": "System Node: Server_SR3\nNode Type: Server\nCVEs: CVE-2015-7833\nTotal Score: 4.9"}, {"color": "lightblue", "font": {"color": "white"}, "id": "N00504", "label": "Server_SR4", "shape": "dot", "size": 20, "title": "System Node: Server_SR4\nNode Type: Server\nCVEs: CVE-2015-7833\nTotal Score: 4.9"}, {"color": "lightblue", "font": {"color": "white"}, "id": "N00505", "label": "Server_SR5", "shape": "dot", "size": 20, "title": "System Node: Server_SR5\nNode Type: Server\nCVEs: CVE-2013-1935, CVE-2013-2224, CVE-2013-2188\nTotal Score: 17.3"}, {"color": "lightblue", "font": {"color": "white"}, "id": "N00506", "label": "Server_SR6", "shape": "dot", "size": 20, "title": "System Node: Server_SR6\nNode Type: Server\nCVEs: CVE-2013-1935, CVE-2013-2224, CVE-2013-2188\nTotal Score: 17.3"}, {"color": "lightblue", "font": {"color": "white"}, "id": "N00509", "label": "Server_SR9", "shape": "dot", "size": 20, "title": "System Node: Server_SR9\nNode Type: Server\nCVEs: CVE-2015-7833\nTotal Score: 4.9"}, {"color": "lightblue", "font": {"color": "white"}, "id": "N00510", "label": "Server_SR10", "shape": "dot", "size": 20, "title": "System Node: Server_SR10\nNode Type: Server\nCVEs: CVE-2015-7833\nTotal Score: 4.9"}, {"color": "lightblue", "font": {"color": "white"}, "id": "N00511", "label": "Server_SR11", "shape": "dot", "size": 20, "title": "System Node: Server_SR11\nNode Type: Server\nCVEs: CVE-2017-8543, CVE-2014-0301, CVE-2014-0323, CVE-2014-0315, CVE-2013-5058, CVE-2013-5056\nTotal Score: 48.8"}, {"color": "lightblue", "font": {"color": "white"}, "id": "N00512", "label": "Server_SR12", "shape": "dot", "size": 20, "title": "System Node: Server_SR12\nNode Type: Server\nCVEs: CVE-2017-8543, CVE-2014-0301, CVE-2014-0323, CVE-2014-0315, CVE-2013-5058, CVE-2013-5056\nTotal Score: 48.8"}, {"color": "lightblue", "font": {"color": "white"}, "id": "N00611", "label": "Engineering_Production_SAN_1", "shape": "dot", "size": 20, "title": "System Node: Engineering_Production_SAN_1\nNode Type: SAN\nCVEs: CVE-2012-2697, CVE-2012-3440, CVE-2010-0727\nTotal Score: 15.4"}, {"color": "lightblue", "font": {"color": "white"}, "id": "N00612", "label": "Engineering_Production_SAN_Archive_1", "shape": "dot", "size": 20, "title": "System Node: Engineering_Production_SAN_Archive_1\nNode Type: SAN Archive\nCVEs: CVE-2015-7833\nTotal Score: 4.9"}, {"color": "lightblue", "font": {"color": "white"}, "id": "N00613", "label": "Engineering_Production_SAN_Archive_1_Backup", "shape": "dot", "size": 20, "title": "System Node: Engineering_Production_SAN_Archive_1_Backup\nNode Type: SAN Archive Backup\nCVEs: CVE-2015-7833\nTotal Score: 4.9"}, {"color": "lightblue", "font": {"color": "white"}, "id": "N00621", "label": "Engineering_Production_SAN_2", "shape": "dot", "size": 20, "title": "System Node: Engineering_Production_SAN_2\nNode Type: SAN\nCVEs: CVE-2015-7833\nTotal Score: 4.9"}, {"color": "lightblue", "font": {"color": "white"}, "id": "N00622", "label": "Engineering_Production_SAN_Archive_2", "shape": "dot", "size": 20, "title": "System Node: Engineering_Production_SAN_Archive_2\nNode Type: SAN Archive\nCVEs: CVE-2015-7833\nTotal Score: 4.9"}, {"color": "lightblue", "font": {"color": "white"}, "id": "N00623", "label": "Engineering_Production_SAN_Archive_2_Backup", "shape": "dot", "size": 20, "title": "System Node: Engineering_Production_SAN_Archive_2_Backup\nNode Type: SAN Archive Backup\nCVEs: CVE-2015-7833\nTotal Score: 4.9"}, {"color": "lightblue", "font": {"color": "white"}, "id": "N00631", "label": "Engineering_Production_SAN_3", "shape": "dot", "size": 20, "title": "System Node: Engineering_Production_SAN_3\nNode Type: SAN\nCVEs: CVE-2015-7833\nTotal Score: 4.9"}, {"color": "lightblue", "font": {"color": "white"}, "id": "N00701", "label": "Test_SAN", "shape": "dot", "size": 20, "title": "System Node: Test_SAN\nNode Type: SAN\nCVEs: CVE-2015-7833\nTotal Score: 4.9"}, {"color": "lightblue", "font": {"color": "white"}, "id": "N00702", "label": "Test_SAN_Archive", "shape": "dot", "size": 20, "title": "System Node: Test_SAN_Archive\nNode Type: SAN Archive\nCVEs: CVE-2015-7833\nTotal Score: 4.9"}, {"color": "lightblue", "font": {"color": "white"}, "id": "N00703", "label": "Test_SAN_Archive_Backup", "shape": "dot", "size": 20, "title": "System Node: Test_SAN_Archive_Backup\nNode Type: SAN Archive Backup\nCVEs: CVE-2015-7833\nTotal Score: 4.9"}, {"color": "lightblue", "font": {"color": "white"}, "id": "N00801", "label": "Company_Management_SAN", "shape": "dot", "size": 20, "title": "System Node: Company_Management_SAN\nNode Type: SAN\nCVEs: CVE-2012-2697, CVE-2012-3440, CVE-2010-0727\nTotal Score: 15.4"}, {"color": "lightblue", "font": {"color": "white"}, "id": "N00802", "label": "Company_Management_SAN_Archive", "shape": "dot", "size": 20, "title": "System Node: Company_Management_SAN_Archive\nNode Type: SAN Archive\nCVEs: CVE-2015-7833\nTotal Score: 4.9"}, {"color": "lightblue", "font": {"color": "white"}, "id": "N00803", "label": "Company_Management_SAN_Archive_Backup", "shape": "dot", "size": 20, "title": "System Node: Company_Management_SAN_Archive_Backup\nNode Type: SAN Archive Backup\nCVEs: CVE-2015-7833\nTotal Score: 4.9"}, {"color": "lightblue", "font": {"color": "white"}, "id": "N10601", "label": "Engineering_Production_Workstation_1", "shape": "dot", "size": 20, "title": "System Node: Engineering_Production_Workstation_1\nNode Type: Workstation\nCVEs: CVE-2023-47804, CVE-2022-37401, CVE-2021-33035, CVE-2020-13958, CVE-2017-12607, CVE-2013-1935, CVE-2013-2224, CVE-2013-2188\nTotal Score: 58.3"}, {"color": "lightblue", "font": {"color": "white"}, "id": "N10602", "label": "Engineering_Production_Workstation_2", "shape": "dot", "size": 20, "title": "System Node: Engineering_Production_Workstation_2\nNode Type: Workstation\nCVEs: CVE-2023-47804, CVE-2022-37401, CVE-2021-33035, CVE-2020-13958, CVE-2017-12607, CVE-2013-1935, CVE-2013-2224, CVE-2013-2188\nTotal Score: 58.3"}, {"color": "lightblue", "font": {"color": "white"}, "id": "N10603", "label": "Engineering_Production_Workstation_3", "shape": "dot", "size": 20, "title": "System Node: Engineering_Production_Workstation_3\nNode Type: Workstation\nCVEs: CVE-2023-47804, CVE-2022-37401, CVE-2021-33035, CVE-2020-13958, CVE-2017-12607, CVE-2013-1935, CVE-2013-2224, CVE-2013-2188\nTotal Score: 58.3"}, {"color": "lightblue", "font": {"color": "white"}, "id": "N10604", "label": "Engineering_Production_Workstation_4", "shape": "dot", "size": 20, "title": "System Node: Engineering_Production_Workstation_4\nNode Type: Workstation\nCVEs: CVE-2023-47804, CVE-2022-37401, CVE-2021-33035, CVE-2020-13958, CVE-2017-12607, CVE-2013-1935, CVE-2013-2224, CVE-2013-2188\nTotal Score: 58.3"}, {"color": "lightblue", "font": {"color": "white"}, "id": "N10605", "label": "Engineering_Production_Workstation_5", "shape": "dot", "size": 20, "title": "System Node: Engineering_Production_Workstation_5\nNode Type: Workstation\nCVEs: CVE-2023-47804, CVE-2022-37401, CVE-2021-33035, CVE-2020-13958, CVE-2017-12607, CVE-2013-1935, CVE-2013-2224, CVE-2013-2188\nTotal Score: 58.3"}, {"color": "lightblue", "font": {"color": "white"}, "id": "N10701", "label": "Test_Engineering_Laptop_1", "shape": "dot", "size": 20, "title": "System Node: Test_Engineering_Laptop_1\nNode Type: Workstation\nCVEs: CVE-2012-2697, CVE-2012-3440, CVE-2010-0727, CVE-2023-47804, CVE-2022-37401, CVE-2021-33035, CVE-2020-13958, CVE-2017-12607\nTotal Score: 56.4"}, {"color": "lightblue", "font": {"color": "white"}, "id": "N10702", "label": "Test_Engineering_Laptop_2", "shape": "dot", "size": 20, "title": "System Node: Test_Engineering_Laptop_2\nNode Type: Workstation\nCVEs: CVE-2012-2697, CVE-2012-3440, CVE-2010-0727, CVE-2023-47804, CVE-2022-37401, CVE-2021-33035, CVE-2020-13958, CVE-2017-12607\nTotal Score: 56.4"}, {"color": "lightblue", "font": {"color": "white"}, "id": "N10801", "label": "Company_Management_Workstation_6", "shape": "dot", "size": 20, "title": "System Node: Company_Management_Workstation_6\nNode Type: Workstation\nCVEs: CVE-2023-47804, CVE-2022-37401, CVE-2021-33035, CVE-2020-13958, CVE-2017-12607, CVE-2013-1935, CVE-2013-2224, CVE-2013-2188\nTotal Score: 58.3"}]);
+                  edges = new vis.DataSet([{"arrows": "to", "color": "green", "from": "F06", "to": "N00100"}, {"arrows": "to", "color": "green", "from": "F06", "to": "N00300"}, {"arrows": "to", "color": "green", "from": "F06", "to": "N00301"}, {"arrows": "to", "color": "green", "from": "F06", "to": "N00302"}, {"arrows": "to", "color": "green", "from": "F06", "to": "N00303"}, {"arrows": "to", "color": "green", "from": "F06", "to": "N00400"}, {"arrows": "to", "color": "green", "from": "F06", "to": "N00401"}, {"arrows": "to", "color": "green", "from": "F03", "to": "N00501"}, {"arrows": "to", "color": "green", "from": "F03", "to": "N00611"}, {"arrows": "to", "color": "green", "from": "F03", "to": "N00612"}, {"arrows": "to", "color": "green", "from": "F03", "to": "N00621"}, {"arrows": "to", "color": "green", "from": "F03", "to": "N00622"}, {"arrows": "to", "color": "green", "from": "F03", "to": "N10602"}, {"arrows": "to", "color": "green", "from": "F04", "to": "N00200"}, {"arrows": "to", "color": "green", "from": "F04", "to": "N00504"}, {"arrows": "to", "color": "green", "from": "F04", "to": "N00509"}, {"arrows": "to", "color": "green", "from": "F04", "to": "N00701"}, {"arrows": "to", "color": "green", "from": "F04", "to": "N00702"}, {"arrows": "to", "color": "green", "from": "F04", "to": "N10701"}, {"arrows": "to", "color": "green", "from": "F08", "to": "N00201"}, {"arrows": "to", "color": "green", "from": "F08", "to": "N00504"}, {"arrows": "to", "color": "green", "from": "F08", "to": "N00505"}, {"arrows": "to", "color": "green", "from": "F08", "to": "N00701"}, {"arrows": "to", "color": "green", "from": "F08", "to": "N00702"}, {"arrows": "to", "color": "green", "from": "F08", "to": "N00703"}, {"arrows": "to", "color": "green", "from": "F08", "to": "N10702"}, {"arrows": "to", "color": "green", "from": "F02", "to": "N00200"}, {"arrows": "to", "color": "green", "from": "F02", "to": "N00502"}, {"arrows": "to", "color": "green", "from": "F02", "to": "N00511"}, {"arrows": "to", "color": "green", "from": "F02", "to": "N00611"}, {"arrows": "to", "color": "green", "from": "F02", "to": "N00612"}, {"arrows": "to", "color": "green", "from": "F02", "to": "N00621"}, {"arrows": "to", "color": "green", "from": "F02", "to": "N00622"}, {"arrows": "to", "color": "green", "from": "F02", "to": "N10601"}, {"arrows": "to", "color": "green", "from": "F02", "to": "N10603"}, {"arrows": "to", "color": "green", "from": "F02", "to": "N10605"}, {"arrows": "to", "color": "green", "from": "F10", "to": "N00506"}, {"arrows": "to", "color": "green", "from": "F10", "to": "N00512"}, {"arrows": "to", "color": "green", "from": "F10", "to": "N00801"}, {"arrows": "to", "color": "green", "from": "F10", "to": "N00802"}, {"arrows": "to", "color": "green", "from": "F10", "to": "N00803"}, {"arrows": "to", "color": "green", "from": "F10", "to": "N10801"}, {"arrows": "to", "color": "green", "from": "F07", "to": "N00201"}, {"arrows": "to", "color": "green", "from": "F07", "to": "N00503"}, {"arrows": "to", "color": "green", "from": "F07", "to": "N00510"}, {"arrows": "to", "color": "green", "from": "F07", "to": "N00613"}, {"arrows": "to", "color": "green", "from": "F07", "to": "N00623"}, {"arrows": "to", "color": "green", "from": "F07", "to": "N00631"}, {"arrows": "to", "color": "green", "from": "F07", "to": "N10603"}, {"arrows": "to", "color": "green", "from": "F07", "to": "N10604"}, {"arrows": "to", "color": "green", "from": "F07", "to": "N10605"}, {"arrows": "to", "color": "green", "from": "F09", "to": "N00504"}, {"arrows": "to", "color": "green", "from": "F09", "to": "N00509"}, {"arrows": "to", "color": "green", "from": "F09", "to": "N00701"}, {"arrows": "to", "color": "green", "from": "F09", "to": "N00702"}, {"arrows": "to", "color": "green", "from": "F09", "to": "N10702"}, {"arrows": "to", "color": "green", "from": "F05", "to": "N00100"}, {"arrows": "to", "color": "green", "from": "F05", "to": "N00300"}, {"arrows": "to", "color": "green", "from": "F05", "to": "N00301"}, {"arrows": "to", "color": "green", "from": "F05", "to": "N00302"}, {"arrows": "to", "color": "green", "from": "F05", "to": "N00303"}, {"arrows": "to", "color": "green", "from": "F05", "to": "N00400"}, {"arrows": "to", "color": "green", "from": "F05", "to": "N00401"}, {"arrows": "to", "color": "green", "from": "F01", "to": "N00200"}, {"arrows": "to", "color": "green", "from": "F01", "to": "N00501"}, {"arrows": "to", "color": "green", "from": "F01", "to": "N00502"}, {"arrows": "to", "color": "green", "from": "F01", "to": "N00611"}, {"arrows": "to", "color": "green", "from": "F01", "to": "N00612"}, {"arrows": "to", "color": "green", "from": "F01", "to": "N00621"}, {"arrows": "to", "color": "green", "from": "F01", "to": "N00622"}, {"arrows": "to", "color": "green", "from": "F01", "to": "N10601"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "barnesHut": {
+            "avoidOverlap": 0,
+            "centralGravity": 0.2,
+            "damping": 0.09,
+            "gravitationalConstant": -2000,
+            "springConstant": 0.05,
+            "springLength": 200
+        },
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
