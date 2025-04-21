@@ -3,6 +3,7 @@ import dash_bootstrap_components as dbc
 
 def about_me_bio():
     return html.Div([
+        dbc.Container([
         html.H5("About Jess Lourenco", className="mt-3"),
 
         html.P("I'm a software engineer passionate about building resilient, well-architected systems that solve real-world problems."),
@@ -28,4 +29,5 @@ def about_me_bio():
 
         html.H5("Looking Ahead", className="mt-4"),
         html.P("After graduation, I’m excited to continue growing as a backend engineer and contributing to projects and open source initiatives that use technology to make a positive impact in the world.")
+    ])
     ])
