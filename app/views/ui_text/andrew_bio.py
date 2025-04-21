@@ -7,7 +7,7 @@ def andrew_bio():
         html.H2("About Andrew Ballard", className="mb-4 mt-4"),
 
         html.P("I'm a computer science student with a focus on frontend development, user interface design, and machine learning applications. " \
-        "My technical background includes experience in Dash, React, and Python, with a passion for making data visually intuitive and engaging."),
+        "My technical background includes experience in Dash, React, C++, and Python, with a passion for making data visually intuitive and engaging."),
 
         html.H4("CyberGators Project", className="mt-4"),
         html.P("For CyberGator, I served as the frontend lead, helping design and implement the layout and navigation structure in Dash. I worked" \
@@ -22,7 +22,7 @@ def andrew_bio():
         html.H4("Industry & Academic Experience", className="mt-4"),
         html.P("Beyond class projects, I've developed console-based games, built interfaces for small team apps, and served as a SCRUM master on " \
         "a prior engineering capstone. My academic work has reinforced my ability to lead agile teams, communicate across disciplines, and manage" \
-        " multiple software deliverables in parallel."),
+        " multiple software deliverables in parallel. I also worked 7 years as a Shipwright Mechanic for the DOD at KingsBay Naval Base."),
 
         html.H4("Extracurricular Involvement", className="mt-4"),
         html.P("I enjoy working on passion projects that improve accessibility and user experience in digital tools. Outside of tech, I’m a fan " \
