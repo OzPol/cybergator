@@ -41,8 +41,26 @@ def environmental_factors_layout():
                 ], className="mb-2")
             )
         
+        # Add remove button in the header next to the factor name
+        card_header = dbc.CardHeader([
+            dbc.Row([
+                dbc.Col(html.H5(factor.replace("_", " ").capitalize(), className="mb-0"), width=9),
+                dbc.Col(
+                    dbc.Button(
+                        "❌ Remove", 
+                        id={"type": "remove-factor-btn", "factor": factor},
+                        color="danger",
+                        size="sm",
+                        className="float-end"
+                    ),
+                    width=3,
+                    className="text-end"
+                )
+            ])
+        ])
+        
         card = dbc.Card([
-            dbc.CardHeader(html.H5(factor.replace("_", " ").capitalize(), className="mb-0")),
+            card_header,
             dbc.CardBody(rows)
         ], className="h-100 shadow-sm")
         
@@ -148,6 +166,96 @@ def environmental_factors_layout():
     ], fluid=True)
 
 @callback(
+    [Output("risk-matrix-container", "children", allow_duplicate=True),
+     Output("save-status", "children", allow_duplicate=True)],
+    Input({"type": "remove-factor-btn", "factor": ALL}, "n_clicks"),
+    State({"type": "remove-factor-btn", "factor": ALL}, "id"),
+    prevent_initial_call=True
+)
+def remove_risk_factor(n_clicks_list, btn_ids):
+    if not any(n_clicks for n_clicks in n_clicks_list if n_clicks):
+        return no_update, no_update
+
+    # Determine which button was clicked
+    triggered_idx = next((i for i, n in enumerate(n_clicks_list) if n), None)
+    if triggered_idx is None:
+        return no_update, no_update
+
+    factor_to_remove = btn_ids[triggered_idx]["factor"]
+    factor_display_name = factor_to_remove.replace("_", " ").capitalize()
+
+    try:
+        data = load_data()
+
+        # Remove the risk factor from the matrix
+        if factor_to_remove in data["Risk_Factors_Matrix"]:
+            del data["Risk_Factors_Matrix"][factor_to_remove]
+
+        # Remove from all work areas
+        for work_area in data.get("work_areas", []):
+            if factor_to_remove in work_area.get("Risk_Factors", {}):
+                del work_area["Risk_Factors"][factor_to_remove]
+
+        with open(DATA_PATH, "w") as f:
+            json.dump(data, f, indent=4)
+
+        # Rebuild matrix display
+        risk_matrix = data["Risk_Factors_Matrix"]
+        matrix_cards = []
+        for factor, levels in risk_matrix.items():
+            rows = []
+            for level, weight in levels.items():
+                rows.append(
+                    dbc.Row([
+                        dbc.Col(html.Span(level, className="fw-semibold"), width=6),
+                        dbc.Col(
+                            dbc.Input(
+                                type="number",
+                                value=weight,
+                                min=0, max=2.0, step=0.1,
+                                id={"type": "matrix-input", "factor": factor, "level": level},
+                                className="w-100"
+                            ),
+                            width=6
+                        )
+                    ], className="mb-2")
+                )
+
+            card_header = dbc.CardHeader([
+                dbc.Row([
+                    dbc.Col(html.H5(factor.replace("_", " ").capitalize(), className="mb-0"), width=9),
+                    dbc.Col(
+                        dbc.Button(
+                            "❌ Remove",
+                            id={"type": "remove-factor-btn", "factor": factor},
+                            color="danger",
+                            size="sm",
+                            className="float-end"
+                        ),
+                        width=3,
+                        className="text-end"
+                    )
+                ])
+            ])
+
+            card = dbc.Card([card_header, dbc.CardBody(rows)], className="h-100 shadow-sm")
+            matrix_cards.append(card)
+
+        # Organize into rows of 3
+        matrix_rows = []
+        for i in range(0, len(matrix_cards), 3):
+            row_cards = matrix_cards[i:i+3]
+            cols = [dbc.Col(card, width=12, md=4, className="mb-4") for card in row_cards]
+            while len(cols) < 3:
+                cols.append(dbc.Col(width=12, md=4, className="mb-4"))
+            matrix_rows.append(dbc.Row(cols, className="g-3"))
+
+        return matrix_rows, html.Div(f"✅ Risk factor '{factor_display_name}' removed from all work areas.", className="text-success")
+
+    except Exception as e:
+        return no_update, html.Div(f"Error removing risk factor: {e}", className="text-danger")
+
+@callback(
     [Output("weight-inputs-container", "children"),
      Output("default-work-area-value", "options"),
      Output("default-work-area-value", "value")],
@@ -224,7 +332,7 @@ def update_weight_inputs(option_type):
      State({"type": "option-weight", "option": ALL}, "id"),
      State({"type": "option-weight", "option": ALL}, "value"),
      State("risk-factor-option-type", "value"),
-     State("add-success-flag", "data")],  # ✅ New state
+     State("add-success-flag", "data")],
     prevent_initial_call=True
 )
 def validate_new_factor(n_clicks, option_type_trigger, factor_name, option_ids, option_weights, option_type_state, success_flag):
@@ -265,7 +373,7 @@ def validate_new_factor(n_clicks, option_type_trigger, factor_name, option_ids, 
      Output("new-factor-validation-alert", "children", allow_duplicate=True),
      Output("new-risk-factor-name", "value"),
      Output("risk-factor-option-type", "value"),
-     Output("add-success-flag", "data")],  # ✅ Added
+     Output("add-success-flag", "data")],
     Input("add-risk-factor-btn", "n_clicks"),
     [State("new-risk-factor-name", "value"),
      State("risk-factor-option-type", "value"),
@@ -289,7 +397,7 @@ def add_new_risk_factor(n_clicks, factor_name, option_type, option_ids, option_w
         }
         options = options_map.get(option_type, [])
 
-        # ✅ FULL validation logic here
+        # FULL validation logic here
         validation_errors = []
         if not factor_name or not factor_name.strip():
             validation_errors.append("Risk factor name is required")
@@ -351,8 +459,26 @@ def add_new_risk_factor(n_clicks, factor_name, option_type, option_ids, option_w
                 for level, weight in levels.items()
             ]
 
+            # Add remove button in the header
+            card_header = dbc.CardHeader([
+                dbc.Row([
+                    dbc.Col(html.H5(factor.replace("_", " ").capitalize(), className="mb-0"), width=9),
+                    dbc.Col(
+                        dbc.Button(
+                            "❌ Remove", 
+                            id={"type": "remove-factor-btn", "factor": factor},
+                            color="danger",
+                            size="sm",
+                            className="float-end"
+                        ),
+                        width=3,
+                        className="text-end"
+                    )
+                ])
+            ])
+
             matrix_cards.append(dbc.Card([
-                dbc.CardHeader(html.H5(factor.replace("_", " ").capitalize(), className="mb-0")),
+                card_header,
                 dbc.CardBody(rows)
             ], className="h-100 shadow-sm"))
 
@@ -370,7 +496,7 @@ def add_new_risk_factor(n_clicks, factor_name, option_type, option_ids, option_w
             None,
             "",  # Clear name
             "",  # Clear option type
-            True  # ✅ Set success flag
+            True  # Set success flag
         )
 
     except Exception as e:
@@ -473,11 +599,35 @@ def reset_matrix_to_default(n_clicks):
         # Replace current risk factors with backup values
         current_data["Risk_Factors_Matrix"] = backup_data["Risk_Factors_Matrix"]
         
-        # Clean up the custom risk factors from all work areas
+        # Clean up custom risk factors and restore default ones with original values
         for work_area in current_data["work_areas"]:
+            # Remove custom factors
             for factor_to_remove in custom_risk_factors_to_remove:
-                if factor_to_remove in work_area["Risk_Factors"]:
-                    del work_area["Risk_Factors"][factor_to_remove]
+                work_area["Risk_Factors"].pop(factor_to_remove, None)
+
+            # Build a mapping of original work area defaults from the backup
+            original_work_areas = {
+                wa["Work_Area"]: wa["Risk_Factors"]
+                for wa in backup_data.get("work_areas", [])
+            }
+
+            for work_area in current_data["work_areas"]:
+                work_area_name = work_area.get("Work_Area")
+                
+                # Remove any custom risk factors
+                for factor_to_remove in custom_risk_factors_to_remove:
+                    work_area["Risk_Factors"].pop(factor_to_remove, None)
+
+                # Restore default risk factors with the original selected value from the backup
+                default_risk_values = original_work_areas.get(work_area_name, {})
+                for factor_key in backup_data["Risk_Factors_Matrix"]:
+                    if factor_key in default_risk_values:
+                        work_area["Risk_Factors"][factor_key] = default_risk_values[factor_key]
+                    else:
+                        # Fallback: assign "NA" if not found
+                        work_area["Risk_Factors"][factor_key] = "NA"
+
+
         
         # Save the updated data
         with open(DATA_PATH, "w") as f:
@@ -507,8 +657,26 @@ def reset_matrix_to_default(n_clicks):
                     ], className="mb-2")
                 )
             
+            # Add remove button in the header
+            card_header = dbc.CardHeader([
+                dbc.Row([
+                    dbc.Col(html.H5(factor.replace("_", " ").capitalize(), className="mb-0"), width=9),
+                    dbc.Col(
+                        dbc.Button(
+                            "❌ Remove", 
+                            id={"type": "remove-factor-btn", "factor": factor},
+                            color="danger",
+                            size="sm",
+                            className="float-end"
+                        ),
+                        width=3,
+                        className="text-end"
+                    )
+                ])
+            ])
+            
             card = dbc.Card([
-                dbc.CardHeader(html.H5(factor.replace("_", " ").capitalize(), className="mb-0")),
+                card_header,
                 dbc.CardBody(rows)
             ], className="h-100 shadow-sm")
             
