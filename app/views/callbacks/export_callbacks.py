@@ -25,14 +25,7 @@ def register_export_callbacks(app):
     def export_selected_data(n_clicks, selected_tables):
 
         """
-        Export data to CSV based on selected tables.
-        
-        Args:
-            n_clicks: Number of times the export button has been clicked
-            selected_tables: List of table types selected for export
-            
-        Returns:
-            Download component with the appropriate CSV data
+        Export data to CSV based on selected tables. Download component with the appropriate CSV data
         """
         if not n_clicks or not selected_tables:
             return None
