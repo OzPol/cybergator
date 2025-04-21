@@ -93,7 +93,8 @@ def homepage_layout():
                                 dbc.CardBody([
                                     html.H4("Samson Carter", className="card-title"),
                                     html.H6("Project Manager", className="card-title"),
-                                    html.P("Body text for whatever you'd like to say.", className="card-text")
+                                    html.P("Ex-chef turned software developer. Passionate about inclusive leadership, systems thinking, and mission-driven tech.", className="card-text"),
+                                    dbc.Button("Read Full Bio", href="/about/samson", color="primary", className="mt-2")
                                 ])
                             ], className="h-100"),
                             width=12, lg=4, className="mb-4"
@@ -110,7 +111,6 @@ def homepage_layout():
                                     dbc.Button("Read Full Bio", href="/about/jess", color="primary", className="mt-2") 
                                 ])
                             ], className="h-100"),
-                            
                             width=12, lg=4, className="mb-4"
                         ),
                     ], className="justify-content-center"),  # Centers the cards in the row
@@ -123,11 +123,15 @@ def homepage_layout():
                                 dbc.CardBody([
                                     html.H4("Andrew Ballard", className="card-title"),
                                     html.H6("Frontend Lead", className="card-title"),
-                                    html.P("Body text for whatever you'd like to say.", className="card-text")
-                                ])
-                            ], className="h-100"),
-                            width=12, lg=4, className="mb-4"
-                        ),
+                                    html.P(
+                                    "UI/UX-focused developer with experience in Dash, data visualization, and machine learning. Passionate about designing systems people actually want to use.",
+                                    className="card-text"
+                                ),
+                                dbc.Button("Read Full Bio", href="/about/andrew", color="primary", className="mt-2")
+                            ])
+                        ], className="h-100"),
+                        width=12, lg=4, className="mb-4"
+                    ),
 
                         dbc.Col(
                             dbc.Card([
@@ -135,11 +139,15 @@ def homepage_layout():
                                 dbc.CardBody([
                                     html.H4("Shayan Akhoondan", className="card-title"),
                                     html.H6("Full Stack Developer", className="card-title"),
-                                    html.P("Body text for whatever you'd like to say.", className="card-text")
-                                ])
-                            ], className="h-100"),
-                            width=12, lg=4, className="mb-4"
-                        ),
+                                    html.P(
+                                    "Builder of resilient systems with a research interest in AI and security. Contributed to UI design and simulation modeling on CyberGator.",
+                                    className="card-text"
+                                ),
+                                dbc.Button("Read Full Bio", href="/about/shayan", color="primary", className="mt-2")
+                            ])
+                        ], className="h-100"),
+                        width=12, lg=4, className="mb-4"
+                    ),
                     ], className="justify-content-center"),  
                 ], width=12)
             ], className="mb-5"),  
