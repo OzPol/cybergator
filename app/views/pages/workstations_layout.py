@@ -307,37 +307,59 @@ def reset_work_area(n_clicks, reset_ids, button_ids):
 def reset_all_work_areas(n_clicks, button_ids):
     global change_log, change_count
     
-    # Fixed: Handle the case where n_clicks is None or 0
+    # Handle the case where n_clicks is None or 0
     if not n_clicks:
-        return no_update, no_update, no_update, no_update, no_update
+        return no_update, no_update, no_update, no_update, no_update, no_update
 
+    # Load backup and current data
     with open(backup_data_path, "r") as f:
         backup_data = json.load(f)
     with open(risk_data_path, "r") as f:
         current_data = json.load(f)
 
-    backup_names = {wa["Work_Area"] for wa in backup_data["work_areas"]}
-    backup_lookup = {wa["Work_Area"]: wa["Risk_Factors"] for wa in backup_data["work_areas"]}
+    # Identify default risk factors
+    default_risk_factors = set(backup_data["Risk_Factors_Matrix"].keys())
+    
+    # Find custom risk factors that should be removed
+    current_risk_factors = set(current_data["Risk_Factors_Matrix"].keys())
+    custom_risk_factors_to_remove = current_risk_factors - default_risk_factors
 
-    # Replace all work areas with the ones from the backup
+    # 1. Reset the Risk_Factors_Matrix to default (from backup)
+    current_data["Risk_Factors_Matrix"] = json.loads(json.dumps(backup_data["Risk_Factors_Matrix"]))  # deep copy
+    
+    # 2. Reset all work areas to the ones from the backup
     current_data["work_areas"] = json.loads(json.dumps(backup_data["work_areas"]))  # deep copy
 
+    # Save the updated data back to the file
     with open(risk_data_path, "w") as f:
         json.dump(current_data, f, indent=4)
 
+    # Clear the change log
     change_log.clear()
     change_count = 0
 
+    # Update button states based on the reset data
     latest = {wa["Work_Area"]: wa["Risk_Factors"] for wa in current_data["work_areas"]}
     colors, outlines = [], []
     for btn in button_ids:
         a, f_, v = btn["area"], btn["factor"], btn["value"]
+        # Skip buttons for factors that no longer exist after reset
+        if f_ in custom_risk_factors_to_remove:
+            continue
         current_val = latest.get(a, {}).get(f_)
         colors.append("primary" if current_val == v else "secondary")
         outlines.append(current_val != v)
     
+    # Generate updated cards with the reset data
     updated_cards = get_workstation_cards()
-    return "All work areas reset ✅", [], colors, outlines, "", updated_cards
+    
+    # Build status message including info about removed custom factors
+    status_message = "All work areas reset ✅"
+    if custom_risk_factors_to_remove:
+        removed_count = len(custom_risk_factors_to_remove)
+        status_message += f" {removed_count} custom risk factor{'s' if removed_count > 1 else ''} removed."
+    
+    return status_message, [], colors, outlines, "", updated_cards
 
 # Fixed modal toggle and add work area workflow
 @callback(

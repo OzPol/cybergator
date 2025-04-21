@@ -8,12 +8,13 @@ def system_tables_layout():
         html.H2("System Tables", className="text-center mt-4"),
 
         # New Introductory Text Block
-        dbc.Row([
+        dbc.Row(
             dbc.Col([
                 html.P("System Tables store and organize essential data related to the system’s cyber resilience.", className="mb-3"),
                 html.P("Users can view, add, update, and remove entries, ensuring system configurations are accurately reflected for analysis.", className="mb-4"),
-            ], width=12)
-        ]),
+            ], width=8, className="text-center"),  # narrower width + centered text
+            justify="center"
+        ), 
 
         dbc.Row([
             dbc.Col(
