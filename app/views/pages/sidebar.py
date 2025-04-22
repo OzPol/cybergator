@@ -4,8 +4,7 @@ import dash_bootstrap_components as dbc
 def sidebar(session_user=None):
     # Basic menu items
     nav_items = [
-        dbc.NavLink("Home", href="/welcome", active="exact", style={"color": "white"}),
-        dbc.NavLink("Dashboard", href="/dashboard", active="exact", style={"color": "white"}), 
+        dbc.NavLink("Home", href="/welcome", active="exact", style={"color": "white"})
     ]
 
     # Only add the Login/Register button if the user is not logged in
@@ -15,6 +14,7 @@ def sidebar(session_user=None):
     # If session_user exists, add the extra links
     if session_user:        
         extra_links = [
+            dbc.NavLink("Dashboard", href="/dashboard", active="exact", style={"color": "white"}), 
             dbc.NavLink("System Tables", href="/system-tables", active="exact", style={"color": "white"}),
             dbc.NavLink("System Graph", href="/system-graph", active="exact", style={"color": "white"}),
             dbc.NavLink("Environmental Factors", href="/environmental-factors", active="exact", style={"color": "white"}),
