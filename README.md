@@ -105,7 +105,7 @@ docker exec -it cybergator_app poetry run python -m unittest discover -s tests -
 
 ## Comprehensive User Guide
 
-A comprehensive User Guide is availabe for viewing at the following link: https://drive.google.com/file/d/1U6wDDlsVGXUzn3bGqdGD2rHODRvabtrV/view?usp=drive_link
+A comprehensive User Guide is available for viewing at the following link: https://drive.google.com/file/d/1U6wDDlsVGXUzn3bGqdGD2rHODRvabtrV/view?usp=drive_link
 
 ## FAQ
 
