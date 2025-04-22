@@ -41,9 +41,6 @@ def graph_layout():
         dcc.Store(id="show-node-form", data=False),
         dcc.Store(id="selected-edge-nodes", data=[]),
 
-        
-        html.H3("System Graph", className="text-center mb-4"),
-
         system_graph_description(),
 
         html.Button("Refresh Graph", id="refresh-graph-btn", n_clicks=1, className="btn btn-primary mb-3"),
