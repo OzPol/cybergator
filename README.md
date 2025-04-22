@@ -103,7 +103,8 @@ docker-compose up --build
 docker image prune -f
 ```
 
-## How to run unit tests manually
+## How to Run Unit Tests Manually
+
 1. Run the container in detached mode:
 
 ```
