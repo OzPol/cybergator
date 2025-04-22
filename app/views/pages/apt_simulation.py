@@ -294,7 +294,7 @@ def simulation_apt_layout():
         dcc.Store(id="sim-hover-node-info"),
         dcc.Store(id="sim-cve-metadata"),
 
-        html.H3("System Graph View", style={"marginTop": "20px"}),
+        html.H3("APT Simulation", className="text-center"),
         
         # Fetch CVSS Metadata Button API CALL to NVD
         dbc.Button(

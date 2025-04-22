@@ -1,4 +1,4 @@
-from dash import html, dcc, dash_table
+from dash import html, dcc, dash_table, Output, Input, State, callback
 import dash_bootstrap_components as dbc
 import plotly.graph_objs as go
 import pandas as pd
@@ -100,23 +100,33 @@ def dashboard(session_user):
     endpoint_count = len(endpoint_nodes)  # Count the number of endpoint nodes
 
     return html.Div([
+        # Store to track whether welcome has already been shown
+        dcc.Store(id='welcome-state', storage_type='session'),
+
         # Welcome message
-        html.H1(f"Welcome {session_user}! You are logged in.", className="mb-4 text-center"),
+        html.Div(
+            id="welcome-banner",
+            style={"display": "none"},
+            children=html.H1(
+                f"Welcome {session_user}! You are logged in.",
+                className="mb-4 text-center"
+            )
+        ),
 
         # Dashboard description content
         dbc.Container([
             dbc.Row([
                 dbc.Col([
                     html.H2("Dashboard Overview", className="mb-3 text-center"),
-                    html.P("The CyberGator Dashboard provides an overview of your system’s current overall Resilence Score.",
-                           className="mb-3"),
+                    html.P("The CyberGator Dashboard provides an overview of your system's current overall Resilence Score.",
+                        className="mb-3 text-center"),
                     html.Ul([
-                        html.Li("Resilience Score: A numerical representation of your system’s ability to withstand and recover from cyber threats."),
+                        html.Li("Resilience Score: A numerical representation of your system's ability to withstand and recover from cyber threats."),
                         html.Li("Recent Events: Displays updates related to system changes, environmental risk adjustments, and attack simulations."),
                         html.Li("Quick Navigation: Links to core functionalities such as System Tables, Simulations, and Environmental Factors."),
-                    ], className="mb-3"),
+                    ], className="mb-3", style={"display": "table", "margin": "0 auto", "text-align": "left"}),
                     html.P("The dashboard acts as the control hub for managing cybersecurity assessments and making data-driven improvements.",
-                           className="mb-4"),
+                        className="mb-4 text-center"),
                 ], width=12)
             ]),
 
@@ -226,3 +236,17 @@ def dashboard(session_user):
             ])
         ])
     ], id="page-content")
+
+@callback(
+    Output("welcome-banner", "style"),
+    Output("welcome-state", "data"),
+    Input("welcome-state", "data"),
+    prevent_initial_call=True
+)
+def toggle_welcome_banner(welcome_seen):
+    if welcome_seen:
+        # Already seen, hide banner
+        return {"display": "none"}, welcome_seen
+    else:
+        # First time seeing, show banner and mark as seen
+        return {"display": "block"}, True

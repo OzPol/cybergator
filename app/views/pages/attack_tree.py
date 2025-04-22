@@ -126,7 +126,7 @@ def attack_tree_layout():
     generate_critical_function_mapping()
 
     return html.Div([
-        html.H3("Attack Tree Visualization"),
+        html.H3("Attack Tree Visualization", className="text-center"),
 
         dcc.Tabs([
             dcc.Tab(label="Logical Attack Tree", children=[
