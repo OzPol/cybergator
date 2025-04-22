@@ -4,7 +4,7 @@ import dash_bootstrap_components as dbc
 def system_graph_description():
     return html.Div([
         html.H2("System Graph", className="mb-3 text-center"),
-        html.P("This graph visualizes the System Under Evaluation (SUE) using nodes' data.", 
+        html.P("This graph visualizes the System Under Evaluation (SUE) using node data.", 
                className="mb-3 text-center"),
         html.P("Each node represents a system component like a server, switch, workstation, SAN, router, or firewall. " +
                "Each edge reflects a direct connection between components.", 

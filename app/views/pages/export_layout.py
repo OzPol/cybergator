@@ -20,7 +20,7 @@ def export_layout():
                 html.P("CyberGator allows users to generate detailed reports on their system’s resilience assessments.", className="mb-3 text-center"),
                 html.Div([
                     html.Ul([
-                        html.Li("Download reports in CSV or PDF format."),
+                        html.Li("Download reports in CSV format."),
                         html.Li("Share findings with security teams for further analysis."),
                         html.Li("Maintain historical records to track improvements over time."),
                     ])
