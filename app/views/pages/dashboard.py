@@ -1,4 +1,4 @@
-from dash import html, dcc, dash_table
+from dash import html, dcc, dash_table, Output, Input, State, callback
 import dash_bootstrap_components as dbc
 import plotly.graph_objs as go
 import pandas as pd
@@ -100,8 +100,18 @@ def dashboard(session_user):
     endpoint_count = len(endpoint_nodes)  # Count the number of endpoint nodes
 
     return html.Div([
+        # Store to track whether welcome has already been shown
+        dcc.Store(id='welcome-state', storage_type='session'),
+
         # Welcome message
-        html.H1(f"Welcome {session_user}! You are logged in.", className="mb-4 text-center"),
+        html.Div(
+            id="welcome-banner",
+            style={"display": "none"},
+            children=html.H1(
+                f"Welcome {session_user}! You are logged in.",
+                className="mb-4 text-center"
+            )
+        ),
 
         # Dashboard description content
         dbc.Container([
@@ -226,3 +236,17 @@ def dashboard(session_user):
             ])
         ])
     ], id="page-content")
+
+@callback(
+    Output("welcome-banner", "style"),
+    Output("welcome-state", "data"),
+    Input("welcome-state", "data"),
+    prevent_initial_call=True
+)
+def toggle_welcome_banner(welcome_seen):
+    if welcome_seen:
+        # Already seen, hide banner
+        return {"display": "none"}, welcome_seen
+    else:
+        # First time seeing, show banner and mark as seen
+        return {"display": "block"}, True
