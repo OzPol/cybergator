@@ -102,3 +102,33 @@ docker-compose up -d
 ```
 docker exec -it cybergator_app poetry run python -m unittest discover -s tests -p "*.py"
 ```
+
+## Comprehensive User Guide
+
+A comprehensive User Guide is availabe for viewing at the following link: https://drive.google.com/file/d/1U6wDDlsVGXUzn3bGqdGD2rHODRvabtrV/view?usp=drive_link
+
+## FAQ
+
+1. I added CVEs but don’t see a change in the resilience score. Why?
+After making changes to nodes or CVEs, you must click “Recalculate Resilience” to update scores. Without that step, the simulation results won't refresh.
+
+3. How do I undo a change or start over?
+Use the “Reset System” button on any page to restore the original data. This reverts to backup JSON files and clears simulation state.
+
+5. What do the resilience scores actually mean?
+CyberGator uses a combination of fuzzy logic, Bayesian inference, and finite state machines to estimate system resilience. These scores are experimental and designed for educational and research purposes—not for production decision-making.
+
+7. Can I simulate multiple attacks or changes at once?
+Yes. You can inject multiple CVEs, change critical functions, and modify environmental risk factors before recalculating the score. All changes are reflected in the next simulation cycle.
+
+9. Is the Neo4j database live?
+Not yet. The Neo4j view is a prototype meant to illustrate future integration. The current system runs off structured JSON and CSV files.
+
+11. Where are my changes stored?
+Changes are written to output JSON files located in data/json/output, which persist across sessions until reset. These files include node metrics, system scores, and resilience breakdowns.
+
+13. Can I export my results?
+Yes. Navigate to the Export tab to download tables in CSV format, including nodes, scores, and CVE data.
+
+15. What if I want to test my own system?
+This version of CyberGator is a prototype based on a single System Under Evaluation (SUE) from the CRAM Challenge. Future versions will include the ability to upload and simulate your own system architecture. Users can also manipulate the uploaded system so that it accurately reflects their own enterprise system.
