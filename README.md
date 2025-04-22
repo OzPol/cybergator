@@ -4,13 +4,14 @@ CyberGator: A Dynamic Framework for Cyber Resilience Assessment
 
 ## Table of Contents
 - [Project Overview](#project-overview)
-- [Pre-requisites](#pre-requisites)
+- [Pre-Requisites](#pre-requisites)
 - [Running the Application (Development)](#running-the-application-development)
 - [How to Add and Install New Dependencies](#how-to-add-and-install-new-dependencies)
 - [How to Run Unit Tests Manually](#how-to-run-unit-tests-manually)
 - [Comprehensive User Guide](#comprehensive-user-guide)
 - [FAQ](#faq)
 
+---
 
 ## Project Overview
 
@@ -18,7 +19,7 @@ CyberGator is a cyber resilience assessment framework designed for dynamic risk 
 
 ---
 
-## Pre-requisites
+## Pre-Requisites
 
 - **[Docker](https://www.docker.com/get-started)**
 - **[Docker Compose](https://docs.docker.com/compose/install/)**
@@ -76,7 +77,7 @@ docker-compose down
 - In general, you only need to rebuild the container when there are changes to dependencies.
 - It's recommended to install dependencies INSIDE the container to avoid issues. Your local `poetry.lock` and `pyproject.toml` files will be automatically updated :) You can find detailed instructions for this in the next section.
 
-## How to add and install new dependencies to the application
+## How to Add and Install New Dependencies
 
 1. Run the container in detached mode:
 
