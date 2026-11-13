@@ -1,154 +1,116 @@
 # CyberGator
 
-CyberGator: A Dynamic Framework for Cyber Resilience Assessment
+CyberGator is a research prototype for exploring cyber resilience using a bundled
+System Under Evaluation (SUE) dataset from the Navy CRAM Challenge. It combines
+Flask, Plotly Dash, Cytoscape, NetworkX, and JSON/CSV data.
 
-## Table of Contents
-- [Project Overview](#project-overview)
-- [Pre-Requisites](#pre-requisites)
-- [Running the Application (Development)](#running-the-application-development)
-- [How to Add and Install New Dependencies](#how-to-add-and-install-new-dependencies)
-- [How to Run Unit Tests Manually](#how-to-run-unit-tests-manually)
-- [Comprehensive User Guide](#comprehensive-user-guide)
-- [FAQ](#faq)
+The default application runs without login, PostgreSQL, Neo4j, API keys, or a
+`.env` file. Its scores are experimental research outputs.
 
----
+## Start with Docker
 
-## Project Overview
+Install and start Docker Desktop (or Docker Engine with Compose). Python and
+Poetry are installed during the image build; they are not needed on your host.
 
-CyberGator is a cyber resilience assessment framework designed for dynamic risk evaluation, attack simulation, and adaptive defense strategy generation. It integrates Flask, Plotly Dash, Neo4j, PostgreSQL (via Supabase), and AI-driven simulations to model and improve system resilience against Advanced Persistent Threats (APTs).
-
----
-
-## Pre-Requisites
-
-- **[Docker](https://www.docker.com/get-started)**
-- **[Docker Compose](https://docs.docker.com/compose/install/)**
-- **[Python >= 3.12](https://www.datacamp.com/blog/how-to-install-python)**
-- **[Poetry](https://python-poetry.org/docs/#installation)**
-
-Verify installations:
-
-    `docker --version`
-
-    `poetry --version`
-
----
-
-## Running the Application (Development)
-
-1. Clone the Repository
-
-```
-git clone git@github.com:OzPol/cybergator.git 
+```sh
+git clone https://github.com/OzPol/cybergator.git
 cd cybergator
+docker compose up --build --wait
 ```
 
-2. Create your .env file
-Your .env file should be placed in the root of the project (same level as the Dockerfile)
+Open **http://localhost:8000**. Stop with `docker compose down`.
 
-3. Make sure your Docker desktop is running! :)
+After pulling dependency or Dockerfile changes, refresh the image with:
 
-4. Build the container
-
-```
-docker-compose build
+```sh
+docker compose build --pull
+docker compose up --wait
 ```
 
-5. Run the container
+Building a replacement does not patch old images or already-running containers.
+Remove obsolete images through Docker Desktop after confirming the new build works.
 
-```
-docker-compose up
-```
+## Run locally
 
-6. Check the homepage in the browser
+Use Python 3.12 or 3.13 and Poetry 2.5.1. From the repository root:
 
-```
-http://localhost:8000
-```
-
-7. When you are done, you can stop the container
-
-```
-docker-compose down
+```sh
+poetry install --only main --no-root
+poetry run python app.py
 ```
 
-### Important Notes
+Open **http://localhost:8000**. The local server listens on loopback and does not
+enable Flask's debugger. Keep the working directory at the repository root.
 
-- In general, you only need to rebuild the container when there are changes to dependencies.
-- It's recommended to install dependencies INSIDE the container to avoid issues. Your local `poetry.lock` and `pyproject.toml` files will be automatically updated :) You can find detailed instructions for this in the next section.
+## Data and scope
 
-## How to Add and Install New Dependencies
+- Demo changes affect the shared sample dataset within that instance.
+- Docker stores data and generated graph assets in named volumes. They survive
+  `docker compose down`; use the in-app reset controls to restore sample inputs.
+- `docker compose down --volumes` deletes the demo volumes and all edits in them.
+  The next startup initializes fresh copies from the image.
+- Local runs update files under `app/data` and generated assets under `assets`.
+- APT/CVE simulations can use the bundled CVSS metadata. Optional live NVD lookups
+  need network access; `NVD_API_KEY` is optional.
+- The app is a local, shared-data demo. Authentication, private uploads, and
+  isolated user workspaces are future work. Do not use this version for private
+  user data or expose it as an authenticated multi-user service.
 
-1. Run the container in detached mode:
+## Optional Neo4j
 
-```
-docker-compose up -d
-```
+The JSON System Graph works independently of Neo4j. For an existing Neo4j 5
+instance, copy `.env.example` to `.env` and set:
 
-2. Install the dependency/package
-
-```
-docker exec -it cybergator_app poetry add <your-package-name>
-```
-
-3. Rebuild and run the container
-
-```
-docker-compose up --build
-```
-
-4. Optional - clean old images
-
-```
-docker image prune -f
-```
-
-## How to Run Unit Tests Manually
-
-1. Run the container in detached mode:
-
-```
-docker-compose up -d
-```
-2. Run the following command:
-```
-docker exec -it cybergator_app poetry run python -m unittest discover -s tests -p "*.py"
+```dotenv
+INSTALL_EXTRAS=neo4j
+NEO4J_ENABLED=true
+NEO4J_URI=neo4j+s://YOUR_INSTANCE.databases.neo4j.io
+NEO4J_USER=neo4j
+NEO4J_PASSWORD=YOUR_NEW_PASSWORD
 ```
 
-## Comprehensive User Guide
+Rebuild with `docker compose up --build --wait`. For a local Python installation,
+use `poetry install --only main --no-root --extras neo4j` instead.
 
-A comprehensive User Guide is available for viewing at the following link: https://drive.google.com/file/d/1U6wDDlsVGXUzn3bGqdGD2rHODRvabtrV/view?usp=drive_link
+The Neo4j menu appears only when enabled. Connections are created on demand,
+and an unavailable backend leaves the JSON demo usable. Importing nodes through
+`POST /api/neo4j/import` writes the bundled dataset to your configured database.
+No database is provisioned automatically.
 
-## FAQ
+Previously committed Neo4j credentials must be revoked or rotated with the
+provider. Deleting them from the current source cannot revoke them or erase
+existing Git history.
 
-1. **I added CVEs but don’t see a change in the resilience score. Why?
+## PostgreSQL and authentication
 
-After making changes to nodes or CVEs, you must click “Recalculate Resilience” to update scores. Without that step, the simulation results won't refresh.
+The old authentication modules remain for reference and their unit tests, but
+the application does not register their API routes or login callbacks. It never
+connects to PostgreSQL during demo startup. An optional `postgres` dependency
+extra retains driver support for future development; installing it does not
+enable authentication. Redesign server-side authorization and per-user data
+isolation before restoring those routes.
 
-2. **How do I undo a change or start over?
+## Dependencies and checks
 
-Use the “Reset System” button on any page to restore the original data. This reverts to backup JSON files and clears simulation state.
+Poetry and `poetry.lock` define the environment. Pillow and Matplotlib are no
+longer dependencies: the legacy static graph now renders as SVG. The interactive
+Cytoscape and Plotly views retain their existing implementations.
 
-3. **What do the resilience scores actually mean?
+```sh
+poetry install --no-root
+poetry run python -m unittest discover -s tests -p '*test*.py'
+poetry run pip-audit --strict
+poetry run python scripts/smoke_test.py
+```
 
-CyberGator uses a combination of fuzzy logic, Bayesian inference, and finite state machines to estimate system resilience. These scores are experimental and designed for educational and research purposes—not for production decision-making.
+The smoke check requires the application to be running at localhost:8000.
+For another address, pass its URL as an argument. CI tests without database
+secrets, checks dependencies, builds the runtime image, and exercises HTTP APIs
+and page callbacks. Browser navigation, chart rendering, graph rendering, and
+recalculation are checked with Playwright in CI.
 
-4. **Can I simulate multiple attacks or changes at once?
+## Project background
 
-Yes. You can inject multiple CVEs, change critical functions, and modify environmental risk factors before recalculating the score. All changes are reflected in the next simulation cycle.
-
-5. **Is the Neo4j database live?
-
-Not yet. The Neo4j view is a prototype meant to illustrate future integration. The current system runs off structured JSON and CSV files.
-
-6. **Where are my changes stored?
-
-Changes are written to output JSON files located in data/json/output, which persist across sessions until reset. These files include node metrics, system scores, and resilience breakdowns.
-
-7. **Can I export my results?
-
-Yes. Navigate to the Export tab to download tables in CSV format, including nodes, scores, and CVE data.
-
-8. **What if I want to test my own system?
-   
-This version of CyberGator is a prototype based on a single System Under Evaluation (SUE) from the CRAM Challenge. Future versions will include the ability to upload and simulate your own system architecture. Users can also manipulate the uploaded system so that it accurately reflects their own enterprise system.
+The repository preserves the senior-project application and experimental scoring
+logic. Documentation and earlier prototypes in other CyberGator repositories
+describe project evolution; they are not runtime dependencies.

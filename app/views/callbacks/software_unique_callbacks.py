@@ -44,7 +44,7 @@ def register_software_unique_callbacks(app):
             }
 
             try:
-                response = requests.post(API_BASE_URL, json=payload)
+                response = requests.post(API_BASE_URL, json=payload, timeout=10)
                 if response.status_code != 201:
                     return no_update, no_update, "❌ Failed to add software!", no_update, no_update, no_update
 
@@ -74,7 +74,7 @@ def register_software_unique_callbacks(app):
 
         if column == "Remove":
             try:
-                response = requests.delete(f"{API_BASE_URL}/{software_id}")
+                response = requests.delete(f"{API_BASE_URL}/{software_id}", timeout=10)
                 if response.status_code != 200:
                     return no_update, no_update, "❌ Failed to remove software!", no_update, no_update, no_update
 

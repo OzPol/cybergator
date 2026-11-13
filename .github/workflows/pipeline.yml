@@ -1,52 +1,71 @@
-name: pipeline
+name: CyberGator checks
 
 on:
   pull_request:
-    branches:
-      - main
+    branches: [main]
   push:
-    branches:
-      - main
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cybergator-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  docker-and-tests:
+  python:
     runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+        python-version: ["3.12", "3.13"]
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install Poetry
+        run: python -m pip install poetry==2.5.1
+      - name: Install locked dependencies and optional drivers
+        run: |
+          poetry check --lock
+          poetry sync --no-root --all-extras
+      - name: Run regression tests without database credentials
+        run: poetry run coverage run -m unittest discover -s tests -p '*test*.py'
+      - name: Show coverage
+        run: poetry run coverage report -m
+      - name: Audit dependencies
+        run: poetry run pip-audit --strict
 
-    - name: Set Environment Variables
-      run: |
-        echo "SUPABASE_DB_URL=${{ secrets.SUPABASE_URL }}" >> $GITHUB_ENV
-        echo "NEO4J_URI=${{ secrets.NEO4J_URI }}" >> $GITHUB_ENV
-        echo "NEO4J_USER=${{ secrets.NEO4J_USER }}" >> $GITHUB_ENV
-        echo "NEO4J_PASSWORD=${{ secrets.NEO4J_PASSWORD }}" >> $GITHUB_ENV
-
-
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
-
-    - name: Install Docker Compose 
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y docker-compose
-
-    - name: Build and Start Docker Services
-      run: |
-        docker-compose up -d --build 
-        docker ps -a  # Debug: Show running containers
-        sleep 10  # Give services time to start
-
-    - name: Run Unit Tests & Show Coverage Report
-      run: |
-        docker exec cybergator_app poetry run coverage run -m unittest discover -s tests -p "*.py"
-        docker exec cybergator_app poetry run coverage report -m
-
-    - name: Debug Docker Logs (If Failure)
-      if: failure()
-      run: docker-compose logs
-
-    - name: Stop and Remove Containers
-      if: always()
-      run: docker-compose down
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - name: Install locked browser test tools
+        run: |
+          python3 -m pip install poetry==2.5.1
+          poetry install --only dev --no-root
+          poetry run playwright install --with-deps chromium
+      - name: Build fresh runtime image
+        run: docker compose build --pull
+      - name: Start standalone demo and wait for health
+        run: docker compose up --wait --wait-timeout 120
+      - name: Exercise HTTP APIs and Dash page callbacks
+        run: python3 scripts/smoke_test.py
+      - name: Verify browser workflow
+        run: poetry run python scripts/browser_smoke.py
+      - name: Verify Pillow and Matplotlib are absent
+        run: >-
+          docker compose exec -T app python -c
+          "import importlib.util; assert importlib.util.find_spec('PIL') is None; assert importlib.util.find_spec('matplotlib') is None"
+      - name: Show logs on failure
+        if: failure()
+        run: docker compose logs --no-color
+      - name: Clean up
+        if: always()
+        run: docker compose down --volumes

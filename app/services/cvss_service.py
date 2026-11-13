@@ -37,7 +37,7 @@ def fetch_cvss_metadata(cve_list, delay=0.2):
     for cve_id in cve_list:
         try:
             params = {"cveId": cve_id}
-            response = requests.get(NVD_API_URL, headers=HEADERS, params=params)
+            response = requests.get(NVD_API_URL, headers=HEADERS, params=params, timeout=10)
             response.raise_for_status()
             data = response.json()
             vulnerabilities = data.get("vulnerabilities", [])

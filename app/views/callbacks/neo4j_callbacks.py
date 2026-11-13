@@ -2,6 +2,7 @@
 from dash import Input, Output
 import requests
 from app.services.neo4j_graph_service import get_network_graph
+from app.databases.neo4j_db import Neo4jUnavailable
 
 
 def register_neo4j_callbacks(app):
@@ -12,7 +13,7 @@ def register_neo4j_callbacks(app):
     )
     def trigger_neo4j_import(n_clicks):
         try:
-            response = requests.post("http://localhost:8000/api/neo4j/import")
+            response = requests.post("http://localhost:8000/api/neo4j/import", timeout=10)
             if response.status_code == 200:
                 return "✅ Imported! 😎🤙🏻🔥 "
             else:
@@ -26,4 +27,7 @@ def register_neo4j_callbacks(app):
         prevent_initial_call=True
     )
     def refresh_graph(n_clicks):
-        return get_network_graph()
+        try:
+            return get_network_graph()
+        except Neo4jUnavailable:
+            return []

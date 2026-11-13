@@ -1,18 +1,12 @@
 import json
-import os
-from neo4j import GraphDatabase
-
-NEO4J_URI = "neo4j+s://92da8f26.databases.neo4j.io"    #    "bolt://localhost:7687"  # Can be changed to Aura or Docker 
-USERNAME  = "neo4j"
-PASSWORD  = "iwe6XXamOhMLV8Wg_T_7KU34XH4Y01GGea4jLqiJykk"
-# PASSWORD  = os.getenv("NEO4J_PASSWORD")
+from app.databases.neo4j_db import get_neo4j_connection
 
 
 def create_nodes_and_relationships():
     with open("app/data/json/Nodes_Complete.json", "r") as file:
         nodes = json.load(file)
 
-    driver = GraphDatabase.driver(NEO4J_URI, auth=(USERNAME, PASSWORD))
+    driver = get_neo4j_connection()
 
     with driver.session() as session:
         for node in nodes:
@@ -35,12 +29,12 @@ def create_nodes_and_relationships():
             """
             session.run(query, **node)
 
-            # Create relationships
+        # Create relationships after every endpoint has been created.
+        for node in nodes:
             for neighbor in node.get("connected_to", []):
                 session.run("""
                     MATCH (a:Node {node_id: $node_id}), (b:Node {node_id: $neighbor_id})
                     MERGE (a)-[:CONNECTED_TO]->(b)
                 """, node_id=node["node_id"], neighbor_id=neighbor)
 
-    driver.close()
     print("✅ Neo4j nodes + relationships imported.")

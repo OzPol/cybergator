@@ -1,8 +1,6 @@
 from dash import callback, Input, Output
-import requests
 from app.utils.generate_sue_graph import generate_graph_system
-
-API_BASE_URL = "http://localhost:8000/api/sue-graph"
+from app.services.sue_graph_service import get_sue_data
 
 @callback(
     Output("graph-visualization", "src"),  
@@ -14,19 +12,17 @@ def fetch_data(trigger, pathname):
     print(f"🔄 User visited {pathname}. Fetching latest data...")
 
     if pathname != "/sue-graph":
-        return "/assets/system_graph.png"  
+        return "/assets/system_graph.svg"
 
     try:
-        response = requests.get(f"{API_BASE_URL}/")
-        response.raise_for_status()
-        data = response.json()
+        data = get_sue_data()
 
         print("✅ Graph data fetched. Generating image...")
 
         # Generate and save the graph image
         generate_graph_system(data)
 
-        return "/assets/system_graph.png"  # Dash auto-updates image
+        return "/assets/system_graph.svg"
     except Exception as e:
         print(f"❌ Error fetching data: {e}")
-        return "/assets/error.png"  # Fallback fake image
+        return ""

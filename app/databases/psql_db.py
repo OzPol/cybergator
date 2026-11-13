@@ -1,51 +1,42 @@
+"""Legacy authentication storage; never connects during module import."""
+import logging
 import os
-import psycopg2
-from psycopg2 import pool
+from threading import Lock
+
 from dotenv import load_dotenv
 
 load_dotenv()
+logger = logging.getLogger(__name__)
+connection_pool = None
+_pool_lock = Lock()
 
-POSTGRES_URL = os.getenv("SUPABASE_DB_URL")
-
-# Initialize the connection pool at startup
-try:
-    connection_pool = psycopg2.pool.SimpleConnectionPool(
-        minconn=1,  
-        maxconn=10, 
-        dsn=POSTGRES_URL
-    )
-    if connection_pool:
-        print("✅ PostgreSQL Connection Pool Created Successfully!")
-except psycopg2.Error as e:
-    print("❌ Error Creating Connection Pool:", e)
-    connection_pool = None 
 
 def get_sql_connection():
-    """Fetches a connection from the pool."""
-    try:
-        if connection_pool:
-            conn = connection_pool.getconn()
-            print("✅ Supabase Connection Pool Opened.")
-            return conn
-        else:
-            print("❌ Connection Pool is not initialized.")
-            return None
-    except psycopg2.Error as e:
-        print("❌ Error getting connection:", e)
+    global connection_pool
+    dsn = os.getenv("SUPABASE_DB_URL", "")
+    if not dsn:
         return None
+    with _pool_lock:
+        if connection_pool is None:
+            try:
+                from psycopg2.pool import ThreadedConnectionPool
+                connection_pool = ThreadedConnectionPool(
+                    minconn=1, maxconn=10, dsn=dsn, connect_timeout=5
+                )
+            except Exception:
+                logger.warning("Legacy PostgreSQL connection is unavailable.")
+                return None
+        return connection_pool.getconn()
+
 
 def release_connection(conn):
-    """Releases a connection back to the pool."""
-    try:
-        if connection_pool and conn:
-            connection_pool.putconn(conn)
-    except psycopg2.Error as e:
-        print("❌ Error releasing connection:", e)
+    if connection_pool is not None and conn is not None:
+        connection_pool.putconn(conn)
+
 
 def close_pool():
-    """Closes all connections in the pool (call this on shutdown)."""
-    try:
-        if connection_pool:
+    global connection_pool
+    with _pool_lock:
+        if connection_pool is not None:
             connection_pool.closeall()
-    except psycopg2.Error as e:
-        print("❌ Error closing connection pool:", e)
+            connection_pool = None

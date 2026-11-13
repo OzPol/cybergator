@@ -59,7 +59,7 @@ def get_most_impactful_cve():
 def get_resilience_score():
     # Fetch the system resilience score from the API.
     try:
-        response = requests.get("http://localhost:8000/api/resilience")
+        response = requests.get("http://localhost:8000/api/resilience", timeout=10)
         if response.status_code == 200:
             data = response.json()
             return round(data["system_resilience_score"], 4)
@@ -108,7 +108,7 @@ def dashboard(session_user):
             id="welcome-banner",
             style={"display": "none"},
             children=html.H1(
-                f"Welcome {session_user}! You are logged in.",
+                "Explore the CyberGator sample dataset.",
                 className="mb-4 text-center"
             )
         ),
