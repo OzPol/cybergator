@@ -18,6 +18,7 @@ with sync_playwright() as playwright:
     page.get_by_role("link", name="Dashboard", exact=True).click()
     expect(page.get_by_role("heading", name="Dashboard Overview", exact=True)).to_be_visible()
     expect(page.locator("#resilience-pie-chart .js-plotly-plot")).to_be_visible()
+    expect(page.locator("#page-content")).to_have_count(1)
     expect(page.locator("#system-resilience-score")).to_contain_text("System Resilience Score")
 
     page.get_by_role("link", name="System Graph", exact=True).click()

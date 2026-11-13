@@ -235,7 +235,7 @@ def dashboard(session_user):
                 ], width=6),
             ])
         ])
-    ], id="page-content")
+    ], id="dashboard-content")
 
 @callback(
     Output("welcome-banner", "style"),
