@@ -1,4 +1,4 @@
-FROM python:3.12-slim-bookworm AS builder
+FROM python:3.15-slim-bookworm AS builder
 ARG POETRY_VERSION=2.5.1
 ARG INSTALL_EXTRAS=""
 ENV PIP_NO_CACHE_DIR=1 \
@@ -14,7 +14,7 @@ RUN if [ -n "$INSTALL_EXTRAS" ]; then \
       poetry install --only main --no-root; \
     fi
 
-FROM python:3.12-slim-bookworm AS runtime
+FROM python:3.15-slim-bookworm AS runtime
 ENV PATH="/app/.venv/bin:$PATH" \
     PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
