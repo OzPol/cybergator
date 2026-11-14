@@ -56,3 +56,9 @@ venv.bak/
 .DS_Store
 .AppleDouble
 .LSOverride
+
+# Generated demo artifacts
+assets/system_graph.svg
+app/data/json/output/*.json
+.env.*
+!.env.example

@@ -1,69 +1,31 @@
-import json
-import os
-from neo4j import GraphDatabase
-
-NEO4J_URI = "neo4j+s://92da8f26.databases.neo4j.io"    #    "bolt://localhost:7687"  # Can be changed to Aura or Docker 
-USERNAME  = "neo4j"
-PASSWORD  = "iwe6XXamOhMLV8Wg_T_7KU34XH4Y01GGea4jLqiJykk"
-# PASSWORD  = os.getenv("NEO4J_PASSWORD")
-driver = GraphDatabase.driver(NEO4J_URI, auth=(USERNAME, PASSWORD))
+from app.databases.neo4j_db import run_query
 
 
 def get_network_graph():
-    """
-    Fetch nodes and relationships from Neo4j for Dash Cytoscape.
-    """
-    query = """
-    MATCH (n)-[r]->(m) 
-    RETURN n, r, m 
-    LIMIT 100
-    """
-    with driver.session() as session:
-        result = session.run(query)
-        elements = []
-        seen_nodes = set()
+    """Fetch bounded graph data through the shared optional Neo4j connection."""
+    rows = run_query("""
+        MATCH (n)-[r]->(m)
+        RETURN properties(n) AS n, elementId(n) AS n_id,
+               properties(m) AS m, elementId(m) AS m_id,
+               type(r) AS relationship_type
+        LIMIT 100
+    """)
+    elements = []
+    seen_nodes = set()
+    for record in rows:
+        ids = []
+        for key in ("n", "m"):
+            node = record[key]
+            node_id = str(node.get("node_id", record[key + "_id"]))
+            ids.append(node_id)
+            if node_id not in seen_nodes:
+                elements.append({"data": {"id": node_id, "label": node.get("node_name", node_id)},
+                                 "classes": get_node_class(node.get("node_type"))})
+                seen_nodes.add(node_id)
+        elements.append({"data": {"source": ids[0], "target": ids[1],
+                                  "label": record["relationship_type"]}})
+    return elements
 
-        for record in result:
-            n = record["n"]
-            m = record["m"]
-            r = record["r"]
-
-            node1_id = str(n.get("node_id", n.id))
-            node2_id = str(m.get("node_id", m.id))
-            relationship_type = r.type if r else "CONNECTED_TO"
-
-            # Add first node
-            if node1_id not in seen_nodes:
-                elements.append({
-                    "data": {
-                        "id": node1_id,
-                        "label": n.get("node_name", node1_id)
-                    },
-                    "classes": get_node_class(n.get("node_type"))
-                })
-                seen_nodes.add(node1_id)
-
-            # Add second node
-            if node2_id not in seen_nodes:
-                elements.append({
-                    "data": {
-                        "id": node2_id,
-                        "label": m.get("node_name", node2_id)
-                    },
-                    "classes": get_node_class(m.get("node_type"))
-                })
-                seen_nodes.add(node2_id)
-
-            # Add edge
-            elements.append({
-                "data": {
-                    "source": node1_id,
-                    "target": node2_id,
-                    "label": relationship_type
-                }
-            })
-
-        return elements
 
 def get_node_class(node_type):
     if not node_type:
@@ -90,9 +52,3 @@ def get_node_class(node_type):
         return "firewall"
 
     return "unknown"
-
-
-if __name__ == "__main__":
-    print("Network Graph Elements:")
-    print(json.dumps(get_network_graph(), indent=2))
-    driver.close()

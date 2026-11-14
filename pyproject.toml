@@ -1,15 +1,36 @@
 [project]
 name = "cybergator"
 version = "0.1.0"
-description = ""
+description = "A standalone cyber resilience assessment research demo"
 authors = [
     {name = "Your Name",email = "you@example.com"}
 ]
-license = {text = "MIT"}
+license = "MIT"
 readme = "README.md"
 requires-python = ">=3.12,<3.14"
 
-dependencies = ["python-dotenv (>=1.0.1,<2.0.0)", "dash (>=2.18.2,<3.0.0)", "psycopg2 (>=2.9.10,<3.0.0)", "neo4j (>=5.28.1,<6.0.0)", "bcrypt (>=4.2.1,<5.0.0)", "flask (>=3.0,<4.0)", "flask-cors (>=5.0.1,<6.0.0)", "dash-bootstrap-components (>=1.7.1,<2.0.0)", "coverage (>=7.6.12,<8.0.0)", "networkx (>=3.4.2,<4.0.0)", "matplotlib (>=3.10.1,<4.0.0)", "plotly (>=6.0.0,<7.0.0)", "dash-cytoscape (>=1.0.2,<2.0.0)", "pandas (>=2.0.0,<3.0.0)", "openpyxl (>=3.1.5,<4.0.0)", "pyvis (>=0.3.2,<0.4.0)"]
+dependencies = [
+    "python-dotenv (>=1.2.2,<2.0.0)",
+    "dash (>=3.0.0,<4.0.0)",
+    "bcrypt (>=4.2.1,<5.0.0)",
+    "flask (>=3.1.3,<4.0.0)",
+    "dash-bootstrap-components (>=2.0.0,<3.0.0)",
+    "networkx (>=3.4.2,<4.0.0)",
+    "plotly (>=6.0.0,<7.0.0)",
+    "dash-cytoscape (>=1.0.2,<2.0.0)",
+    "pandas (>=2.0.0,<3.0.0)",
+    "openpyxl (>=3.1.5,<4.0.0)",
+    "pyvis (>=0.3.2,<0.4.0)",
+    "requests (>=2.33.0,<3.0.0)",
+    "waitress (>=3.0.2,<4.0.0)",
+]
+
+[project.optional-dependencies]
+neo4j = ["neo4j (>=5.28.1,<6.0.0)"]
+postgres = ["psycopg2-binary (>=2.9.11,<3.0.0)"]
+
+[dependency-groups]
+dev = ["coverage (>=7.6.12,<8.0.0)", "pip-audit (>=2.10.1,<3.0.0)", "playwright (>=1.62.0,<2.0.0)"]
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]

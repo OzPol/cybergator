@@ -1,12 +1,11 @@
 from dash import html, dcc, callback, Output, Input, State
 import dash_bootstrap_components as dbc
-from app.views.pages.auth_layouts import get_auth_layout
 from app.views.pages.sidebar import sidebar
 from app.views.pages.homepage import homepage_layout
 from app.views.pages.sue_graph_layout import sue_graph_layout
 from app.views.pages.dashboard import dashboard
 from app.views.pages.banner import banner
-from app.views.callbacks.sue_graph_callbacks import fetch_data
+import app.views.callbacks.sue_graph_callbacks
 from app.views.pages.network_graph import graph_layout
 from app.views.pages.system_tables import system_tables_layout
 from app.views.pages.cves_table import cves_table_layout
@@ -30,24 +29,15 @@ from app.views.pages.attack_tree import attack_tree_layout
 
 
 def render_page_content(pathname, session_user):
-    """Dynamically updates the content area based on the session"""
+    """Render the sample-data demo without an external account service."""
     if pathname == "/auth":
-        if session_user:  # If user is logged in (stored in Dash session), redirect to welcome
-            return dcc.Location(id="redirect-welcome", href="/welcome", refresh=True)
-        return get_auth_layout()
+        return dcc.Location(id="redirect-welcome", href="/welcome", refresh=False)
     
-    elif pathname == "/welcome":
+    elif pathname in ("/", "/welcome"):
         return homepage_layout()
     elif pathname == "/dashboard":
-        if not session_user:
-            return dbc.Container([
-                dbc.Row(dbc.Col(html.H1("Access Denied", className="text-center mt-4"))),
-                dbc.Row(dbc.Col(html.P("You must be logged in to view this page.", className="text-center"))),
-                dcc.Link('Go to Login Page', href='/auth', className="btn btn-link d-block text-center"),
-            ], fluid=True)
-        return dashboard(session_user)
+        return dashboard("Demo")
     elif pathname == "/sue-graph":
-        print(fetch_data(None, "/sue-graph"))
         return sue_graph_layout()
     elif pathname == "/system-graph":
         return graph_layout()
@@ -109,7 +99,7 @@ def update_page(pathname, session_user):
 
 @callback(Output("banner-container", "children"), [Input("session-user", "data")])
 def update_banner(session_user):
-    return banner(session_user=session_user)
+    return banner(page_title="CyberGator — Sample Data Demo")
 
 @callback(Output("sidebar-container", "children"), [Input("session-user", "data")])
 def update_sidebar(session_user):

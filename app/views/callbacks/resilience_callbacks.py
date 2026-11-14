@@ -10,11 +10,8 @@ def register_resilience_callbacks(app):
         prevent_initial_call=False
     )
     def load_initial_resilience(session_user):
-        if not session_user:
-            return ""
-        
         try:
-            response = requests.get("http://localhost:8000/api/resilience")
+            response = requests.get("http://localhost:8000/api/resilience", timeout=10)
             if response.status_code == 200:
                 data = response.json()
                 score = round(data["system_resilience_score"], 4)
@@ -32,7 +29,7 @@ def register_resilience_callbacks(app):
     )
     def manual_recalculate(n_clicks):
         try:
-            response = requests.get("http://127.0.0.1:8000/api/resilience")
+            response = requests.get("http://127.0.0.1:8000/api/resilience", timeout=10)
             if response.status_code == 200:
                 return "✅ Recalculating...", str(n_clicks)
             return "❌ Failed to recalculate.", no_update
@@ -53,7 +50,7 @@ def register_resilience_callbacks(app):
             return no_update, no_update, True
 
         try:
-            response = requests.get("http://localhost:8000/api/resilience")
+            response = requests.get("http://localhost:8000/api/resilience", timeout=10)
             if response.status_code == 200:
                 data = response.json()
                 new_score = round(data["system_resilience_score"], 4)

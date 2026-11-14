@@ -5,6 +5,8 @@ from app.models.user_model import User
 def get_user_by_username(username: str) -> User | None:
     """Fetch a user from the database using their username and return a User object"""
     conn = get_sql_connection()
+    if conn is None:
+        raise RuntimeError("Legacy authentication storage is unavailable.")
     cursor = conn.cursor()
 
     try:
@@ -23,6 +25,8 @@ def get_user_by_username(username: str) -> User | None:
 def create_user(user: User) -> User | dict:
     """Insert a new user into the database and return a User object"""
     conn = get_sql_connection()
+    if conn is None:
+        raise RuntimeError("Legacy authentication storage is unavailable.")
     cursor = conn.cursor()
 
     try:
@@ -45,6 +49,8 @@ def create_user(user: User) -> User | dict:
 def delete_user_by_id(user_id: int) -> dict:
     """Delete a user from the database using their ID"""
     conn = get_sql_connection()
+    if conn is None:
+        raise RuntimeError("Legacy authentication storage is unavailable.")
     cursor = conn.cursor()
 
     try:

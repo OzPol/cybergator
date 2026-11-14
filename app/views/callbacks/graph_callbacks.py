@@ -19,7 +19,7 @@ def register_graph_callbacks(app):
     def update_graph(n_clicks, current_elements):
         print(f"Callback triggered! n_clicks={n_clicks}")  # Debugging
         if n_clicks > 0:
-            response = requests.get("http://127.0.0.1:8000/api/graph")  # API Call
+            response = requests.get("http://127.0.0.1:8000/api/graph", timeout=10)  # API Call
             print(f"API Response Code: {response.status_code}")  # Debugging
             if response.status_code == 200:
                 graph_data = response.json()

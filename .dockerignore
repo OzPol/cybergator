@@ -1,6 +1,13 @@
+.git
+.github
+.env
+.env.*
+!.env.example
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
+*.py[cod]
+.venv/
 venv/
-.venv
+.coverage*
+htmlcov/
+.pytest_cache/
+*.log

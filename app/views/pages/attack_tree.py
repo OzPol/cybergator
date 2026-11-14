@@ -52,7 +52,7 @@ def generate_logical_attack_tree():
                 if not G.has_edge(step_id, func):
                     G.add_edge(step_id, func, color="blue")
 
-    net = Network(height="1600px", width="100%", directed=True, bgcolor="#222222", font_color="white")
+    net = Network(height="1600px", width="100%", directed=True, cdn_resources="in_line", bgcolor="#222222", font_color="white")
     net.barnes_hut(gravity=-2000, central_gravity=0.2, spring_length=200, spring_strength=0.05)
     net.toggle_physics(True)       
 
@@ -103,7 +103,7 @@ def generate_critical_function_mapping():
                 G.add_node(node_id, label=label, color=color_map["system_node"], size=20, title=tooltip)
                 G.add_edge(func, node_id, color="green")
 
-    net = Network(height="1600px", width="100%", directed=True, bgcolor="#222222", font_color="white")
+    net = Network(height="1600px", width="100%", directed=True, cdn_resources="in_line", bgcolor="#222222", font_color="white")
     net.barnes_hut(gravity=-2000, central_gravity=0.2, spring_length=200, spring_strength=0.05)
     net.toggle_physics(True)
 

@@ -1,14 +1,20 @@
 from dash import html
 import dash_cytoscape as cyto
 from app.services.neo4j_graph_service import get_network_graph
+from app.databases.neo4j_db import Neo4jUnavailable
 
 def neo4j_graph_layout():
+    try:
+        elements = get_network_graph()
+    except Neo4jUnavailable as error:
+        return html.Div([html.H3("Neo4j System Graph"), html.P(str(error)),
+                         html.A("Open the JSON System Graph", href="/system-graph")])
     return html.Div([
         html.H3("Neo4j System Graph", style={"textAlign": "center", "color": "#333"}),
 
         cyto.Cytoscape(
             id="cytoscape-neo4j",
-            elements=get_network_graph(),
+            elements=elements,
             layout={"name": "cose"},
             style={"width": "100%", "height": "1200px"},
             zoom=1,

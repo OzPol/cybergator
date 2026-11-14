@@ -27,7 +27,7 @@ class CVEService:
             headers["apiKey"] = KEY
 
         params = {"cveId": cve_id}
-        response = requests.get(NVD_API_URL, params=params, headers=headers)
+        response = requests.get(NVD_API_URL, params=params, headers=headers, timeout=10)
 
         if response.status_code == 200:
             data = response.json()

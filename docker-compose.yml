@@ -1,18 +1,21 @@
 services:
   app:
-    build: .
-    container_name: cybergator_app
+    build:
+      context: .
+      args:
+        INSTALL_EXTRAS: ${INSTALL_EXTRAS:-}
     environment:
-      - PYTHONPATH=/app
-      - SUPABASE_DB_URL=${SUPABASE_DB_URL} 
-      - NEO4J_URI=${NEO4J_URI} 
-      - NEO4J_USER=${NEO4J_USER} 
-      - NEO4J_PASSWORD=${NEO4J_PASSWORD} 
-    volumes:
-      - ./app:/app/app  # Mount the app directory
-      - ./assets:/app/assets  # Mount the assets directory
-      - ./tests:/app/tests  # Mount the tests directory
-      - ./pyproject.toml:/app/pyproject.toml  # Mount pyproject.toml
-      - ./poetry.lock:/app/poetry.lock  # Mount poetry.lock
+      NEO4J_ENABLED: ${NEO4J_ENABLED:-false}
+      NEO4J_URI: ${NEO4J_URI:-}
+      NEO4J_USER: ${NEO4J_USER:-}
+      NEO4J_PASSWORD: ${NEO4J_PASSWORD:-}
+      NVD_API_KEY: ${NVD_API_KEY:-}
     ports:
-      - "8000:8000"
+      - "127.0.0.1:8000:8000"
+    volumes:
+      - sample_data:/app/app/data
+      - generated_assets:/app/assets
+
+volumes:
+  sample_data:
+  generated_assets:
