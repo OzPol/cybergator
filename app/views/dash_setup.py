@@ -99,7 +99,7 @@ def update_page(pathname, session_user):
 
 @callback(Output("banner-container", "children"), [Input("session-user", "data")])
 def update_banner(session_user):
-    return banner(page_title="CyberGator — Sample Data Demo")
+    return banner()
 
 @callback(Output("sidebar-container", "children"), [Input("session-user", "data")])
 def update_sidebar(session_user):

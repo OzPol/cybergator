@@ -12,6 +12,7 @@ with sync_playwright() as playwright:
     page.on("response", lambda response: errors.append(f"HTTP {response.status}: {response.url}")
             if response.url.startswith(base) and response.status >= 500 else None)
     page.goto(base, wait_until="networkidle")
+    expect(page.locator(".banner-title")).to_have_text("CyberGators")
     expect(page.get_by_role("link", name="Dashboard", exact=True)).to_be_visible()
     expect(page.get_by_text("Login/Register", exact=True)).to_have_count(0)
 
@@ -23,8 +24,34 @@ with sync_playwright() as playwright:
 
     page.get_by_role("link", name="System Graph", exact=True).click()
     expect(page.locator("#system-graph")).to_be_visible()
-    page.get_by_role("button", name="Recalculate Resilience", exact=True).click()
-    expect(page.locator("#resilience-recalculate-feedback")).to_contain_text("updated")
+    original_nodes = page.request.get(base + "/api/nodes/").json()
+    original_score = page.request.get(base + "/api/resilience").json()["system_resilience_score"]
+    # Exercise the actual Remove Node callback with a selected node, then use the
+    # real reset menu. This changes only the isolated CI container's sample data.
+    for count in (1, 2):
+        for index, node in enumerate(original_nodes[:count], start=1):
+            response = page.request.post(base + "/_dash-update-component", data={
+                "output": "remove-node-feedback.children",
+                "outputs": {"id": "remove-node-feedback", "property": "children"},
+                "inputs": [{"id": "remove-node-button", "property": "n_clicks", "value": index}],
+                "state": [{"id": "system-graph", "property": "tapNodeData",
+                           "value": {"id": node["node_id"]}}],
+                "changedPropIds": ["remove-node-button.n_clicks"],
+            })
+            assert response.ok, response.text()
+            assert "removed successfully" in response.json()["response"]["remove-node-feedback"]["children"]
+        assert len(page.request.get(base + "/api/nodes/").json()) == len(original_nodes) - count
+        page.get_by_role("button", name="Refresh Graph", exact=True).click()
+        page.get_by_role("button", name="Recalculate Resilience", exact=True).click()
+        expect(page.locator("#resilience-recalculate-feedback")).to_contain_text("updated")
+        assert page.request.get(base + "/api/resilience").json()["system_resilience_score"] != original_score
+
+        page.get_by_role("button", name="Reset Options", exact=True).click()
+        with page.expect_navigation(wait_until="networkidle"):
+            page.locator("#reset-all").click()
+        expect(page.locator("#system-graph")).to_be_visible()
+        assert page.request.get(base + "/api/nodes/").json() == original_nodes
+        assert page.request.get(base + "/api/resilience").json()["system_resilience_score"] == original_score
 
     page.get_by_role("link", name="System Tables", exact=True).click()
     expect(page.locator("#page-content")).to_contain_text("System")
@@ -33,4 +60,4 @@ with sync_playwright() as playwright:
     browser.close()
     if errors:
         raise AssertionError("\n".join(errors))
-print("Browser navigation, charts, graph, recalculation and export page passed.")
+print("Browser navigation, charts, graph, delete/recalculate/reset cycles and export page passed.")

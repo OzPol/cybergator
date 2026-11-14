@@ -25,6 +25,7 @@ from app.views.callbacks.edge_callbacks import register_edge_callbacks
 from app.views.callbacks.export_callbacks import register_export_callbacks
 from app.views.callbacks.software_unique_callbacks import register_software_unique_callbacks
 from app.views.callbacks.cve_simulation_callbacks import register_cve_simulation_callbacks
+from app.views.callbacks.reset_callbacks import register_reset_callbacks
 from app.controllers.neo4j_controller import neo4j_bp
 
 load_dotenv()
@@ -63,6 +64,7 @@ register_edge_callbacks(dash_app)
 register_export_callbacks(dash_app)
 register_software_unique_callbacks(dash_app)
 register_cve_simulation_callbacks(dash_app)
+register_reset_callbacks(dash_app)
 
 # Run Flask & Dash
 if __name__ == "__main__":
